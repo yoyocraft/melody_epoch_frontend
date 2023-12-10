@@ -1,0 +1,23 @@
+#网站: http://editorconfig.org
+# root = true 表示这是最顶层的配置文件，editorconfig 会停止在更上层目录查找 .editorconfig 文件
+root = true
+# [*] 表示这些规则适用于所有文件
+[*]
+# charset = utf-8 设置文件字符集为 utf-8
+charset = utf-8
+# indent_style = space 设置缩进风格为 space，选项包括 tab 和 space 
+indent_style = space
+# indent_size = 2 设置缩进大小为 2
+indent_size = 2
+# end_of_line = lf 设置换行类型为 lf，选项包括 lf、cr 和 crlf 
+end_of_line = lf
+# trim_trailing_whitespace = true 表示删除行尾的任何空白字符 
+trim_trailing_whitespace = true
+# insert_final_newline = true 表示在文件末尾始终插入一个新行 
+insert_final_newline = true
+# [*.md] 表示这些规则仅适用于 md 文件
+[*.md]
+# max_line_length = off 表示对 md 文件的行长度不做限制 
+max_line_length = off
+# trim_trailing_whitespace = false 表示不删除 md 文件的行尾任何空白字符 
+trim_trailing_whitespace = false
