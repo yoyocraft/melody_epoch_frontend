@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { error } from "../service/common";
 
 // const isDev = process.env.NODE_ENV === "development";
 
@@ -30,6 +31,10 @@ http.interceptors.response.use(
     // 未登录则跳转到登录页
     if (response?.data?.code === 40500) {
       window.location.hash = "/login";
+    }
+    if (response?.data?.code !== 0) {
+      error(response?.data?.message);
+      return Promise.reject(response.data);
     }
     return response.data;
   },

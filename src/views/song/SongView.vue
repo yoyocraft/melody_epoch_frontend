@@ -1,8 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  Main
-
+  Song View
 </template>
 
 <style scoped></style>

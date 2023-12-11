@@ -1,36 +1,41 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import {
-  getCaptcha,
-  accLogin,
-  emailPwdLogin,
-  emailCodeLogin,
-} from "../../service/user/index";
+import { getCaptcha, accLogin, emailLogin } from "../../service/user/index";
 import { success } from "../../service/common/index";
+import { AccLoginParams, EmailLoginParams } from "../../model/user/index";
+import { EMAIL_LOGIN_TYPE } from "../../model/enums/index";
+
 import { useRouter } from "vue-router";
 
-const account = ref("");
-const password = ref("");
 const loginType = ref("acc");
 const emailPre = ref("");
 const emailSuf = ref("@qq.com");
-const code = ref("");
+
+const accLoginParams = ref({} as AccLoginParams);
+const emailLoginParams = ref({} as EmailLoginParams);
 
 /**
  * 执行登录
  */
 const login = async () => {
   const email = emailPre.value + emailSuf.value;
+  let token;
   if (loginType.value === "acc") {
-    const token = await accLogin(account.value, password.value);
-    localStorage.setItem("token", token);
+    token = await accLogin(accLoginParams.value);
   } else if (loginType.value === "email") {
-    const token = await emailPwdLogin(email, password.value);
-    localStorage.setItem("token", token);
+    token = await emailLogin({
+      ...emailLoginParams.value,
+      email,
+      loginType: EMAIL_LOGIN_TYPE.PASSWORD_LOGIN,
+    });
   } else {
-    const token = await emailCodeLogin(email, code.value);
-    localStorage.setItem("token", token);
+    token = await emailLogin({
+      ...emailLoginParams.value,
+      email,
+      loginType: EMAIL_LOGIN_TYPE.CODE_LOGIN,
+    });
   }
+  localStorage.setItem("token", token);
   success("登录成功");
 };
 /**
@@ -83,26 +88,37 @@ const url = "/src/assets/logo.png";
 <template>
   <div class="custom-container">
     <div>
-      <el-image style="width: 100px; height: 100px" :src="url" />
-      <h1>Melody-Epoch</h1>
       <el-form class="login-form">
+        <el-image style="width: 100px; height: 100px" :src="url" />
+        <h1>Melody-Epoch</h1>
         <el-tabs v-model="loginType" type="card" class="demo-tabs">
           <el-tab-pane label="账号登录" name="acc">
             <el-form-item>
-              <el-input v-model="account" placeholder="请输入账号"></el-input>
+              <el-input
+                prefix-icon="user"
+                v-model="accLoginParams.account"
+                placeholder="请输入账号"
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <el-input
-                v-model="password"
+                prefix-icon="lock"
+                v-model="accLoginParams.password"
                 placeholder="请输入密码"
                 type="password"
-              ></el-input>
+                show-password
+              >
+              </el-input>
             </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="邮箱登录" name="email">
             <el-form-item>
-              <el-input v-model="emailPre" placeholder="请输入邮箱">
+              <el-input
+                prefix-icon="user"
+                v-model="emailPre"
+                placeholder="请输入邮箱"
+              >
                 <template #append>
                   <el-select v-model="emailSuf" style="width: 115px">
                     <el-option label="@163.com" value="@163.com" />
@@ -114,16 +130,22 @@ const url = "/src/assets/logo.png";
             </el-form-item>
             <el-form-item>
               <el-input
-                v-model="password"
+                v-model="emailLoginParams.password"
+                prefix-icon="lock"
                 placeholder="请输入密码"
                 type="password"
+                show-password
               ></el-input>
             </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="验证码登录" name="code">
             <el-form-item>
-              <el-input v-model="emailPre" placeholder="请输入邮箱">
+              <el-input
+                prefix-icon="user"
+                v-model="emailPre"
+                placeholder="请输入邮箱"
+              >
                 <template #append>
                   <el-select v-model="emailSuf" style="width: 115px">
                     <el-option label="@163.com" value="@163.com" />
@@ -135,7 +157,8 @@ const url = "/src/assets/logo.png";
             </el-form-item>
             <el-form-item>
               <el-input
-                v-model="code"
+                prefix-icon="lock"
+                v-model="emailLoginParams.code"
                 placeholder="请输入验证码"
                 class="input-with-select"
               >
@@ -159,8 +182,8 @@ const url = "/src/assets/logo.png";
               >立即登录</el-button
             >
           </el-form-item>
-          <span @click="doRegister" style="color: #36318d" class="float-right"
-            >还没有账号？注册一个</span
+          <el-button @click="doRegister" size="large" text type="success"
+            >还没有账号？注册一个</el-button
           >
         </el-tabs>
       </el-form>
@@ -196,12 +219,8 @@ const url = "/src/assets/logo.png";
   justify-content: center;
   margin-top: 16px;
 }
-
-.float-right {
-  display: block;
-  margin-left: 13px;
-  overflow: hidden;
-  text-align: right;
-  margin-right: 10px;
+:deep(.el-tabs__nav-scroll) {
+  display: flex;
+  justify-content: center;
 }
 </style>

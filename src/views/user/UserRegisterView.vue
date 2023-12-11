@@ -7,17 +7,20 @@ import {
 } from "../../service/user/index";
 import { useRouter } from "vue-router";
 import { USER_ROLE_TYPE } from "../../model/enums/index";
+import { EmailRegisterParams, AccRegisterParams } from "../../model/user/index";
 import { success } from "../../service/common";
 
-const account = ref("");
-const password = ref("");
-const checkedPassword = ref("");
 const regType = ref("acc");
 const emailPre = ref("");
 const emailSuf = ref("@qq.com");
-const code = ref("");
 
-const role = ref(USER_ROLE_TYPE.MEMBER);
+const accRegPrams = ref({
+  type: USER_ROLE_TYPE.MEMBER,
+} as AccRegisterParams);
+
+const emailRegParams = ref({
+  type: USER_ROLE_TYPE.MEMBER,
+} as EmailRegisterParams);
 
 const userRoles = [
   {
@@ -35,24 +38,17 @@ const userRoles = [
  */
 const register = async () => {
   const email = emailPre.value + emailSuf.value;
+
   if (regType.value === "acc") {
-    const res = await accRegister(
-      account.value,
-      password.value,
-      checkedPassword.value,
-      role.value,
-    );
+    const res = await accRegister(accRegPrams.value);
     if (res) {
       success("注册成功");
     }
   } else if (regType.value === "email") {
-    const res = await emailRegister(
+    const res = await emailRegister({
+      ...emailRegParams.value,
       email,
-      password.value,
-      checkedPassword.value,
-      code.value,
-      role.value,
-    );
+    });
     if (res) {
       success("注册成功");
     }
@@ -105,119 +101,137 @@ const doLogin = () => {
     replace: true,
   });
 };
+const url = "/src/assets/logo.png";
 </script>
 
 <template>
   <div class="custom-container">
-    <div>
+    <el-form class="register-form">
+      <el-image style="width: 100px; height: 100px" :src="url" />
       <h1>Melody-Epoch</h1>
-      <el-form class="register-form">
-        <el-tabs v-model="regType" type="card" class="demo-tabs">
-          <el-tab-pane label="账号注册" name="acc">
-            <el-form-item>
-              <el-input v-model="account" placeholder="请输入账号"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input
-                v-model="password"
-                placeholder="请输入密码"
-                type="password"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input
-                v-model="checkedPassword"
-                placeholder="请再次输入密码"
-                type="password"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <strong style="margin-right: 16px">选择角色</strong>
-              <el-select v-model="role" class="m-2" placeholder="Select">
-                <el-option
-                  v-for="item in userRoles"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-tab-pane>
-
-          <el-tab-pane label="邮箱注册" name="email">
-            <el-form-item>
-              <el-input v-model="emailPre" placeholder="请输入邮箱">
-                <template #append>
-                  <el-select v-model="emailSuf" style="width: 115px">
-                    <el-option label="@163.com" value="@163.com" />
-                    <el-option label="@qq.com" value="@qq.com" />
-                    <el-option label="@gmail.com" value="@gmail.com" />
-                  </el-select>
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input
-                v-model="password"
-                placeholder="请输入密码"
-                type="password"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input
-                v-model="checkedPassword"
-                placeholder="请再次输入密码"
-                type="password"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input
-                v-model="code"
-                placeholder="请输入验证码"
-                class="input-with-select"
-              >
-                <template #append>
-                  <el-button
-                    @click="getCaptchaFromBackend"
-                    :disabled="disabled"
-                    >{{ btnText }}</el-button
-                  >
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <strong style="margin-right: 16px">选择角色</strong>
-              <el-select v-model="role" class="m-2" placeholder="Select">
-                <el-option
-                  v-for="item in userRoles"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-tab-pane>
-
-          <el-tab-pane label="敬请期待" name="code" disabled />
-          <el-form-item class="button-container">
-            <el-button
-              type="primary"
-              @click="register"
-              size="large"
-              style="width: 400px"
-              >立即注册</el-button
-            >
+      <el-tabs v-model="regType" type="card" class="demo-tabs">
+        <el-tab-pane label="账号注册" name="acc">
+          <el-form-item>
+            <el-input
+              prefix-icon="user"
+              v-model="accRegPrams.account"
+              placeholder="请输入账号"
+            ></el-input>
           </el-form-item>
+          <el-form-item>
+            <el-input
+              prefix-icon="lock"
+              v-model="accRegPrams.password"
+              placeholder="请输入密码"
+              type="password"
+              show-password
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              prefix-icon="lock"
+              v-model="accRegPrams.checkedPassword"
+              placeholder="请再次输入密码"
+              type="password"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <strong style="margin-right: 16px">选择角色</strong>
+            <el-select
+              v-model="accRegPrams.type"
+              class="m-2"
+              placeholder="Select"
+            >
+              <el-option
+                v-for="item in userRoles"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-tab-pane>
+
+        <el-tab-pane label="邮箱注册" name="email">
+          <el-form-item>
+            <el-input
+              prefix-icon="user"
+              v-model="emailPre"
+              placeholder="请输入邮箱"
+            >
+              <template #append>
+                <el-select v-model="emailSuf" style="width: 115px">
+                  <el-option label="@163.com" value="@163.com" />
+                  <el-option label="@qq.com" value="@qq.com" />
+                  <el-option label="@gmail.com" value="@gmail.com" />
+                </el-select>
+              </template>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              prefix-icon="lock"
+              v-model="emailRegParams.password"
+              placeholder="请输入密码"
+              type="password"
+              show-password
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="emailRegParams.checkedPassword"
+              placeholder="请再次输入密码"
+              type="password"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              prefix-icon="lock"
+              v-model="emailRegParams.code"
+              placeholder="请输入验证码"
+              class="input-with-select"
+            >
+              <template #append>
+                <el-button
+                  @click="getCaptchaFromBackend"
+                  :disabled="disabled"
+                  >{{ btnText }}</el-button
+                >
+              </template>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <strong style="margin-right: 16px">选择角色</strong>
+            <el-select
+              v-model="emailRegParams.type"
+              class="m-2"
+              placeholder="Select"
+            >
+              <el-option
+                v-for="item in userRoles"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-tab-pane>
+
+        <el-tab-pane label="敬请期待" name="code" disabled />
+        <el-form-item class="button-container">
           <el-button
-            text
-            @click="doLogin"
-            style="color: #36318d"
-            class="float-right"
-            >已经有账号了？去登录</el-button
+            type="primary"
+            @click="register"
+            size="large"
+            style="width: 400px"
+            >立即注册</el-button
           >
-        </el-tabs>
-      </el-form>
-    </div>
+        </el-form-item>
+        <el-button @click="doLogin" text bg type="success"
+          >已经有账号了？去登录</el-button
+        >
+      </el-tabs>
+    </el-form>
   </div>
 </template>
 
@@ -249,11 +263,8 @@ const doLogin = () => {
   margin-top: 16px;
 }
 
-.float-right {
-  display: block;
-  margin-left: 13px;
-  overflow: hidden;
-  text-align: right;
-  margin-right: 10px;
+:deep(.el-tabs__nav-scroll) {
+  display: flex;
+  justify-content: center;
 }
 </style>

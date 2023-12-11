@@ -1,8 +1,5 @@
 <script setup lang="ts"></script>
 
-<template>
-  Main
-
-</template>
+<template>Member View</template>
 
 <style scoped></style>

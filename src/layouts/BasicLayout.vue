@@ -1,16 +1,38 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
+import GlobalAside from "../components/GlobalAside.vue";
+import GlobalHeader from "../components/GlobalHeader.vue";
 </script>
 
 <template>
-  <div id="content">
-    <router-view></router-view>
+  <div class="common-layout">
+    <el-container>
+      <el-header><GlobalHeader /></el-header>
+      <el-container>
+        <el-aside width="200px"><GlobalAside /></el-aside>
+        <el-container>
+          <el-main><router-view /></el-main>
+          <el-footer
+            ><a href="https://codejuzi.icu" target="_blank"
+              >@2023 CodeJuzi</a
+            ></el-footer
+          >
+        </el-container>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
-<style scoped>
-#content {
+<style>
+.common-layout {
+  height: 100vh;
+}
+.el-container {
+  height: 100%;
+}
+
+.el-footer {
+  background-color: #e6ecf5;
   text-align: center;
-  background: url("../assets/background.png") 0% 0% /100% 100%;
+  line-height: 60px;
 }
 </style>

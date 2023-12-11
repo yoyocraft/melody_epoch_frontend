@@ -1,5 +1,10 @@
 import http from "../../plugins/http";
-import { EMAIL_LOGIN_TYPE } from "../../model/enums/index";
+import {
+  AccLoginParams,
+  AccRegisterParams,
+  EmailLoginParams,
+  EmailRegisterParams,
+} from "../../model/user";
 
 /**
  * 获取邮箱验证码
@@ -12,74 +17,56 @@ export const getCaptcha = async (email: string) => {
       email,
     },
   });
-  if (res.code === 0 && res.data) {
+  if (res.data) {
     return res.data;
   }
 };
 
-export const accLogin = async (account: string, password: string) => {
+/**
+ * 账号登录
+ */
+export const accLogin = async (accLoginParams: AccLoginParams) => {
   const res = await http.post("/user/acc_login", {
-    account,
-    password,
+    ...accLoginParams,
   });
-  if (res?.code === 0 && res.data) {
+  if (res.data) {
     return res.data;
   }
 };
 
-export const emailPwdLogin = async (email: string, password: string) => {
+/**
+ * 邮箱登录
+ */
+export const emailLogin = async (emailLoginParams: EmailLoginParams) => {
   const res = await http.post("/user/email_login", {
-    email,
-    password,
-    loginType: EMAIL_LOGIN_TYPE.PASSWORD_LOGIN,
+    ...emailLoginParams,
   });
-  if (res.code === 0 && res.data) {
-    return res.data;
-  }
-};
-export const emailCodeLogin = async (email: string, code: string) => {
-  const res = await http.post("/user/email_login", {
-    email,
-    code,
-    loginType: EMAIL_LOGIN_TYPE.CODE_LOGIN,
-  });
-  if (res?.code === 0 && res.data) {
+  if (res.data) {
     return res.data;
   }
 };
 
-export const accRegister = async (
-  account: string,
-  password: string,
-  checkedPassword: string,
-  type: number,
-) => {
+/**
+ * 账号注册
+ */
+export const accRegister = async (accRegParams: AccRegisterParams) => {
+  console.log(accRegParams);
   const res = await http.post("/user/acc_reg", {
-    account,
-    password,
-    checkedPassword,
-    type,
+    ...accRegParams,
   });
-  if (res?.code === 0 && res.data) {
+  if (res.data) {
     return res.data;
   }
 };
 
-export const emailRegister = async (
-  email: string,
-  password: string,
-  checkedPassword: string,
-  code: string,
-  type: number,
-) => {
+/**
+ * 邮箱注册
+ */
+export const emailRegister = async (emailRegParams: EmailRegisterParams) => {
   const res = await http.post("/user/email_reg", {
-    email,
-    password,
-    checkedPassword,
-    code,
-    type,
+    ...emailRegParams,
   });
-  if (res?.code === 0 && res.data) {
+  if (res.data) {
     return res.data;
   }
 };
