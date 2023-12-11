@@ -11,11 +11,6 @@ import GlobalHeader from "../components/GlobalHeader.vue";
         <el-aside width="200px"><GlobalAside /></el-aside>
         <el-container>
           <el-main><router-view /></el-main>
-          <el-footer
-            ><a href="https://codejuzi.icu" target="_blank"
-              >@2023 CodeJuzi</a
-            ></el-footer
-          >
         </el-container>
       </el-container>
     </el-container>
