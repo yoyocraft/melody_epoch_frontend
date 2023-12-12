@@ -2,14 +2,17 @@ import HelloWorldVue from "../components/HelloWorld.vue";
 import UserLoginViewVue from "../views/user/UserLoginView.vue";
 import UserRrgisterViewVue from "../views/user/UserRegisterView.vue";
 import MemberViewVue from "../views/member/MemberView.vue";
-import AlbumViewVue from "../views/album/AlbumView.vue";
-import SongViewVue from "../views/song/SongView.vue";
-import ConcertViewVue from "../views/concert/ConcertView.vue";
+import AlbumInfoViewVue from "../views/album/AlbumInfoView.vue";
+import SongInfoViewVue from "../views/song/SongInfoView.vue";
+import ConcertInfoViewVue from "../views/concert/ConcertInfoView.vue";
 import BandInfoViewVue from "../views/band/BandInfoView.vue";
 import BandAddViewVue from "../views/band/BandAddView.vue";
 import BandEditViewVue from "../views/band/BandEditView.vue";
 import BandReleaseViewVue from "../views/band/BandReleaseView.vue";
 import BandDetailsViewVue from "../views/band/BandDetailsView.vue";
+import SongAddViewVue from "../views/song/SongAddView.vue";
+import AlbumAddViewVue from "../views/album/AlbumAddView.vue";
+import ConcertAddViewVue from "../views/concert/ConcertAddView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: HelloWorldVue },
@@ -56,17 +59,32 @@ const routes = [
   {
     path: "/album",
     name: "专辑",
-    component: AlbumViewVue,
+    component: AlbumInfoViewVue,
+  },
+  {
+    path: "/album/add",
+    name: "添加专辑",
+    component: AlbumAddViewVue,
   },
   {
     path: "/song",
     name: "歌曲",
-    component: SongViewVue,
+    component: SongInfoViewVue,
+  },
+  {
+    path: "/song/add",
+    name: "添加歌曲",
+    component: SongAddViewVue,
   },
   {
     path: "/concert",
     name: "演唱会",
-    component: ConcertViewVue,
+    component: ConcertInfoViewVue,
+  },
+  {
+    path: "/concert/add",
+    name: "添加演唱会",
+    component: ConcertAddViewVue,
   },
 ];
 

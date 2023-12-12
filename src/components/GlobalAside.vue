@@ -9,13 +9,17 @@ const route = useRoute();
 const router = useRouter();
 
 const doSelect = (index: string) => {
-  console.log(index);
   router.push({
     path: index,
   });
 };
 
-const currUserType = ref({} as CurrUserType);
+const currUserType = ref({
+  isAdmin: true,
+  isFan: true,
+  isLeader: true,
+  isMember: true
+} as CurrUserType);
 
 onMounted(async () => {
   const res = await getCurrType();
@@ -43,32 +47,50 @@ watch(
             <span>首页</span>
           </template>
         </el-menu-item>
-        <el-sub-menu index="/edit-band" v-if="currUserType.isMember">
+        <el-sub-menu index="ops-band" v-if="currUserType.isLeader">
           <template #title>
             <el-icon>
               <Setting />
             </el-icon>
-            <span>乐队操作</span>
+            <span>操作</span>
           </template>
-          <el-menu-item-group v-if="currUserType.isLeader">
-            <template #title>队长操作</template>
+          <el-sub-menu index="op-band">
+            <template #title><span>乐队</span></template>
             <el-menu-item index="/band/edit">修改乐队信息</el-menu-item>
             <el-menu-item index="/band/release">发布乐队信息</el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="op-member">
+            <template #title><span>成员</span></template>
             <el-menu-item index="/band/part">修改成员信息</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group>
-            <template #title>成员操作</template>
-            <el-menu-item index="/edit-info">修改个人信息</el-menu-item>
-          </el-menu-item-group>
+          </el-sub-menu>
+          <el-sub-menu index="op-song">
+            <template #title><span>歌曲</span></template>
+            <el-menu-item index="/song/add">创建歌曲信息</el-menu-item>
+            <el-menu-item index="/song/edit">修改歌曲信息</el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="op-album">
+            <template #title><span>专辑</span></template>
+            <el-menu-item index="/album/add">创建专辑信息</el-menu-item>
+            <el-menu-item index="/album/edit">修改专辑信息</el-menu-item>
+            <el-menu-item index="/album/song">歌曲录入专辑</el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="op-concert">
+            <template #title><span>演出会</span></template>
+            <el-menu-item index="/concert/add">创建演唱会信息</el-menu-item>
+            <el-menu-item index="/concert/edit">修改演出会信息</el-menu-item>
+          </el-sub-menu>
         </el-sub-menu>
-        <el-sub-menu index="/edit-fan" v-if="currUserType.isFan">
+        <el-sub-menu index="ops-fan" v-if="currUserType.isFan">
           <template #title>
             <el-icon>
               <Setting />
             </el-icon>
-            <span>歌迷操作</span>
+            <span>操作</span>
           </template>
-          <el-menu-item index="1-1">修改个人信息</el-menu-item>
+          <el-menu-item index="/like/songs">喜欢的音乐</el-menu-item>
+          <el-menu-item index="/like/album">喜欢的专辑</el-menu-item>
+          <el-menu-item index="/like/band">喜欢的乐队</el-menu-item>
+          <el-menu-item index="/concert/join">参加的演唱会</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="/band">
           <template #title>

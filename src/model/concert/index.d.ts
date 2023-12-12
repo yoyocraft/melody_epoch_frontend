@@ -9,3 +9,12 @@ export interface Concert {
   songIdsStr: number;
   maxNum: number;
 }
+
+export interface ConcertAddReq {
+  name: string;
+  startTime: Date;
+  endTime: Date;
+  place: string;
+  songIdList: number[];
+  maxNum: number;
+}

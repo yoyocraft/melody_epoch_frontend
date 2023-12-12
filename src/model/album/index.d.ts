@@ -8,3 +8,10 @@ export interface Album {
   profile: string;
   avgScore: number;
 }
+
+export interface AlbumAddReq {
+  name: string;
+  company: string;
+  bandName: string;
+  profile: string;
+}
