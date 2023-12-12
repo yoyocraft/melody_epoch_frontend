@@ -24,3 +24,10 @@ export interface EmailLoginParams {
   code: string;
   loginType: number;
 }
+
+export interface CurrUserType {
+  isFan: boolean;
+  isMember: boolean;
+  isLeader: boolean;
+  isAdmin: boolean;
+}

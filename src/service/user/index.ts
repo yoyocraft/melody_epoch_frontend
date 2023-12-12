@@ -70,3 +70,23 @@ export const emailRegister = async (emailRegParams: EmailRegisterParams) => {
     return res.data;
   }
 };
+
+/**
+ * 获取当前角色类型
+ */
+export const getCurrType = async () => {
+  const res = await http.get("/user/type");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+/**
+ * 获取当前角色类型
+ */
+export const userLogout = async () => {
+  const res = await http.post("/user/logout");
+  if (res.data) {
+    return res.data;
+  }
+};

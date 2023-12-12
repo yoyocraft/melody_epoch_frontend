@@ -22,3 +22,9 @@ export interface BandInfo {
   albums: Array<Album>;
   concerts: Array<Concert>;
 }
+
+export interface BandAddReq {
+  bandName: string;
+  leaderId: number;
+  profile: string;
+}

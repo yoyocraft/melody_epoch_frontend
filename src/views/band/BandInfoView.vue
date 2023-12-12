@@ -1,151 +1,69 @@
-<script setup lang="ts">
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { listBandInfoVO } from "../../service/band/index";
+<script lang="ts" setup>
+import { onMounted, ref } from "vue";
+import { BandBriefInfo } from "../../model/band/index";
+import { listBandBriefInfo } from "../../service/band/index";
 import { formatDate } from "../../utils/index";
+import { useRouter } from "vue-router";
 
-const route = useRoute();
-onMounted(async () => {
-  const bandId = route.params.id;
-  if (typeof bandId === "string") {
-    const id = parseInt(bandId, 10);
-    if (!isNaN(id)) {
-      const res = await listBandInfoVO(id);
-      res.foundTime = formatDate(res.foundTime);
-      res.members?.forEach((member: Member) => {
-        member.joinTime = formatDate(member.joinTime);
-        member.leaveTime = formatDate(member.leaveTime);
-      });
-      res.albums?.forEach((album: Album) => {
-        album.releaseTime = formatDate(album.releaseTime);
-      });
-      res.concerts?.forEach((concert: Concert) => {
-        concert.startTime = formatDate(concert.startTime);
-        concert.endTime = formatDate(concert.endTime);
-      });
-      bandInfo.value = res;
-    } else {
-      error("非法信息！");
+const router = useRouter();
+const doGetBandDetail = (_: any, row: any) => {
+  router.push({
+    path: "/band/info",
+    query: {
+      id: row.bandId
     }
-  } else {
-    error("非法信息！");
-  }
+  });
+};
+
+let tableData = ref<BandBriefInfo[]>([]);
+
+/**
+ * 挂载时处理一些数据
+ */
+onMounted(async () => {
+  const res = await listBandBriefInfo();
+  console.log(res);
+  tableData.value = res.map((info: BandBriefInfo) => {
+    return { ...info, foundTime: formatDate(info.foundTime) };
+  });
 });
 
-import { ref } from "vue";
-import { BandInfo } from "../../model/band/index";
-import { Member } from "../../model/member/index";
-import { Album } from "../../model/album/index";
-import { Concert } from "../../model/concert/index";
-import { error } from "../../service/common";
+const goBack = () => {
+  router.back();
+}
 
-const bandInfo = ref({} as BandInfo);
+const doAddBand = () => {
+  router.push({
+    path: "/band/add",
+  })
+}
 </script>
 
 <template>
-  <el-divider style="margin-top: 16px">
-    <span style="font-size: 30px; color: rgb(16, 141, 219)">乐队详细信息</span>
+  <el-page-header @back="goBack">
+    <template #extra>
+      <div class="flex items-center">
+        <el-button type="primary" class="ml-2" @click="doAddBand">创建乐队</el-button>
+      </div>
+    </template>
+  </el-page-header>
+  <el-divider style="margin-top: 36px; margin-bottom: 36px">
+    <span style="font-size: 30px; color: rgb(16, 141, 219)">所有乐队信息</span>
   </el-divider>
-
-  <el-form
-    :model="bandInfo"
-    label-width="120px"
-    style="margin-top: 16px; text-align: center"
-  >
-    <el-form-item label="乐队序号">
-      <el-input disabled v-model="bandInfo.bandId" />
-    </el-form-item>
-    <el-form-item label="乐队名称">
-      <el-input disabled v-model="bandInfo.name" />
-    </el-form-item>
-    <el-form-item label="创建时间">
-      <el-input disabled v-model="bandInfo.foundTime" />
-    </el-form-item>
-    <el-form-item label="队长">
-      <el-input disabled v-model="bandInfo.leaderName" />
-    </el-form-item>
-    <el-form-item label="人数">
-      <el-input disabled v-model="bandInfo.memberNum" />
-    </el-form-item>
-  </el-form>
-
-  <el-divider style="margin-top: 36px">
-    <el-icon><user /></el-icon>
-    <span style="font-size: 20px"> 成员信息 </span>
-  </el-divider>
-
-  <div class="table-center">
-    <el-table :data="bandInfo.members" style="width: 100%" max-height="250">
-      <el-table-column fixed prop="memberId" label="成员序号" width="150" />
-      <el-table-column prop="name" label="姓名" width="120" />
-      <el-table-column prop="age" label="年龄" width="120" />
-      <el-table-column prop="part" label="分工" width="120" />
-      <el-table-column prop="joinTime" label="加入时间" width="120" />
-      <el-table-column prop="leaveTime" label="退出时间" width="120" />
-      <template #empty>
-        <el-empty :image-size="100" />
+  <el-table :data="tableData" style="width: 100%">
+    <el-table-column fixed prop="bandId" label="乐队序号" width="150" />
+    <el-table-column prop="name" label="乐队名称" width="120" />
+    <el-table-column prop="foundTime" label="创建时间" width="150" />
+    <el-table-column prop="leaderName" label="队长" width="150" />
+    <el-table-column prop="memberNum" label="人数" width="150" />
+    <el-table-column fixed="right" label="操作" width="120">
+      <template #default="scope">
+        <el-button link type="primary" size="small" @click="doGetBandDetail(scope.$index, scope.row)">Detail</el-button>
+        <el-button link type="primary" size="small">Edit</el-button>
       </template>
-    </el-table>
-  </div>
-
-  <el-divider style="margin-top: 36px">
-    <el-icon><video-play /></el-icon>
-    <span style="font-size: 20px"> 歌曲信息</span>
-  </el-divider>
-
-  <div class="table-center">
-    <el-table :data="bandInfo.songs" style="width: 100%" max-height="250">
-      <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
-      <el-table-column prop="name" label="歌曲名" width="120" />
-      <el-table-column prop="author" label="作者" width="120" />
-      <el-table-column prop="albumName" label="所属专辑" width="120" />
-      <template #empty>
-        <el-empty :image-size="100" />
-      </template>
-    </el-table>
-  </div>
-
-  <el-divider style="margin-top: 36px">
-    <el-icon><files /></el-icon>
-    <span style="font-size: 20px"> 专辑信息</span>
-  </el-divider>
-
-  <div class="table-center">
-    <el-table :data="bandInfo.albums" style="width: 100%" max-height="250">
-      <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
-      <el-table-column prop="name" label="专辑名" width="120" />
-      <el-table-column prop="company" label="发行公司" width="120" />
-      <el-table-column prop="releaseTime" label="发行时间" width="120" />
-      <el-table-column prop="profile" label="简介" width="120" />
-      <el-table-column prop="avgScore" label="均分" width="120" />
-      <template #empty>
-        <el-empty :image-size="100" />
-      </template>
-    </el-table>
-  </div>
-
-  <el-divider style="margin-top: 36px">
-    <el-icon><tickets /></el-icon>
-    <span style="font-size: 20px"> 演唱会信息</span>
-  </el-divider>
-
-  <div class="table-center">
-    <el-table :data="bandInfo.concerts" style="width: 100%" max-height="250">
-      <el-table-column fixed prop="concertId" label="演唱会序号" width="150" />
-      <el-table-column prop="name" label="演唱会名称" width="120" />
-      <el-table-column prop="startTime" label="开始时间" width="120" />
-      <el-table-column prop="endTime" label="结束时间" width="120" />
-      <el-table-column prop="maxNum" label="上限人数" width="120" />
-      <template #empty>
-        <el-empty :image-size="100" />
-      </template>
-    </el-table>
-  </div>
+    </el-table-column>
+    <template #empty>
+      <el-empty :image-size="100" />
+    </template>
+  </el-table>
 </template>
-
-<style scoped>
-.table-center {
-  /* width: 100%;
-  margin: 0 auto; */
-}
-</style>
