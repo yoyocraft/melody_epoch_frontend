@@ -12,8 +12,13 @@ export const addSong = async (params: SongAddReq) => {
 
 export const listSongItems = async () => {
   const res = await http.get("/song/items");
-  console.log("@@ ", res);
+  if (res.data) {
+    return res.data;
+  }
+};
 
+export const listSongInfo = async () => {
+  const res = await http.get("/song/list");
   if (res.data) {
     return res.data;
   }

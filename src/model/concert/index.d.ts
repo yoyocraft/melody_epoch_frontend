@@ -18,3 +18,13 @@ export interface ConcertAddReq {
   songIdList: number[];
   maxNum: number;
 }
+
+export interface ConcertBriefInfo {
+  concertId: number;
+  name: string;
+  startTime: string;
+  endTime: string;
+  place: string;
+  bandName: string;
+  maxNum: number;
+}

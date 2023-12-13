@@ -9,3 +9,10 @@ export const addConcert = async (params: ConcertAddReq) => {
     return res.data;
   }
 };
+
+export const listConcertBriefInfo = async () => {
+  const res = await http.get("/concert/list");
+  if (res.data) {
+    return res.data;
+  }
+};

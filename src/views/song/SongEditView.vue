@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
-<template>Member View</template>
+<template>
+  修改歌曲信息
+</template>
 
 <style scoped></style>

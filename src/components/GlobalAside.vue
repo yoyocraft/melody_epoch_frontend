@@ -15,10 +15,10 @@ const doSelect = (index: string) => {
 };
 
 const currUserType = ref({
-  isAdmin: true,
-  isFan: true,
-  isLeader: true,
-  isMember: true
+  // isAdmin: true,
+  // isFan: true,
+  // isLeader: true,
+  // isMember: true
 } as CurrUserType);
 
 onMounted(async () => {
@@ -61,7 +61,7 @@ watch(
           </el-sub-menu>
           <el-sub-menu index="op-member">
             <template #title><span>成员</span></template>
-            <el-menu-item index="/band/part">修改成员信息</el-menu-item>
+            <el-menu-item index="/band/part">修改成员分工</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="op-song">
             <template #title><span>歌曲</span></template>
@@ -77,7 +77,7 @@ watch(
           <el-sub-menu index="op-concert">
             <template #title><span>演出会</span></template>
             <el-menu-item index="/concert/add">创建演唱会信息</el-menu-item>
-            <el-menu-item index="/concert/edit">修改演出会信息</el-menu-item>
+            <el-menu-item index="/concert/edit">修改演唱会信息</el-menu-item>
           </el-sub-menu>
         </el-sub-menu>
         <el-sub-menu index="ops-fan" v-if="currUserType.isFan">

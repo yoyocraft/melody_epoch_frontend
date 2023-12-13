@@ -8,3 +8,19 @@ export interface Member {
   bandId: number;
   bandName: string;
 }
+
+export interface MemberInfo {
+  memberId: number;
+  name: string;
+  gender: number;
+  age: number;
+  part: string;
+  joinTime: string;
+  leaveTime: string;
+  bandName: string;
+}
+
+export interface EditPartReq {
+  memberId: number;
+  part: string;
+}

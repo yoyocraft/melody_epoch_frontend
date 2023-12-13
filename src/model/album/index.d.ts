@@ -15,3 +15,11 @@ export interface AlbumAddReq {
   bandName: string;
   profile: string;
 }
+
+export interface AlbumBriefInfo {
+  albumId: number;
+  name: string;
+  company: string;
+  bandName: string;
+  avgScore: number;
+}

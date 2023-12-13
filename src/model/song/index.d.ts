@@ -16,3 +16,11 @@ export interface SongItem {
   songId: number;
   name: string;
 }
+
+export interface SongInfo {
+  songId: number;
+  name: string;
+  bandName: string;
+  author: string;
+  albumName: string;
+}

@@ -9,3 +9,10 @@ export const addAlbum = async (params: AlbumAddReq) => {
     return res.data;
   }
 };
+
+export const listAlbumBriefInfo = async () => {
+  const res = await http.get("/album/list");
+  if (res.data) {
+    return res.data;
+  }
+};

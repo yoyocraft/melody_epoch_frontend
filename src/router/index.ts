@@ -1,7 +1,7 @@
 import HelloWorldVue from "../components/HelloWorld.vue";
 import UserLoginViewVue from "../views/user/UserLoginView.vue";
 import UserRrgisterViewVue from "../views/user/UserRegisterView.vue";
-import MemberViewVue from "../views/member/MemberView.vue";
+import MemberInfoViewVue from "../views/member/MemberInfoView.vue";
 import AlbumInfoViewVue from "../views/album/AlbumInfoView.vue";
 import SongInfoViewVue from "../views/song/SongInfoView.vue";
 import ConcertInfoViewVue from "../views/concert/ConcertInfoView.vue";
@@ -13,6 +13,8 @@ import BandDetailsViewVue from "../views/band/BandDetailsView.vue";
 import SongAddViewVue from "../views/song/SongAddView.vue";
 import AlbumAddViewVue from "../views/album/AlbumAddView.vue";
 import ConcertAddViewVue from "../views/concert/ConcertAddView.vue";
+import BandPartEditViewVue from "../views/band/BandPartEditView.vue";
+import SongEditViewVue from "../views/song/SongEditView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: HelloWorldVue },
@@ -29,7 +31,7 @@ const routes = [
   {
     path: "/member",
     name: "乐队成员",
-    component: MemberViewVue,
+    component: MemberInfoViewVue,
   },
   {
     path: "/band",
@@ -50,6 +52,11 @@ const routes = [
     path: "/band/edit",
     name: "修改乐队",
     component: BandEditViewVue,
+  },
+  {
+    path: "/band/part",
+    name: "修改乐队成员分工",
+    component: BandPartEditViewVue,
   },
   {
     path: "/band/release",
@@ -75,6 +82,11 @@ const routes = [
     path: "/song/add",
     name: "添加歌曲",
     component: SongAddViewVue,
+  },
+  {
+    path: "/song/edit",
+    name: "修改歌曲",
+    component: SongEditViewVue,
   },
   {
     path: "/concert",
