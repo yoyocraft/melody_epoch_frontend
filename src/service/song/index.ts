@@ -23,3 +23,14 @@ export const listSongInfo = async () => {
     return res.data;
   }
 };
+
+export const listSongToAlbum = async (albumId: number) => {
+  const res = await http.get("/song/album", {
+    params: {
+      albumId,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};

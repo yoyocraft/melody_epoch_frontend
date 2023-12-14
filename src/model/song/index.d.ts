@@ -24,3 +24,8 @@ export interface SongInfo {
   author: string;
   albumName: string;
 }
+
+export interface SongToAlbumVO {
+  noneAlbumSongs: SongItem[];
+  albumSongs: SongItem[];
+}

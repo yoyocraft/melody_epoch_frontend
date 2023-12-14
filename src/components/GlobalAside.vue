@@ -75,7 +75,7 @@ watch(
             <el-menu-item index="/album/song">歌曲录入专辑</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="op-concert">
-            <template #title><span>演出会</span></template>
+            <template #title><span>演唱会</span></template>
             <el-menu-item index="/concert/add">创建演唱会信息</el-menu-item>
             <el-menu-item index="/concert/edit">修改演唱会信息</el-menu-item>
           </el-sub-menu>

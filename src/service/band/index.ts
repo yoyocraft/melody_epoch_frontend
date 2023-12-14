@@ -19,10 +19,38 @@ export const listBandInfoVO = async (bandId: number) => {
   }
 };
 
+export const listCurrBandInfoVO = async () => {
+  const res = await http.get("/band/all");
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const addBand = async (params: BandAddReq) => {
   const res = await http.post("/band/add", {
     ...params,
   });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const releaseBandInfo = async () => {
+  const res = await http.post("/band/release");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const unReleaseBandInfo = async () => {
+  const res = await http.post("/band/unrelease");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const currBandReleaseStatus = async () => {
+  const res = await http.get("/band/release/status");
   if (res.data) {
     return res.data;
   }

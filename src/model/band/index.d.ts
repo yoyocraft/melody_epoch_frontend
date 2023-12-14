@@ -17,6 +17,7 @@ export interface BandInfo {
   foundTime: string;
   leaderName: string;
   memberNum: number;
+  isRelease: number;
   members: Array<Member>;
   songs: Array<Song>;
   albums: Array<Album>;

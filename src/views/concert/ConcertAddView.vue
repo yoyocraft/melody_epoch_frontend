@@ -48,7 +48,6 @@ const onReset = () => {
 const songs = ref<TransferOption[]>([])
 const selectIds = ref([]);
 onMounted(async () => {
-  // TODO 获取songs
   const res = await listSongItems();
   const tmp: TransferOption[] = []
   res.forEach((songItem: SongItem) => {
@@ -63,12 +62,20 @@ onMounted(async () => {
 const filterMethod = (query: string, item: any) => {
   return item.label.toLowerCase().includes(query.toLowerCase())
 }
+
+const goBack = () => {
+  router.back();
+}
 </script>
 
 <template>
-  <el-divider style="margin-top: 36px; margin-bottom: 36px">
-    <span style="font-size: 30px; color: rgb(16, 141, 219)">填写演唱会信息</span>
-  </el-divider>
+  <el-page-header @back="goBack">
+    <template #content>
+      <span class="text-large font-600 mr-3"> 填写演唱会信息 </span>
+    </template>
+
+  </el-page-header>
+
   <el-form :model="concertAddReq" label-width="120px" style="margin-top: 36px; text-align: center">
     <el-form-item label="演唱会名称">
       <el-input v-model="concertAddReq.name" />

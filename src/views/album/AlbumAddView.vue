@@ -19,15 +19,20 @@ const onSubmit = async () => {
   })
 }
 const onReset = () => {
-  console.log("onReset");
   albumAddReq.value = {} as AlbumAddReq;
+}
+
+const goBack = () => {
+  router.back();
 }
 </script>
 
 <template>
-  <el-divider style="margin-top: 36px; margin-bottom: 36px">
-    <span style="font-size: 30px; color: rgb(16, 141, 219)">填写专辑信息</span>
-  </el-divider>
+  <el-page-header @back="goBack">
+    <template #content>
+      <span class="text-large font-600 mr-3"> 填写专辑信息 </span>
+    </template>
+  </el-page-header>
   <el-form :model="albumAddReq" label-width="120px" style="margin-top: 36px; text-align: center">
     <el-form-item label="专辑名称">
       <el-input v-model="albumAddReq.name" />

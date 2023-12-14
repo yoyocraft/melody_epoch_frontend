@@ -23,3 +23,9 @@ export interface AlbumBriefInfo {
   bandName: string;
   avgScore: number;
 }
+
+export interface SongToAlbumReq {
+  albumId: number;
+  noneSelectedSongIds: number[];
+  selectedSongIds: number[];
+}
