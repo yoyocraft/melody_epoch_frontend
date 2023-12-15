@@ -5,11 +5,11 @@ import { listAlbumBriefInfo } from "../../service/album/index";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const doGetBandDetail = (_: any, row: any) => {
+const doGetAlbumDetail = (_: any, row: any) => {
   router.push({
     path: "/album/info",
     query: {
-      id: row.bandId
+      id: row.albumId
     }
   });
 };
@@ -49,7 +49,7 @@ const goBack = () => {
     <el-table-column prop="avgScore" label="专辑均分" width="150" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
-        <el-button link type="primary" size="small" @click="doGetBandDetail(scope.$index, scope.row)">详情</el-button>
+        <el-button link type="primary" size="small" @click="doGetAlbumDetail(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>
     <template #empty>

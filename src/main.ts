@@ -4,6 +4,7 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import routes from "./router/index";
 import * as VueRouter from "vue-router";
+import vClickOutside from "click-outside-vue3";
 
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 const app = createApp(App);
@@ -18,4 +19,5 @@ const router = VueRouter.createRouter({
 
 app.use(ElementPlus);
 app.use(router);
+app.use(vClickOutside);
 app.mount("#app");

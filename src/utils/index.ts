@@ -1,3 +1,5 @@
+import { CommentVO } from "../model/comment";
+
 export function formatDate(time: string) {
   if (time === "" || time === void 0 || time === null) return "-";
   // 创建一个 Date 对象
@@ -32,3 +34,13 @@ export function formatDateTime(time: string) {
 }
 
 export const GENDER_MAP = ["女", "男"];
+
+export function formatCommentCreateTimes(commentVO: CommentVO): void {
+  commentVO.createTime = formatDateTime(commentVO.createTime);
+
+  if (commentVO.childrenComments && commentVO.childrenComments.length > 0) {
+    commentVO.childrenComments.forEach((childComment) => {
+      formatCommentCreateTimes(childComment);
+    });
+  }
+}

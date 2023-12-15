@@ -1,3 +1,6 @@
+import { CommentVO } from "../comment";
+import { SongInfo } from "../song";
+
 export interface Album {
   albumId: string;
   name: string;
@@ -28,4 +31,16 @@ export interface SongToAlbumReq {
   albumId: number;
   noneSelectedSongIds: number[];
   selectedSongIds: number[];
+}
+
+export interface AlbumDetailsVO {
+  albumId: number;
+  name: string;
+  company: string;
+  releaseTime: string;
+  bandName: string;
+  profile: string;
+  avgScore: number;
+  songInfoList: SongInfo[];
+  commentVOList: CommentVO[];
 }

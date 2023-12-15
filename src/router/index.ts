@@ -16,6 +16,7 @@ import ConcertAddViewVue from "../views/concert/ConcertAddView.vue";
 import BandPartEditViewVue from "../views/band/BandPartEditView.vue";
 import SongEditViewVue from "../views/song/SongEditView.vue";
 import AlbumSongViewVue from "../views/album/AlbumSongView.vue";
+import AlbumDetailsInfoViewVue from "../views/album/AlbumDetailsInfoView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: HelloWorldVue },
@@ -79,6 +80,11 @@ const routes = [
     path: "/album/song",
     name: "歌曲录入专辑",
     component: AlbumSongViewVue,
+  },
+  {
+    path: "/album/info",
+    name: "专辑详细信息",
+    component: AlbumDetailsInfoViewVue,
   },
   {
     path: "/song",

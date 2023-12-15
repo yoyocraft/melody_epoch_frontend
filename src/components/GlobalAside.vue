@@ -15,10 +15,10 @@ const doSelect = (index: string) => {
 };
 
 const currUserType = ref({
-  // isAdmin: true,
-  // isFan: true,
-  // isLeader: true,
-  // isMember: true
+  isAdmin: true,
+  isFan: true,
+  isLeader: true,
+  isMember: true
 } as CurrUserType);
 
 onMounted(async () => {

@@ -24,10 +24,20 @@ export const currBandAllAlbums = async () => {
   }
 };
 
-
 export const addSongsToAlbum = async (params: SongToAlbumReq) => {
   const res = await http.put("/album/songs", {
-    ...params
+    ...params,
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const getAlbumDetailsInfo = async (albumId: number) => {
+  const res = await http.get("/album/info", {
+    params: {
+      albumId,
+    },
   });
   if (res.data) {
     return res.data;
