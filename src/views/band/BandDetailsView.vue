@@ -2,26 +2,30 @@
 import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { listBandInfoVO } from "../../service/band/index";
-import { formatDate } from "../../utils/index";
+import { LIKE_TYPE_MAP, formatDate } from "../../utils/index";
 import { ref } from "vue";
 import { BandInfo } from "../../model/band/index";
 import { Member } from "../../model/member/index";
 import { Album } from "../../model/album/index";
 import { Concert } from "../../model/concert/index";
-import { error } from "../../service/common";
+import { error, success } from "../../service/common";
+import { LikeReq } from "../../model/fan";
+import { like, unlike } from "../../service/fan";
 
 const bandInfo = ref({} as BandInfo);
 
 const route = useRoute();
 const router = useRouter();
 
+let currBandId: number = 0;
 
-onMounted(async () => {
+const loadData = async () => {
   const bandId = route.query?.id;
   if (typeof bandId === "string") {
     const id = parseInt(bandId, 10);
     if (!isNaN(id)) {
       const res = await listBandInfoVO(id);
+      currBandId = id;
       res.foundTime = formatDate(res.foundTime);
       res.members?.forEach((member: Member) => {
         member.joinTime = formatDate(member.joinTime);
@@ -41,7 +45,32 @@ onMounted(async () => {
   } else {
     error("非法信息！");
   }
+}
+onMounted(async () => {
+  await loadData();
 });
+
+const doLike = async () => {
+  const req = {} as LikeReq;
+  req.likeId = currBandId;
+  req.type = LIKE_TYPE_MAP.LIKE_BAND;
+  const res = await like(req);
+  if (res) {
+    success("喜欢成功！")
+    await loadData();
+  }
+}
+
+const doNotLike = async () => {
+  const req = {} as LikeReq;
+  req.likeId = currBandId;
+  req.type = LIKE_TYPE_MAP.LIKE_BAND;
+  const res = await unlike(req);
+  if (res) {
+    success("撤销喜欢成功！")
+    await loadData();
+  }
+}
 
 
 const goBack = () => {
@@ -53,6 +82,12 @@ const goBack = () => {
   <el-page-header @back="goBack">
     <template #content>
       <span class="text-large font-600 mr-3"> 乐队详细信息 </span>
+    </template>
+    <template #extra>
+      <div class="flex items-center">
+        <el-button type="warning" size="large" class="ml-2" v-if="bandInfo.isLiked" @click="doNotLike">撤销喜欢</el-button>
+        <el-button type="success" size="large" class="ml-2" v-else @click="doLike">加入喜欢</el-button>
+      </div>
     </template>
   </el-page-header>
 

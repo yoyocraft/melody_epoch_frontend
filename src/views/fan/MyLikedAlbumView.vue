@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import { AlbumBriefInfo } from "../../model/album/index";
 import { LikeReq } from "../../model/fan/index";
-import { listAlbumBriefInfo } from "../../service/album/index";
+import { listMyLikedAlbum } from "../../service/fan/index";
 import { LIKE_TYPE_MAP } from "../../utils/index"
 import { like, unlike } from "../../service/fan/index";
 import { useRouter } from "vue-router";
@@ -18,17 +18,6 @@ const doGetAlbumDetail = (_: any, row: any) => {
   });
 };
 
-const doLike = async (row: any) => {
-  const req = {} as LikeReq;
-  req.likeId = row.albumId;
-  req.type = LIKE_TYPE_MAP.LIKE_ALBUM;
-  const res = await like(req);
-  if (res) {
-    success("喜欢成功！")
-    await loadData();
-  }
-}
-
 const doNotLike = async (row: any) => {
   const req = {} as LikeReq;
   req.likeId = row.albumId;
@@ -43,7 +32,7 @@ const doNotLike = async (row: any) => {
 const tableData = ref<AlbumBriefInfo[]>([]);
 
 const loadData = async () => {
-  const res = await listAlbumBriefInfo();
+  const res = await listMyLikedAlbum();
   tableData.value = res.map((info: AlbumBriefInfo) => {
     return {
       ...info,
@@ -68,7 +57,7 @@ const goBack = () => {
 <template>
   <el-page-header @back="goBack">
     <template #content>
-      <span class="text-large font-600 mr-3"> 专辑信息 </span>
+      <span class="text-large font-600 mr-3"> 我喜欢的专辑信息 </span>
     </template>
   </el-page-header>
   <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
@@ -80,7 +69,6 @@ const goBack = () => {
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
         <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
-        <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
         <el-button link type="primary" @click="doGetAlbumDetail(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>

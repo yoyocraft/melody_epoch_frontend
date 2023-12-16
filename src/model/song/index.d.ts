@@ -23,6 +23,7 @@ export interface SongInfo {
   bandName: string;
   author: string;
   albumName: string;
+  isLiked: boolean;
 }
 
 export interface SongToAlbumVO {

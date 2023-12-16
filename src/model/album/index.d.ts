@@ -25,6 +25,7 @@ export interface AlbumBriefInfo {
   company: string;
   bandName: string;
   avgScore: number;
+  isLiked: boolean;
 }
 
 export interface SongToAlbumReq {

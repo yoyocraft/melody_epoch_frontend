@@ -5,10 +5,12 @@ import { useRouter, useRoute } from 'vue-router';
 import { AlbumDetailsVO } from '../../model/album/index'
 import { AddCommentReq, CommentVO } from '../../model/comment/index'
 import { getAlbumDetailsInfo } from '../../service/album/index'
+import { getLikeAlbumStatus, like, scoreAlbum, unlike } from '../../service/fan/index'
 import { addComment } from '../../service/comment/index'
 import { error, success } from '../../service/common';
-import { formatDate, formatCommentCreateTimes } from '../../utils';
+import { formatDate, formatCommentCreateTimes, LIKE_TYPE_MAP } from '../../utils';
 import { ElMessage } from 'element-plus'
+import { LikeAlbumStatus, LikeReq, ScoreAlbumReq } from '../../model/fan';
 
 
 const router = useRouter();
@@ -40,8 +42,26 @@ const loadData = async () => {
   }
 }
 
+const likeStatus = ref({} as LikeAlbumStatus)
+const loadLikeStatus = async () => {
+  const albumId = route.query?.id;
+  if (typeof albumId === "string") {
+    const id = parseInt(albumId, 10);
+    if (!isNaN(id)) {
+      currAlbumId = id;
+      const res = await getLikeAlbumStatus(id);
+      likeStatus.value = res;
+    } else {
+      error("非法信息！");
+    }
+  } else {
+    error("非法信息！");
+  }
+}
+
 onMounted(async () => {
-  loadData();
+  await loadData();
+  await loadLikeStatus();
 })
 
 const albumInfo = ref({} as AlbumDetailsVO)
@@ -87,13 +107,40 @@ const addNewComment = async () => {
 const score = ref(5);
 const dialogFormVisible = ref(false)
 
-const like = async () => {
+const doLike = async () => {
+  const req = {} as LikeReq;
+  req.likeId = currAlbumId;
+  req.type = LIKE_TYPE_MAP.LIKE_ALBUM;
+  const res = await like(req);
+  if (res) {
+    success("喜欢成功！")
+    await loadLikeStatus();
+  }
+}
 
+const doNotLike = async () => {
+  const req = {} as LikeReq;
+  req.likeId = currAlbumId;
+  req.type = LIKE_TYPE_MAP.LIKE_ALBUM;
+  const res = await unlike(req);
+  if (res) {
+    success("撤销喜欢成功！")
+    await loadLikeStatus();
+  }
 }
 const doScore = async () => {
   dialogFormVisible.value = false;
-  console.log(score.value);
-  // todo 先喜欢，之后再打分
+  const req = {} as ScoreAlbumReq;
+  req.score = score.value;
+  req.albumId = currAlbumId;
+  const res = await scoreAlbum(req);
+  if (res) {
+    success("打分成功")
+  }
+}
+const doCancel = () => {
+  dialogFormVisible.value = false;
+  score.value = 5;
 }
 </script>
 
@@ -104,8 +151,10 @@ const doScore = async () => {
     </template>
     <template #extra>
       <div class="flex items-center">
-        <el-button type="success" size="large" class="ml-2" v-if="true" @click="like">喜欢</el-button>
-        <el-button type="primary" size="large" class="ml-2" v-else @click="dialogFormVisible = true">为它打分</el-button>
+        <el-button type="primary" size="large" class="ml-2" v-if="likeStatus.isLiked && !likeStatus.isScored"
+          @click="dialogFormVisible = true">为它打分</el-button>
+        <el-button type="warning" size="large" class="ml-2" v-if="likeStatus.isLiked" @click="doNotLike">撤销喜欢</el-button>
+        <el-button type="success" size="large" class="ml-2" v-else @click="doLike">喜欢</el-button>
       </div>
     </template>
   </el-page-header>
@@ -113,12 +162,12 @@ const doScore = async () => {
   <el-dialog v-model="dialogFormVisible" title="给你喜欢的专辑打分吧">
     <el-form>
       <el-form-item label="分值" label-width="150px">
-        <el-input-number v-model="score" size="large" :precision="1" :step="0.1" :max="10" />
+        <el-input-number v-model="score" size="large" :precision="1" :step="0.5" :max="10" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button @click="doCancel">取消</el-button>
         <el-button type="primary" @click="doScore">
           确认
         </el-button>

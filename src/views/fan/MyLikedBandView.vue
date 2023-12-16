@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { BandBriefInfo } from "../../model/band/index";
-import { listBandBriefInfo } from "../../service/band/index";
+import { listMyLikedBand } from "../../service/fan/index";
 import { LIKE_TYPE_MAP, formatDate } from "../../utils/index";
 import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
-import { like, unlike } from "../../service/fan";
+import { unlike } from "../../service/fan";
 import { success } from "../../service/common";
 
 const router = useRouter();
@@ -17,17 +17,6 @@ const doGetBandDetail = (_: any, row: any) => {
     }
   });
 };
-
-const doLike = async (row: any) => {
-  const req = {} as LikeReq;
-  req.likeId = row.albumId;
-  req.type = LIKE_TYPE_MAP.LIKE_BAND;
-  const res = await like(req);
-  if (res) {
-    success("喜欢成功！")
-    await loadData();
-  }
-}
 
 const doNotLike = async (row: any) => {
   const req = {} as LikeReq;
@@ -43,7 +32,7 @@ const doNotLike = async (row: any) => {
 let tableData = ref<BandBriefInfo[]>([]);
 
 const loadData = async () => {
-  const res = await listBandBriefInfo();
+  const res = await listMyLikedBand();
   tableData.value = res.map((info: BandBriefInfo) => {
     return { ...info, foundTime: formatDate(info.foundTime) };
   });
@@ -59,22 +48,13 @@ const goBack = () => {
   router.back();
 }
 
-const doAddBand = () => {
-  router.push({
-    path: "/band/add",
-  })
-}
+
 </script>
 
 <template>
   <el-page-header @back="goBack">
     <template #content>
-      <span class="text-large font-600 mr-3"> 乐队信息 </span>
-    </template>
-    <template #extra>
-      <div class="flex items-center">
-        <el-button type="primary" class="ml-2" @click="doAddBand">创建乐队</el-button>
-      </div>
+      <span class="text-large font-600 mr-3"> 我喜欢的乐队信息 </span>
     </template>
   </el-page-header>
 
@@ -87,7 +67,6 @@ const doAddBand = () => {
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
         <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
-        <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
         <el-button link type="primary" @click="doGetBandDetail(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>

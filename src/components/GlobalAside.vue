@@ -87,9 +87,9 @@ watch(
             </el-icon>
             <span>操作</span>
           </template>
-          <el-menu-item index="/like/songs">喜欢的音乐</el-menu-item>
-          <el-menu-item index="/like/album">喜欢的专辑</el-menu-item>
           <el-menu-item index="/like/band">喜欢的乐队</el-menu-item>
+          <el-menu-item index="/like/album">喜欢的专辑</el-menu-item>
+          <el-menu-item index="/like/song">喜欢的音乐</el-menu-item>
           <el-menu-item index="/concert/join">参加的演唱会</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="/band">

@@ -34,6 +34,11 @@ export function formatDateTime(time: string) {
 }
 
 export const GENDER_MAP = ["女", "男"];
+export const LIKE_TYPE_MAP = {
+  LIKE_BAND: 0,
+  LIKE_ALBUM: 1,
+  LIKE_SONG: 2,
+};
 
 export function formatCommentCreateTimes(commentVO: CommentVO): void {
   commentVO.createTime = formatDateTime(commentVO.createTime);

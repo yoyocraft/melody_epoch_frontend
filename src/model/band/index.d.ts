@@ -9,6 +9,7 @@ export interface BandBriefInfo {
   foundTime: string;
   leaderName: string;
   memberNum: number;
+  isLiked: boolean;
 }
 
 export interface BandInfo {
@@ -18,6 +19,7 @@ export interface BandInfo {
   leaderName: string;
   memberNum: number;
   isRelease: number;
+  isLiked: boolean;
   members: Array<Member>;
   songs: Array<Song>;
   albums: Array<Album>;

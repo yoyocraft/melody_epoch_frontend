@@ -57,7 +57,7 @@ const goBack = () => {
     <el-table-column prop="maxNum" label="上限人数" width="150" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
-        <el-button link type="primary" size="small" @click="doGetBandDetail(scope.$index, scope.row)">详情</el-button>
+        <el-button link type="primary" @click="doGetBandDetail(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>
     <template #empty>
