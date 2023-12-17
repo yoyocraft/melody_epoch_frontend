@@ -5,12 +5,13 @@ import { listBandInfoVO } from "../../service/band/index";
 import { LIKE_TYPE_MAP, formatDate } from "../../utils/index";
 import { ref } from "vue";
 import { BandInfo } from "../../model/band/index";
-import { Member } from "../../model/member/index";
+import { JoinBandReq, Member } from "../../model/member/index";
 import { Album } from "../../model/album/index";
 import { Concert } from "../../model/concert/index";
 import { error, success } from "../../service/common";
 import { LikeReq } from "../../model/fan";
 import { like, unlike } from "../../service/fan";
+import { joinBand, leaveBand } from "../../service/member";
 
 const bandInfo = ref({} as BandInfo);
 
@@ -30,6 +31,7 @@ const loadData = async () => {
       res.members?.forEach((member: Member) => {
         member.joinTime = formatDate(member.joinTime);
         member.leaveTime = formatDate(member.leaveTime);
+        member.part = member.part ?? " - ";
       });
       res.albums?.forEach((album: Album) => {
         album.releaseTime = formatDate(album.releaseTime);
@@ -72,10 +74,31 @@ const doNotLike = async () => {
   }
 }
 
+const doJoinBand = async () => {
+  const req = {} as JoinBandReq;
+  req.bandId = currBandId;
+  const res = await joinBand(req);
+  if (res) {
+    success("加入成功")
+    await loadData();
+  }
+}
+
+const doLeaveBand = async () => {
+  const req = {} as JoinBandReq;
+  req.bandId = currBandId;
+  const res = await leaveBand(req);
+  if (res) {
+    success("退出成功")
+    await loadData();
+  }
+}
+
 
 const goBack = () => {
   router.back();
 }
+
 </script>
 
 <template>
@@ -85,8 +108,15 @@ const goBack = () => {
     </template>
     <template #extra>
       <div class="flex items-center">
-        <el-button type="warning" size="large" class="ml-2" v-if="bandInfo.isLiked" @click="doNotLike">撤销喜欢</el-button>
-        <el-button type="success" size="large" class="ml-2" v-else @click="doLike">加入喜欢</el-button>
+        <template v-if="bandInfo.canLike">
+          <el-button type="warning" size="large" class="ml-2" v-if="bandInfo.isLiked" @click="doNotLike">撤销喜欢</el-button>
+          <el-button type="success" size="large" class="ml-2" v-else @click="doLike">加入喜欢</el-button>
+        </template>
+        <template v-if="bandInfo.canJoin">
+          <el-button type="warning" size="large" class="ml-2" v-if="bandInfo.isJoined"
+            @click="doLeaveBand">退出乐队</el-button>
+          <el-button type="success" size="large" class="ml-2" v-else @click="doJoinBand">加入乐队</el-button>
+        </template>
       </div>
     </template>
   </el-page-header>

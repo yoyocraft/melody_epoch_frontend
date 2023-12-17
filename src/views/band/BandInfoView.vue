@@ -86,8 +86,10 @@ const doAddBand = () => {
     <el-table-column prop="memberNum" label="人数" width="150" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
-        <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
-        <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
+        <template v-if="scope.canLike">
+          <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
+          <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
+        </template>
         <el-button link type="primary" @click="doGetBandDetail(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>

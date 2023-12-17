@@ -6,11 +6,11 @@ import { formatDateTime } from "../../utils/index";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const doGetBandDetail = (_: any, row: any) => {
+const doGetDetails = (_: any, row: any) => {
   router.push({
     path: "/concert/info",
     query: {
-      id: row.bandId
+      id: row.concertId
     }
   });
 };
@@ -22,7 +22,6 @@ const tableData = ref<ConcertBriefInfo[]>([]);
  */
 onMounted(async () => {
   const res = await listConcertBriefInfo();
-  console.log("@@ ", res);
   tableData.value = res.map((info: ConcertBriefInfo) => {
     return {
       ...info,
@@ -44,9 +43,6 @@ const goBack = () => {
       <span class="text-large font-600 mr-3"> 演唱会信息 </span>
     </template>
   </el-page-header>
-  <!-- <el-divider style="margin-top: 36px; margin-bottom: 36px">
-    <span style="font-size: 30px; color: rgb(16, 141, 219)">所有乐队信息</span>
-  </el-divider> -->
   <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
     <el-table-column fixed prop="concertId" label="演唱会序号" width="150" />
     <el-table-column prop="name" label="演唱会名称" width="150" />
@@ -57,7 +53,7 @@ const goBack = () => {
     <el-table-column prop="maxNum" label="上限人数" width="150" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
-        <el-button link type="primary" @click="doGetBandDetail(scope.$index, scope.row)">详情</el-button>
+        <el-button link type="primary" @click="doGetDetails(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>
     <template #empty>

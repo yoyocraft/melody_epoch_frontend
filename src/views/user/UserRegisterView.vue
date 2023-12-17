@@ -133,6 +133,7 @@ const url = "/src/assets/logo.png";
               v-model="accRegPrams.checkedPassword"
               placeholder="请再次输入密码"
               type="password"
+              show-password
             ></el-input>
           </el-form-item>
           <el-form-item>
@@ -182,6 +183,7 @@ const url = "/src/assets/logo.png";
               v-model="emailRegParams.checkedPassword"
               placeholder="请再次输入密码"
               type="password"
+              show-password
             ></el-input>
           </el-form-item>
           <el-form-item>

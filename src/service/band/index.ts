@@ -9,7 +9,7 @@ export const listBandBriefInfo = async () => {
 };
 
 export const listBandInfoVO = async (bandId: number) => {
-  const res = await http.get("/band/list/all", {
+  const res = await http.get("/band/list/info", {
     params: {
       bandId,
     },
@@ -20,7 +20,7 @@ export const listBandInfoVO = async (bandId: number) => {
 };
 
 export const listCurrBandInfoVO = async () => {
-  const res = await http.get("/band/all");
+  const res = await http.get("/band/info");
   if (res.data) {
     return res.data;
   }

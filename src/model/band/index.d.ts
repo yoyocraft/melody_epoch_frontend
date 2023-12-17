@@ -19,7 +19,10 @@ export interface BandInfo {
   leaderName: string;
   memberNum: number;
   isRelease: number;
+  canLike: boolean;
   isLiked: boolean;
+  canJoin: boolean;
+  isJoined: boolean;
   members: Array<Member>;
   songs: Array<Song>;
   albums: Array<Album>;
@@ -31,3 +34,5 @@ export interface BandAddReq {
   leaderId: number;
   profile: string;
 }
+
+

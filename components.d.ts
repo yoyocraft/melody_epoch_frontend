@@ -52,6 +52,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTransfer: typeof import('element-plus/es')['ElTransfer']
     GlobalAside: typeof import('./src/components/GlobalAside.vue')['default']
     GlobalHeader: typeof import('./src/components/GlobalHeader.vue')['default']

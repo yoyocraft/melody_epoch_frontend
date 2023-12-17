@@ -19,6 +19,7 @@ import AlbumSongViewVue from "../views/album/AlbumSongView.vue";
 import AlbumDetailsInfoViewVue from "../views/album/AlbumDetailsInfoView.vue";
 import MyLikedBandViewVue from "../views/fan/MyLikedBandView.vue";
 import MyLikedSongViewVue from "../views/fan/MyLikedSongView.vue";
+import ConcertDetailsViewVue from "../views/concert/ConcertDetailsView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: HelloWorldVue },
@@ -112,6 +113,11 @@ const routes = [
     path: "/concert/add",
     name: "添加演唱会",
     component: ConcertAddViewVue,
+  },
+  {
+    path: "/concert/info",
+    name: "演唱会详情信息",
+    component: ConcertDetailsViewVue,
   },
   {
     path: "/like/band",

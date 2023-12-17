@@ -24,3 +24,7 @@ export interface EditPartReq {
   memberId: number;
   part: string;
 }
+
+export interface JoinBandReq {
+  bandId: number;
+}
