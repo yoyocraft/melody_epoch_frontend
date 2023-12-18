@@ -28,7 +28,6 @@ http.interceptors.request.use(
 // Add a response interceptor
 http.interceptors.response.use(
   function (response) {
-    console.log(response.data);
     // 未登录则跳转到登录页
     if (response?.data?.code === 40500) {
       window.location.hash = "/login";

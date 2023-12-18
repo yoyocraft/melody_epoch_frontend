@@ -2,6 +2,8 @@ import http from "../../plugins/http";
 import {
   AccLoginParams,
   AccRegisterParams,
+  BindEmailReq,
+  EditUserReq,
   EmailLoginParams,
   EmailRegisterParams,
 } from "../../model/user";
@@ -74,8 +76,8 @@ export const emailRegister = async (emailRegParams: EmailRegisterParams) => {
 /**
  * 获取当前角色类型
  */
-export const getCurrType = async () => {
-  const res = await http.get("/user/type");
+export const getAuthType = async () => {
+  const res = await http.get("/user/auth");
   if (res.data) {
     return res.data;
   }
@@ -86,6 +88,40 @@ export const getCurrType = async () => {
  */
 export const userLogout = async () => {
   const res = await http.post("/user/logout");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+/**
+ * 获取当前登录角色信息
+ */
+export const getCurrUser = async () => {
+  const res = await http.get("/user/curr");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+/**
+ * 修改当前登录角色信息
+ */
+export const editUserInfo = async (params: EditUserReq) => {
+  const res = await http.put("/user/edit", {
+    ...params,
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+/**
+ * 绑定邮箱信息
+ */
+export const bindEmail = async (params: BindEmailReq) => {
+  const res = await http.post("/user/bind/email", {
+    ...params,
+  });
   if (res.data) {
     return res.data;
   }

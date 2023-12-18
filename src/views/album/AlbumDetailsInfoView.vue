@@ -150,7 +150,7 @@ const doCancel = () => {
       <span class="text-large font-600 mr-3"> 专辑详细信息 </span>
     </template>
     <template #extra>
-      <div class="flex items-center">
+      <div class="flex items-center" v-if="likeStatus.canLike">
         <el-button type="primary" size="large" class="ml-2" v-if="likeStatus.isLiked && !likeStatus.isScored"
           @click="dialogFormVisible = true">为它打分</el-button>
         <el-button type="warning" size="large" class="ml-2" v-if="likeStatus.isLiked" @click="doNotLike">撤销喜欢</el-button>
@@ -162,7 +162,7 @@ const doCancel = () => {
   <el-dialog v-model="dialogFormVisible" title="给你喜欢的专辑打分吧">
     <el-form>
       <el-form-item label="分值" label-width="150px">
-        <el-input-number v-model="score" size="large" :precision="1" :step="0.5" :max="10" />
+        <el-rate v-model="score" allow-half size="large" clearable />
       </el-form-item>
     </el-form>
     <template #footer>

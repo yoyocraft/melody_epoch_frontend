@@ -5,6 +5,7 @@ export interface Song {
   author: string;
   albumId: number;
   albumName: string;
+  isRelease: number;
 }
 
 export interface SongAddReq {
@@ -23,6 +24,7 @@ export interface SongInfo {
   bandName: string;
   author: string;
   albumName: string;
+  canLike: boolean;
   isLiked: boolean;
 }
 

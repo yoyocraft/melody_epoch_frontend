@@ -20,6 +20,9 @@ import AlbumDetailsInfoViewVue from "../views/album/AlbumDetailsInfoView.vue";
 import MyLikedBandViewVue from "../views/fan/MyLikedBandView.vue";
 import MyLikedSongViewVue from "../views/fan/MyLikedSongView.vue";
 import ConcertDetailsViewVue from "../views/concert/ConcertDetailsView.vue";
+import UserInfoViewVue from "../views/user/UserInfoView.vue";
+import CurrBandAlbumsViewVue from "../views/album/CurrBandAlbumsView.vue";
+import CurrBandSongViewVue from "../views/song/CurrBandSongView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: HelloWorldVue },
@@ -32,6 +35,11 @@ const routes = [
     path: "/register",
     name: "注册",
     component: UserRrgisterViewVue,
+  },
+  {
+    path: "/user/info",
+    name: "用户信息页",
+    component: UserInfoViewVue,
   },
   {
     path: "/member",
@@ -80,6 +88,11 @@ const routes = [
     component: AlbumAddViewVue,
   },
   {
+    path: "/album/curr",
+    name: "当前乐队的专辑",
+    component: CurrBandAlbumsViewVue,
+  },
+  {
     path: "/album/song",
     name: "歌曲录入专辑",
     component: AlbumSongViewVue,
@@ -98,6 +111,11 @@ const routes = [
     path: "/song/add",
     name: "添加歌曲",
     component: SongAddViewVue,
+  },
+  {
+    path: "/song/curr",
+    name: "当前乐队歌曲信息",
+    component: CurrBandSongViewVue,
   },
   {
     path: "/song/edit",

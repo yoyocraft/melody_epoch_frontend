@@ -17,6 +17,7 @@ export interface MemberInfo {
   part: string;
   joinTime: string;
   leaveTime: string;
+  bandId: number;
   bandName: string;
 }
 
@@ -27,4 +28,11 @@ export interface EditPartReq {
 
 export interface JoinBandReq {
   bandId: number;
+}
+
+export interface EditMemberReq {
+  memberId: number;
+  name: string;
+  gender: number;
+  age: number;
 }

@@ -24,6 +24,14 @@ export const listSongInfo = async () => {
   }
 };
 
+export const currBandSongs = async () => {
+  const res = await http.get("/song/curr");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+
 export const listSongToAlbum = async (albumId: number) => {
   const res = await http.get("/song/album", {
     params: {

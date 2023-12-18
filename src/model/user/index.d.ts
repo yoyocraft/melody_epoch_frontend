@@ -1,3 +1,6 @@
+import { EditFanReq, FanInfo } from "../fan";
+import { EditMemberReq, MemberInfo } from "../member";
+
 export interface EmailRegisterParams {
   email: string;
   password: string;
@@ -25,9 +28,30 @@ export interface EmailLoginParams {
   loginType: number;
 }
 
-export interface CurrUserType {
+export interface UserAuthType {
   isFan: boolean;
-  isMember: boolean;
   isLeader: boolean;
   isAdmin: boolean;
+}
+
+export interface UserInfo {
+  userId: number;
+  nickname: string;
+  email: string;
+  type: number;
+  memberInfoVO: MemberInfo;
+  fanInfoVO: FanInfo;
+}
+
+export interface BindEmailReq {
+  email: string;
+  code: string;
+}
+
+export interface EditUserReq {
+  userId: number;
+  nickname: string;
+  type: number;
+  editMemberReq: EditMemberReq;
+  editFanReq: EditFanReq;
 }

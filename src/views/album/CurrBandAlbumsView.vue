@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { AlbumBriefInfo } from "../../model/album/index";
-import { LikeReq } from "../../model/fan/index";
-import { listAlbumBriefInfo } from "../../service/album/index";
-import { LIKE_TYPE_MAP } from "../../utils/index"
-import { like, unlike } from "../../service/fan/index";
+import { Album } from "../../model/album/index";
+import { currBandAllAlbums } from "../../service/album/index";
 import { useRouter } from "vue-router";
-import { success } from "../../service/common";
+import { Promotion } from "@element-plus/icons-vue";
+import { formatDateTime } from "../../utils";
 
 const router = useRouter();
 const doGetAlbumDetail = (_: any, row: any) => {
@@ -18,36 +16,22 @@ const doGetAlbumDetail = (_: any, row: any) => {
   });
 };
 
-const doLike = async (row: any) => {
-  const req = {} as LikeReq;
-  req.likeId = row.albumId;
-  req.type = LIKE_TYPE_MAP.LIKE_ALBUM;
-  const res = await like(req);
-  if (res) {
-    success("喜欢成功！")
-    await loadData();
-  }
+const doReleaseAlbum = async (_: any, row: any) => {
+  console.log(row.albumId);
+  // TODO 发布专辑信息
 }
 
-const doNotLike = async (row: any) => {
-  const req = {} as LikeReq;
-  req.likeId = row.albumId;
-  req.type = LIKE_TYPE_MAP.LIKE_ALBUM;
-  const res = await unlike(req);
-  if (res) {
-    success("撤销喜欢成功！")
-    await loadData();
-  }
-}
-
-const tableData = ref<AlbumBriefInfo[]>([]);
+const tableData = ref<Album[]>([]);
 
 const loadData = async () => {
-  const res = await listAlbumBriefInfo();
-  tableData.value = res.map((info: AlbumBriefInfo) => {
+  const res = await currBandAllAlbums();
+  console.log("@@@ ", res);
+
+  tableData.value = res.map((info: Album) => {
     return {
       ...info,
-      avgScore: info.avgScore ?? 0.0
+      avgScore: info.avgScore ?? 0.0,
+      releaseTime: info.releaseTime ? formatDateTime(info.releaseTime) : " - ",
     };
   });
 }
@@ -75,14 +59,15 @@ const goBack = () => {
     <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
     <el-table-column prop="name" label="专辑名称" width="150" />
     <el-table-column prop="company" label="发行公司" width="150" />
+    <el-table-column prop="releaseTime" label="发行时间" width="150" />
     <el-table-column prop="bandName" label="乐队名称" width="150" />
     <el-table-column prop="avgScore" label="专辑均分" width="150" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope">
-        <template v-if="scope.row.canLike">
-          <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
-            <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
-        </template>
+
+        <el-button disabled :icon="Promotion" v-if="scope.row.isRelease === 1" link type="info">已发布</el-button>
+        <el-button :icon="Promotion" v-else link type="success"
+          @click="doReleaseAlbum(scope.$index, scope.row)">发布</el-button>
         <el-button link type="primary" @click="doGetAlbumDetail(scope.$index, scope.row)">详情</el-button>
       </template>
     </el-table-column>

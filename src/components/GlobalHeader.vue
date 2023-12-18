@@ -6,7 +6,11 @@ const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
 
-const doUserInfo = () => { };
+const doUserInfo = () => {
+  router.push({
+    path: "/user/info"
+  })
+};
 const router = useRouter();
 
 const logout = async () => {

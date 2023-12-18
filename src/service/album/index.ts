@@ -18,7 +18,7 @@ export const listAlbumBriefInfo = async () => {
 };
 
 export const currBandAllAlbums = async () => {
-  const res = await http.get("/album/curr/all");
+  const res = await http.get("/album/curr");
   if (res.data) {
     return res.data;
   }

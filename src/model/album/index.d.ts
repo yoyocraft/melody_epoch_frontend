@@ -10,6 +10,7 @@ export interface Album {
   songIdsStr: string;
   profile: string;
   avgScore: number;
+  isRelease: number;
 }
 
 export interface AlbumAddReq {
@@ -25,6 +26,7 @@ export interface AlbumBriefInfo {
   company: string;
   bandName: string;
   avgScore: number;
+  canLike: boolean;
   isLiked: boolean;
 }
 
