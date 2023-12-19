@@ -8,7 +8,7 @@ import ConcertInfoViewVue from "../views/concert/ConcertInfoView.vue";
 import BandInfoViewVue from "../views/band/BandInfoView.vue";
 import BandAddViewVue from "../views/band/BandAddView.vue";
 import BandEditViewVue from "../views/band/BandEditView.vue";
-import BandReleaseViewVue from "../views/band/BandReleaseView.vue";
+import CurrBandInfoViewVue from "../views/band/CurrBandInfo.vue";
 import BandDetailsViewVue from "../views/band/BandDetailsView.vue";
 import SongAddViewVue from "../views/song/SongAddView.vue";
 import AlbumAddViewVue from "../views/album/AlbumAddView.vue";
@@ -23,6 +23,8 @@ import ConcertDetailsViewVue from "../views/concert/ConcertDetailsView.vue";
 import UserInfoViewVue from "../views/user/UserInfoView.vue";
 import CurrBandAlbumsViewVue from "../views/album/CurrBandAlbumsView.vue";
 import CurrBandSongViewVue from "../views/song/CurrBandSongView.vue";
+import ConcertEditViewVue from "../views/concert/ConcertEditView.vue";
+import CurrConcertViewVue from "../views/concert/CurrConcertView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: HelloWorldVue },
@@ -73,9 +75,9 @@ const routes = [
     component: BandPartEditViewVue,
   },
   {
-    path: "/band/release",
-    name: "发布乐队信息",
-    component: BandReleaseViewVue,
+    path: "/band/curr",
+    name: "我的乐队信息",
+    component: CurrBandInfoViewVue,
   },
   {
     path: "/album",
@@ -136,6 +138,16 @@ const routes = [
     path: "/concert/info",
     name: "演唱会详情信息",
     component: ConcertDetailsViewVue,
+  },
+  {
+    path: "/concert/curr",
+    name: "我的演唱会信息",
+    component: CurrConcertViewVue,
+  },
+  {
+    path: "/concert/edit",
+    name: "修改演唱会信息",
+    component: ConcertEditViewVue,
   },
   {
     path: "/like/band",

@@ -30,7 +30,7 @@ export const listCurrConcertInfoVO = async (concertId: number) => {
 
 export const joinConcert = async (params: JoinConcertReq) => {
   const res = await http.post("/concert/join", {
-    ...params
+    ...params,
   });
   if (res.data) {
     return res.data;
@@ -39,8 +39,15 @@ export const joinConcert = async (params: JoinConcertReq) => {
 
 export const leaveConcert = async (params: JoinConcertReq) => {
   const res = await http.post("/concert/leave", {
-    ...params
+    ...params,
   });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const getCurrConcertInfo = async () => {
+  const res = await http.get("/concert/curr", {});
   if (res.data) {
     return res.data;
   }

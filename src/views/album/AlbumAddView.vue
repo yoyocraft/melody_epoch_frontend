@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { AlbumAddReq } from "../../model/album/index"
+import { AddAlbumReq } from "../../model/album/index"
 import { addAlbum } from "../../service/album/index"
 import { success } from '../../service/common';
 import { useRouter } from 'vue-router';
 
-const albumAddReq = ref({} as AlbumAddReq)
+const albumAddReq = ref({} as AddAlbumReq)
 const router = useRouter();
 
 const onSubmit = async () => {
@@ -19,7 +19,7 @@ const onSubmit = async () => {
   })
 }
 const onReset = () => {
-  albumAddReq.value = {} as AlbumAddReq;
+  albumAddReq.value = {} as AddAlbumReq;
 }
 
 const goBack = () => {

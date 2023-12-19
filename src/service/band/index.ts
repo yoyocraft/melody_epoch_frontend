@@ -1,5 +1,5 @@
 import http from "../../plugins/http";
-import { BandAddReq } from "../../model/band";
+import { BandAddReq, EditBandReq } from "../../model/band";
 
 export const listBandBriefInfo = async () => {
   const res = await http.get("/band/list");
@@ -9,7 +9,7 @@ export const listBandBriefInfo = async () => {
 };
 
 export const listBandInfoVO = async (bandId: number) => {
-  const res = await http.get("/band/list/info", {
+  const res = await http.get("/band/list/all", {
     params: {
       bandId,
     },
@@ -51,6 +51,15 @@ export const unReleaseBandInfo = async () => {
 
 export const currBandReleaseStatus = async () => {
   const res = await http.get("/band/release/status");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const editBandInfo = async (params: EditBandReq) => {
+  const res = await http.put("/band/edit", {
+    ...params,
+  });
   if (res.data) {
     return res.data;
   }

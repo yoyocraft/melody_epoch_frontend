@@ -13,19 +13,21 @@ export interface Album {
   isRelease: number;
 }
 
-export interface AlbumAddReq {
+export interface AddAlbumReq {
   name: string;
   company: string;
   bandName: string;
   profile: string;
 }
 
-export interface AlbumBriefInfo {
+export interface AlbumInfo {
   albumId: number;
   name: string;
   company: string;
   bandName: string;
   avgScore: number;
+  isRelease: number;
+  profile: string;
   canLike: boolean;
   isLiked: boolean;
 }
@@ -46,4 +48,13 @@ export interface AlbumDetailsVO {
   avgScore: number;
   songInfoList: SongInfo[];
   commentVOList: CommentVO[];
+}
+
+export interface ReleaseAlbumReq {
+  albumId: number;
+}
+
+export interface EditAlbumReq {
+  albumId: number;
+  profile: string;
 }

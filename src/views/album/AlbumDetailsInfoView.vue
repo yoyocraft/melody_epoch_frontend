@@ -197,7 +197,8 @@ const doCancel = () => {
       <el-input disabled v-model="albumInfo.bandName" />
     </el-form-item>
     <el-form-item label="专辑简介">
-      <el-input disabled v-model="albumInfo.profile" />
+      <el-input v-model="albumInfo.profile" disabled maxlength="250" show-word-limit :autosize="{ minRows: 2, maxRows: 6 }"
+        type="textarea" />
     </el-form-item>
     <el-form-item label="专辑评分">
       <el-input disabled v-model="albumInfo.avgScore" />

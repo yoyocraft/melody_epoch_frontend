@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { listCurrBandInfoVO, releaseBandInfo, unReleaseBandInfo, currBandReleaseStatus } from "../../service/band/index";
+import { listCurrBandInfoVO, releaseBandInfo, unReleaseBandInfo, currBandReleaseStatus, editBandInfo } from "../../service/band/index";
 import { formatDate } from "../../utils/index";
 import { ref } from "vue";
-import { BandInfo } from "../../model/band/index";
+import { BandInfo, EditBandReq } from "../../model/band/index";
 import { Member } from "../../model/member/index";
 import { Album } from "../../model/album/index";
 import { Concert } from "../../model/concert/index";
@@ -12,9 +12,7 @@ import { Song } from "../../model/song";
 import { success } from "../../service/common";
 
 const bandInfo = ref({} as BandInfo);
-
 const router = useRouter();
-
 const releaseStatus = ref(false);
 
 const doRelease = async () => {
@@ -33,12 +31,15 @@ const doUnRelease = async () => {
   }
 }
 
+const editBandOpt = ref(false);
+
 const loadReleaseStatus = async () => {
   releaseStatus.value = await currBandReleaseStatus();
 }
-
+let currBandId: number = 0;
 const loadBandInfo = async () => {
   const res = await listCurrBandInfoVO();
+  currBandId = res.bandId;
   res.foundTime = formatDate(res.foundTime);
   res.members?.forEach((member: Member) => {
     member.joinTime = formatDate(member.joinTime);
@@ -66,15 +67,33 @@ onMounted(async () => {
 const goBack = () => {
   router.back();
 }
+
+const editBandReq = ref({} as EditBandReq);
+const onBandEditSubmit = async () => {
+  editBandReq.value.bandId = currBandId;
+  const res = await editBandInfo(editBandReq.value);
+  if (res) {
+    success("修改成功")
+    editBandOpt.value = false;
+    editBandReq.value = {} as EditBandReq;
+    await loadBandInfo();
+  }
+}
+
+const onBandEditCancel = async () => {
+  editBandOpt.value = false;
+  editBandReq.value = {} as EditBandReq;
+}
 </script>
 
 <template>
   <el-page-header @back="goBack">
     <template #content>
-      <span class="text-large font-600 mr-3"> 发布乐队信息 </span>
+      <span class="text-large font-600 mr-3"> 我的乐队信息 </span>
     </template>
     <template #extra>
       <div class="flex items-center">
+        <el-button size="large" type="primary" @click="editBandOpt = true" class="ml-2">修改乐队信息</el-button>
         <el-button v-if="releaseStatus" size="large" type="danger" @click="doUnRelease" class="ml-2">撤销发布</el-button>
         <el-button v-else type="primary" size="large" @click="doRelease" class="ml-2">发布</el-button>
       </div>
@@ -104,6 +123,10 @@ const goBack = () => {
     </el-form-item>
     <el-form-item label="人数">
       <el-input disabled v-model="bandInfo.memberNum" />
+    </el-form-item>
+    <el-form-item label="乐队简介">
+      <el-input v-model="bandInfo.profile" disabled maxlength="250" show-word-limit :autosize="{ minRows: 2, maxRows: 6 }"
+        type="textarea" />
     </el-form-item>
   </el-form>
 
@@ -185,6 +208,20 @@ const goBack = () => {
       </template>
     </el-table>
   </div>
+
+  <el-drawer v-model="editBandOpt" title="修改乐队信息" direction="rtl" size="80%">
+    <!-- 修改昵称等信息 -->
+    <el-form label-width="120px">
+      <el-form-item label="简介">
+        <el-input v-model="editBandReq.profile" maxlength="250" show-word-limit :autosize="{ minRows: 2, maxRows: 6 }"
+          type="textarea" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onBandEditSubmit">修改</el-button>
+        <el-button @click="onBandEditCancel">取消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-drawer>
 </template>
 
 <style scoped></style>

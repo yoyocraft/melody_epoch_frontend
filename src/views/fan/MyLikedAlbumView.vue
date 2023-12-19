@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { AlbumBriefInfo } from "../../model/album/index";
+import { AlbumInfo } from "../../model/album/index";
 import { LikeReq } from "../../model/fan/index";
 import { listMyLikedAlbum } from "../../service/fan/index";
 import { LIKE_TYPE_MAP } from "../../utils/index"
@@ -29,11 +29,11 @@ const doNotLike = async (row: any) => {
   }
 }
 
-const tableData = ref<AlbumBriefInfo[]>([]);
+const tableData = ref<AlbumInfo[]>([]);
 
 const loadData = async () => {
   const res = await listMyLikedAlbum();
-  tableData.value = res.map((info: AlbumBriefInfo) => {
+  tableData.value = res.map((info: AlbumInfo) => {
     return {
       ...info,
       avgScore: info.avgScore ?? 0.0

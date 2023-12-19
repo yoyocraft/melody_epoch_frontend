@@ -61,17 +61,11 @@ watch(
               </el-icon>
               <span>乐队</span>
             </template>
-            <el-menu-item index="/band/edit">
-              <el-icon>
-                <Edit />
-              </el-icon>
-              <span>修改乐队信息</span>
-            </el-menu-item>
-            <el-menu-item index="/band/release">
+            <el-menu-item index="/band/curr">
               <el-icon>
                 <Promotion />
               </el-icon>
-              <span>发布乐队信息</span>
+              <span>我的乐队信息</span>
             </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="op-member">
@@ -107,12 +101,6 @@ watch(
               </el-icon>
               <span>我的歌曲信息</span>
             </el-menu-item>
-            <el-menu-item index="/song/edit">
-              <el-icon>
-                <Edit />
-              </el-icon>
-              <span>修改歌曲信息</span>
-            </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="op-album">
             <template #title>
@@ -126,12 +114,6 @@ watch(
                 <CirclePlus />
               </el-icon>
               <span>创建专辑信息</span>
-            </el-menu-item>
-            <el-menu-item index="/album/edit">
-              <el-icon>
-                <Edit />
-              </el-icon>
-              <span>修改专辑信息</span>
             </el-menu-item>
             <el-menu-item index="/album/curr">
               <el-icon>
@@ -158,6 +140,12 @@ watch(
                 <CirclePlus />
               </el-icon>
               <span>创建演唱会信息</span>
+            </el-menu-item>
+            <el-menu-item index="/concert/curr">
+              <el-icon>
+                <Ticket />
+              </el-icon>
+              <span>我的演唱会信息</span>
             </el-menu-item>
             <el-menu-item index="/concert/edit">
               <el-icon>

@@ -29,6 +29,7 @@ export interface ConcertBriefInfo {
   place: string;
   bandName: string;
   maxNum: number;
+  canEdit: boolean;
 }
 export interface ConcertInfo {
   concertId: number;
@@ -41,9 +42,18 @@ export interface ConcertInfo {
   joinedNum: number;
   songInfoVOList: SongInfo[];
   isJoined: boolean;
-  isAllowedJoin: boolean;
+  canJoin: boolean;
 }
 
 export interface JoinConcertReq {
   concertId: number;
+}
+export interface EditConcertReq {
+  concertId: number;
+  name: string;
+  startTime: string;
+  endTime: string;
+  place: string;
+  maxNum: number;
+  songIdList: number[];
 }

@@ -12,6 +12,7 @@ import { error, success } from "../../service/common";
 import { LikeReq } from "../../model/fan";
 import { like, unlike } from "../../service/fan";
 import { joinBand, leaveBand } from "../../service/member";
+import SongTable from "../../components/SongTable.vue";
 
 const bandInfo = ref({} as BandInfo);
 
@@ -174,15 +175,7 @@ const goBack = () => {
   </el-divider>
 
   <div class="table-center">
-    <el-table :data="bandInfo.songs" style="width: 100%" max-height="250">
-      <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
-      <el-table-column prop="name" label="歌曲名" width="120" />
-      <el-table-column prop="author" label="作者" width="120" />
-      <el-table-column prop="albumName" label="所属专辑" width="120" />
-      <template #empty>
-        <el-empty :image-size="60" />
-      </template>
-    </el-table>
+    <song-table :table-data="bandInfo.songs" :has-opt="false" />
   </div>
 
   <el-divider style="margin-top: 36px">

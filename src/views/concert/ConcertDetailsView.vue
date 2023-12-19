@@ -29,6 +29,7 @@ const loadData = async () => {
       res.songInfoVOList.forEach((songInfo: SongInfo) => {
         songInfo.albumName = songInfo.albumName ?? " - ";
       });
+      res.joinedNum = res.joinedNum ?? 0;
       concertInfo.value = res;
     } else {
       error("非法信息！");
@@ -97,7 +98,7 @@ const goBack = () => {
       <div class="flex items-center">
         <el-button type="warning" size="large" class="ml-2" v-if="concertInfo.isJoined"
           @click="doNotJoin">取消参加</el-button>
-        <el-button type="success" size="large" class="ml-2" v-else-if="!concertInfo.isJoined && concertInfo.isAllowedJoin"
+        <el-button type="success" size="large" class="ml-2" v-else-if="!concertInfo.isJoined && concertInfo.canJoin"
           @click="doJoin">参加</el-button>
         <el-tooltip v-else class="box-item" effect="dark" content="不允许加入（已过开始时间或者人数已满）" placement="left-start">
           <el-button type="success" size="large" class="ml-2" disabled>参加</el-button>
@@ -156,8 +157,10 @@ const goBack = () => {
       <el-table-column prop="bandName" label="乐队名称" width="120" />
       <el-table-column fixed="right" label="操作" width="150">
         <template #default="scope">
-          <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
-          <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
+          <template v-if="scope.row.canLike">
+            <el-button link type="warning" v-if="scope.row.isLiked" @click="doNotLike(scope.row)">撤销喜欢</el-button>
+            <el-button link type="success" v-else @click="doLike(scope.row)">加入喜欢</el-button>
+          </template>
         </template>
       </el-table-column>
       <template #empty>
