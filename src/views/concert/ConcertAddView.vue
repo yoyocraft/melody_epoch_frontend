@@ -66,6 +66,10 @@ const filterMethod = (query: string, item: any) => {
 const goBack = () => {
   router.back();
 }
+
+const disabledDate = (time: Date) => {
+  return time.getTime() < Date.now()
+}
 </script>
 
 <template>
@@ -83,7 +87,7 @@ const goBack = () => {
     <el-form-item label="时间">
       <div class="block">
         <el-date-picker v-model="timeInterval" type="datetimerange" range-separator="To" start-placeholder="开始时间"
-          end-placeholder="结束时间" />
+          end-placeholder="结束时间" :disabled-date="disabledDate" />
       </div>
     </el-form-item>
     <el-form-item label="歌曲">

@@ -147,12 +147,6 @@ watch(
               </el-icon>
               <span>我的演唱会信息</span>
             </el-menu-item>
-            <el-menu-item index="/concert/edit">
-              <el-icon>
-                <Edit />
-              </el-icon>
-              <span>修改演唱会信息</span>
-            </el-menu-item>
           </el-sub-menu>
         </el-sub-menu>
         <el-sub-menu index="ops-fan" v-if="currUserType.isFan">

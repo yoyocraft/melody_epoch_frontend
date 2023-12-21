@@ -23,7 +23,6 @@ import ConcertDetailsViewVue from "../views/concert/ConcertDetailsView.vue";
 import UserInfoViewVue from "../views/user/UserInfoView.vue";
 import CurrBandAlbumsViewVue from "../views/album/CurrBandAlbumsView.vue";
 import CurrBandSongViewVue from "../views/song/CurrBandSongView.vue";
-import ConcertEditViewVue from "../views/concert/ConcertEditView.vue";
 import CurrConcertViewVue from "../views/concert/CurrConcertView.vue";
 
 const routes = [
@@ -143,11 +142,6 @@ const routes = [
     path: "/concert/curr",
     name: "我的演唱会信息",
     component: CurrConcertViewVue,
-  },
-  {
-    path: "/concert/edit",
-    name: "修改演唱会信息",
-    component: ConcertEditViewVue,
   },
   {
     path: "/like/band",
