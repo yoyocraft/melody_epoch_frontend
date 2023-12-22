@@ -58,3 +58,10 @@ export interface EditAlbumReq {
   albumId: number;
   profile: string;
 }
+
+export interface TopAlbumVO {
+  albumId: number;
+  name: string;
+  bandName: string;
+  avgScore: string;
+}

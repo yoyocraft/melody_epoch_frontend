@@ -1,4 +1,4 @@
-import HelloWorldVue from "../components/HelloWorld.vue";
+import IndexViewVue from "../views/IndexView.vue";
 import UserLoginViewVue from "../views/user/UserLoginView.vue";
 import UserRrgisterViewVue from "../views/user/UserRegisterView.vue";
 import MemberInfoViewVue from "../views/member/MemberInfoView.vue";
@@ -26,7 +26,7 @@ import CurrBandSongViewVue from "../views/song/CurrBandSongView.vue";
 import CurrConcertViewVue from "../views/concert/CurrConcertView.vue";
 
 const routes = [
-  { path: "/", name: "主页", component: HelloWorldVue },
+  { path: "/", name: "主页", component: IndexViewVue },
   {
     path: "/login",
     name: "登录",

@@ -66,3 +66,10 @@ export const editAlbumInfo = async (params: EditAlbumReq) => {
     return res.data;
   }
 };
+
+export const getTopAlbums = async () => {
+  const res = await http.get("/album/top");
+  if (res.data) {
+    return res.data;
+  }
+};
