@@ -1,5 +1,10 @@
 import http from "../../plugins/http";
-import { ConcertAddReq, EditConcertReq, JoinConcertReq, ReleaseConcertReq } from "../../model/concert/index";
+import {
+  ConcertAddReq,
+  EditConcertReq,
+  JoinConcertReq,
+  ReleaseConcertReq,
+} from "../../model/concert/index";
 
 export const addConcert = async (params: ConcertAddReq) => {
   const res = await http.post("/concert/add", {
@@ -12,6 +17,17 @@ export const addConcert = async (params: ConcertAddReq) => {
 
 export const listConcertBriefInfo = async () => {
   const res = await http.get("/concert/list");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const listConcertBriefInfoByPage = async (curr: number) => {
+  const res = await http.get("/concert/list/page", {
+    params: {
+      curr,
+    },
+  });
   if (res.data) {
     return res.data;
   }
@@ -52,21 +68,32 @@ export const getCurrConcertInfo = async () => {
     return res.data;
   }
 };
+
+export const getCurrConcertInfoByPage = async (curr: number, size: number) => {
+  const res = await http.get("/concert/curr/page", {
+    params: {
+      curr,
+      size
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
 export const getCurrConcertDetails = async (concertId: number) => {
   const res = await http.get("/concert/all", {
     params: {
-      concertId
-    }
+      concertId,
+    },
   });
   if (res.data) {
     return res.data;
   }
 };
 
-
 export const editConcertInfo = async (params: EditConcertReq) => {
   const res = await http.put("/concert/edit", {
-    ...params
+    ...params,
   });
   if (res.data) {
     return res.data;
@@ -75,7 +102,7 @@ export const editConcertInfo = async (params: EditConcertReq) => {
 
 export const releaseConcert = async (params: ReleaseConcertReq) => {
   const res = await http.post("/concert/release", {
-    ...params
+    ...params,
   });
   if (res.data) {
     return res.data;
@@ -84,7 +111,7 @@ export const releaseConcert = async (params: ReleaseConcertReq) => {
 
 export const unReleaseConcert = async (params: ReleaseConcertReq) => {
   const res = await http.post("/concert/unrelease", {
-    ...params
+    ...params,
   });
   if (res.data) {
     return res.data;

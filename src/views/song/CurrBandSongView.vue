@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { Song } from "../../model/song/index";
-import { currBandSongs } from "../../service/song/index";
+import { currBandSongsByPage } from "../../service/song/index";
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
 
@@ -9,21 +9,11 @@ const router = useRouter();
 
 const tableData = ref<Song[]>([]);
 
-const loadData = async () => {
-  const res = await currBandSongs();
-  tableData.value = res.map((info: Song) => {
-    return {
-      ...info,
-      albumName: info.albumName ?? " - "
-    };
-  });
-}
-
 /**
  * 挂载时处理一些数据
  */
 onMounted(async () => {
-  await loadData();
+  await loadDataByPage();
 });
 
 
@@ -33,6 +23,25 @@ const goBack = () => {
 const doReleaseSong = async (_: any, row: any) => {
   console.log(row.songId);
   // TODO 发布歌曲
+}
+
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadDataByPage();
+}
+
+const pageSize = 15;
+const loadDataByPage = async () => {
+  const res = await currBandSongsByPage(currPage, pageSize);
+  total.value = res.total
+  tableData.value = res.records.map((info: Song) => {
+    return {
+      ...info,
+      albumName: info.albumName ?? " - "
+    };
+  });
 }
 </script>
 
@@ -59,6 +68,14 @@ const doReleaseSong = async (_: any, row: any) => {
       <el-empty :image-size="100" />
     </template>
   </el-table>
+  <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="pageSize"
+    @current-change="onCurrChange" />
 </template>
 
-<style scoped></style>
+
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>

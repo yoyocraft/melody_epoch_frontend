@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ConcertBriefInfo, EditConcertReq, ReleaseConcertReq } from '../../model/concert';
-import { getCurrConcertInfo, getCurrConcertDetails, editConcertInfo, releaseConcert, unReleaseConcert } from '../../service/concert';
+import { getCurrConcertDetails, editConcertInfo, releaseConcert, unReleaseConcert, getCurrConcertInfoByPage } from '../../service/concert';
 import { listSongItems } from '../../service/song';
 import { formatDateTime } from '../../utils';
 import { TransferOption } from '../../model/common';
@@ -18,17 +18,22 @@ const goBack = () => {
   router.back();
 }
 
-const loadData = async () => {
-  const res = await getCurrConcertInfo();
-  res.forEach((item: ConcertBriefInfo) => {
+const pageSize = 15;
+const loadDataByPage = async () => {
+  const res = await getCurrConcertInfoByPage(currPage, pageSize);
+  console.log(res);
+
+  total.value = res.total;
+  res.records.forEach((item: ConcertBriefInfo) => {
     item.startTime = formatDateTime(item.startTime);
     item.endTime = formatDateTime(item.endTime);
   });
-  concertInfo.value = res;
+  concertInfo.value = res.records;
 }
 
+
 onMounted(async () => {
-  await loadData();
+  await loadDataByPage();
 })
 
 const doGetConcertDetail = (_: any, row: any) => {
@@ -41,7 +46,6 @@ const doGetConcertDetail = (_: any, row: any) => {
 }
 
 const onConcertEdit = async (row: any) => {
-  console.log(row);
   editConcertOpt.value = true;
   // 修改演唱会信息
   const res = await getCurrConcertDetails(row.concertId);
@@ -89,7 +93,7 @@ const onSubmit = async () => {
       success("修改成功！")
       editConcertOpt.value = false;
       editConcertReq.value = {} as EditConcertReq;
-      await loadData();
+      await loadDataByPage();
     }
   } else {
     error("无效数据")
@@ -113,7 +117,7 @@ const doReleaseAlbum = async (row: any) => {
   const res = await releaseConcert(req);
   if (res) {
     success("发布成功！")
-    await loadData();
+    await loadDataByPage();
   }
 }
 
@@ -126,9 +130,15 @@ const doUnReleaseAlbum = async (row: any) => {
   const res = await unReleaseConcert(req);
   if (res) {
     success("撤销发布成功！")
-    await loadData();
+    await loadDataByPage();
   }
+}
 
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadDataByPage();
 }
 </script>
 
@@ -138,7 +148,7 @@ const doUnReleaseAlbum = async (row: any) => {
       <span class="text-large font-600 mr-3"> 我的演唱会信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="concertInfo" style="width: 100%; margin-top: 36px;" max-height="250">
+  <el-table :data="concertInfo" style="width: 100%; margin-top: 36px;">
     <el-table-column fixed prop="concertId" label="演唱会序号" width="120" />
     <el-table-column prop="name" label="演唱会名称" width="150" />
     <el-table-column prop="startTime" label="开始时间" width="200" />
@@ -148,16 +158,19 @@ const doUnReleaseAlbum = async (row: any) => {
     <el-table-column fixed="right" label="操作" width="200">
       <template #default="scope">
         <el-button link type="primary" @click="doGetConcertDetail(scope.$index, scope.row)">详情</el-button>
-        <el-button link type="primary" @click="onConcertEdit(scope.row)">修改</el-button>
-        <el-button :icon="Promotion" v-if="scope.row.isRelease === 1" @click="doUnReleaseAlbum(scope.row)" link
-          type="info">撤销发布</el-button>
-        <el-button :icon="Promotion" v-else link type="success" @click="doReleaseAlbum(scope.row)">发布</el-button>
+        <el-button link type="primary" :disabled="!scope.row.canEdit" @click="onConcertEdit(scope.row)">修改</el-button>
+        <el-button :icon="Promotion" :disabled="!scope.row.canEdit" v-if="scope.row.isRelease === 1"
+          @click="doUnReleaseAlbum(scope.row)" link type="info">撤销发布</el-button>
+        <el-button :icon="Promotion" :disabled="!scope.row.canEdit" v-else link type="success"
+          @click="doReleaseAlbum(scope.row)">发布</el-button>
       </template>
     </el-table-column>
     <template #empty>
       <el-empty :image-size="60" />
     </template>
   </el-table>
+  <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="15"
+    @current-change="onCurrChange" />
 
   <!-- 修改 -->
   <el-drawer v-model="editConcertOpt" title="修改演唱会信息" direction="rtl" size="80%">
@@ -189,4 +202,9 @@ const doUnReleaseAlbum = async (row: any) => {
   </el-drawer>
 </template>
 
-<style scoped></style>
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>

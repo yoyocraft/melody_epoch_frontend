@@ -34,7 +34,7 @@ watch(
 
 <template>
   <el-aside width="200px">
-    <el-scrollbar max-height="800px">
+    <el-scrollbar>
       <el-switch v-model="isCollapse" class="ml-2" inline-prompt active-text="展开" inactive-text="缩略"
         style="--el-switch-on-color: #107bac; --el-switch-off-color: #107bac" :active-action-icon="View"
         :inactive-action-icon="Hide" />

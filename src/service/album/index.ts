@@ -29,6 +29,18 @@ export const currBandAllAlbums = async () => {
   }
 };
 
+export const currBandAllAlbumsByPage = async (curr: number, size: number) => {
+  const res = await http.get("/album/curr/page", {
+    params: {
+      curr,
+      size
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const addSongsToAlbum = async (params: SongToAlbumReq) => {
   const res = await http.put("/album/songs", {
     ...params,

@@ -8,6 +8,17 @@ export const listBandBriefInfo = async () => {
   }
 };
 
+export const listBandBriefInfoByPage = async (curr: number) => {
+  const res = await http.get("/band/list/page", {
+    params: {
+      curr,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const listBandInfoVO = async (bandId: number) => {
   const res = await http.get("/band/list/all", {
     params: {

@@ -28,6 +28,7 @@ export interface AlbumInfo {
   avgScore: number;
   isRelease: number;
   profile: string;
+  releaseTime: string;
   canLike: boolean;
   isLiked: boolean;
 }

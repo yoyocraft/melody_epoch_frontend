@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { BandBriefInfo } from "../../model/band/index";
-import { listBandBriefInfo } from "../../service/band/index";
+import { listBandBriefInfoByPage } from "../../service/band/index";
 import { LIKE_TYPE_MAP, formatDate } from "../../utils/index";
 import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
@@ -25,7 +25,7 @@ const doLike = async (row: any) => {
   const res = await like(req);
   if (res) {
     success("喜欢成功！")
-    await loadData();
+    await loadDataByPage();
   }
 }
 
@@ -36,15 +36,16 @@ const doNotLike = async (row: any) => {
   const res = await unlike(req);
   if (res) {
     success("撤销喜欢成功！")
-    await loadData();
+    await loadDataByPage();
   }
 }
 
 let tableData = ref<BandBriefInfo[]>([]);
 
-const loadData = async () => {
-  const res = await listBandBriefInfo();
-  tableData.value = res.map((info: BandBriefInfo) => {
+const loadDataByPage = async () => {
+  const res = await listBandBriefInfoByPage(currPage);
+  total.value = res.total
+  tableData.value = res.records.map((info: BandBriefInfo) => {
     return { ...info, foundTime: formatDate(info.foundTime) };
   });
 }
@@ -52,7 +53,7 @@ const loadData = async () => {
  * 挂载时处理一些数据
  */
 onMounted(async () => {
-  await loadData();
+  await loadDataByPage();
 });
 
 const goBack = () => {
@@ -63,6 +64,13 @@ const doAddBand = () => {
   router.push({
     path: "/band/add",
   })
+}
+
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadDataByPage();
 }
 </script>
 
@@ -97,4 +105,14 @@ const doAddBand = () => {
       <el-empty :image-size="100" />
     </template>
   </el-table>
+
+  <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="15"
+    @current-change="onCurrChange" />
 </template>
+
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>

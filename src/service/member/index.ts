@@ -8,8 +8,35 @@ export const listMemberInfo = async () => {
   }
 };
 
+export const listMemberInfoByPage = async (curr: number, size: number) => {
+  const res = await http.get("/member/list/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const listMemberInCurrBand = async () => {
-  const res = await http.get("/member/curr_band");
+  const res = await http.get("/member/curr");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const listMemberInCurrBandByPage = async (
+  curr: number,
+  size: number,
+) => {
+  const res = await http.get("/member/curr/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
   if (res.data) {
     return res.data;
   }

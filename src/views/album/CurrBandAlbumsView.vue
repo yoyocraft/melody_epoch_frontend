@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { Album, EditAlbumReq, ReleaseAlbumReq } from "../../model/album/index";
-import { currBandAllAlbums, releaseAlbumInfo, editAlbumInfo } from "../../service/album/index";
+import { Album, AlbumInfo, EditAlbumReq, ReleaseAlbumReq } from "../../model/album/index";
+import { releaseAlbumInfo, editAlbumInfo, currBandAllAlbumsByPage } from "../../service/album/index";
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
-import { formatDateTime } from "../../utils";
+import { formatDate } from "../../utils";
 import { success } from "../../service/common";
 
 const router = useRouter();
@@ -23,32 +23,44 @@ const doReleaseAlbum = async (_: any, row: any) => {
   const res = await releaseAlbumInfo(req)
   if (res) {
     success("发布成功");
-    await loadData();
+    await loadAlbumByPage();
   }
 }
 
 const tableData = ref<Album[]>([]);
 
-const loadData = async () => {
-  const res = await currBandAllAlbums();
-  tableData.value = res.map((info: Album) => {
-    return {
-      ...info,
-      avgScore: info.avgScore ?? 0.0,
-      releaseTime: info.releaseTime ? formatDateTime(info.releaseTime) : " - ",
-    };
-  });
-}
-
 /**
  * 挂载时处理一些数据
  */
 onMounted(async () => {
-  await loadData();
+  await loadAlbumByPage();
 });
 
 const goBack = () => {
   router.back();
+}
+
+/**
+ * 专辑信息
+ */
+const albumTotal = ref(0);
+let albumCurrPage = 1
+const pageSize = 15;
+const onAlbumCurrChange = async (curr: number) => {
+  albumCurrPage = curr
+  await loadAlbumByPage();
+}
+const bandAlbumInfo = ref<AlbumInfo[]>([])
+const loadAlbumByPage = async () => {
+  const res = await currBandAllAlbumsByPage(albumCurrPage, pageSize);
+  albumTotal.value = res.total
+  bandAlbumInfo.value = res.records.map((info: AlbumInfo) => {
+    return {
+      ...info,
+      avgScore: info.avgScore ?? 0.0,
+      releaseTime: info.releaseTime ? formatDate(info.releaseTime) : " - "
+    };
+  });
 }
 
 
@@ -66,7 +78,7 @@ const onAlbumEditSubmit = async () => {
     success("修改成功！")
     editAlbumOpt.value = false;
     editAlbumReq.value = {} as EditAlbumReq;
-    await loadData();
+    await loadAlbumByPage();
   }
 }
 
@@ -104,6 +116,9 @@ const onAlbumEditCancel = () => {
     </template>
   </el-table>
 
+  <el-pagination background :current-page="albumCurrPage" layout="prev, pager, next" :total="albumTotal"
+    :page-size="pageSize" @current-change="onAlbumCurrChange" />
+
   <el-drawer v-model="editAlbumOpt" title="修改专辑信息" direction="rtl" size="80%">
     <!-- 修改昵称等信息 -->
     <el-form label-width="120px">
@@ -119,4 +134,9 @@ const onAlbumEditCancel = () => {
   </el-drawer>
 </template>
 
-<style scoped></style>
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>

@@ -24,6 +24,17 @@ export const listSongInfo = async () => {
   }
 };
 
+export const listSongInfoByPage = async (curr: number) => {
+  const res = await http.get("/song/list/page", {
+    params: {
+      curr,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const currBandSongs = async () => {
   const res = await http.get("/song/curr");
   if (res.data) {
@@ -31,6 +42,17 @@ export const currBandSongs = async () => {
   }
 };
 
+export const currBandSongsByPage = async (curr: number, size: number) => {
+  const res = await http.get("/song/curr/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
 
 export const listSongToAlbum = async (albumId: number) => {
   const res = await http.get("/song/album", {

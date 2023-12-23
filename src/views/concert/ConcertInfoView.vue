@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { ConcertBriefInfo } from "../../model/concert/index";
-import { listConcertBriefInfo } from "../../service/concert/index";
+import { listConcertBriefInfoByPage } from "../../service/concert/index";
 import { formatDateTime } from "../../utils/index";
 import { useRouter } from "vue-router";
 
@@ -17,22 +17,34 @@ const doGetDetails = (_: any, row: any) => {
 
 const tableData = ref<ConcertBriefInfo[]>([]);
 
-/**
- * 挂载时处理一些数据
- */
-onMounted(async () => {
-  const res = await listConcertBriefInfo();
-  tableData.value = res.map((info: ConcertBriefInfo) => {
+const loadDataByPage = async () => {
+  const res = await listConcertBriefInfoByPage(currPage);
+  total.value = res.total
+  tableData.value = res.records.map((info: ConcertBriefInfo) => {
     return {
       ...info,
       startTime: formatDateTime(info.startTime),
       endTime: formatDateTime(info.endTime)
     };
   });
+}
+
+/**
+ * 挂载时处理一些数据
+ */
+onMounted(async () => {
+  await loadDataByPage();
 });
 
 const goBack = () => {
   router.back();
+}
+
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadDataByPage();
 }
 
 </script>
@@ -60,6 +72,13 @@ const goBack = () => {
       <el-empty :image-size="100" />
     </template>
   </el-table>
+  <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="15"
+    @current-change="onCurrChange" />
 </template>
 
-<style scoped></style>
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>

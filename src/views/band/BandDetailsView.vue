@@ -21,6 +21,7 @@ const router = useRouter();
 
 let currBandId: number = 0;
 
+// TODO 修改这部分的分页内容 && 乐队成员入队部分 canJoin放置
 const loadData = async () => {
   const bandId = route.query?.id;
   if (typeof bandId === "string") {
