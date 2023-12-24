@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { Album, AlbumInfo, EditAlbumReq, ReleaseAlbumReq } from "../../model/album/index";
+import { AlbumInfo, EditAlbumReq, ReleaseAlbumReq } from "../../model/album/index";
 import { releaseAlbumInfo, editAlbumInfo, currBandAllAlbumsByPage } from "../../service/album/index";
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
@@ -27,8 +27,6 @@ const doReleaseAlbum = async (_: any, row: any) => {
   }
 }
 
-const tableData = ref<Album[]>([]);
-
 /**
  * 挂载时处理一些数据
  */
@@ -45,7 +43,7 @@ const goBack = () => {
  */
 const albumTotal = ref(0);
 let albumCurrPage = 1
-const pageSize = 15;
+const pageSize = 6;
 const onAlbumCurrChange = async (curr: number) => {
   albumCurrPage = curr
   await loadAlbumByPage();
@@ -94,7 +92,7 @@ const onAlbumEditCancel = () => {
       <span class="text-large font-600 mr-3"> 专辑信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;" stripe>
+  <el-table :data="bandAlbumInfo" style="width: 100%; margin-top: 36px;" stripe>
     <el-table-column fixed prop="albumId" label="专辑序号" width="120" />
     <el-table-column prop="name" label="专辑名称" width="150" />
     <el-table-column prop="company" label="发行公司" width="150" />
