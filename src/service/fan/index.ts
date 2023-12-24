@@ -46,14 +46,63 @@ export const listMyLikedBand = async () => {
   }
 };
 
+export const listMyLikedBandByPage = async (curr: number, size: number) => {
+  const res = await http.get("/fan/like/band/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const listMyLikedAlbum = async () => {
   const res = await http.get("/fan/like/album");
   if (res.data) {
     return res.data;
   }
 };
+
+export const listMyLikedAlbumByPage = async (curr: number, size: number) => {
+  const res = await http.get("/fan/like/album/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const listMyLikedSong = async () => {
   const res = await http.get("/fan/like/song");
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const listMyLikedSongByPage = async (curr: number, size: number) => {
+  const res = await http.get("/fan/like/song/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const listMyJoinedConcertByPage = async (curr: number, size: number) => {
+  const res = await http.get("/fan/joined/concert/page", {
+    params: {
+      curr,
+      size,
+    },
+  });
   if (res.data) {
     return res.data;
   }

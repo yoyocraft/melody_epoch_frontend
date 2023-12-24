@@ -47,7 +47,7 @@ export interface AlbumDetailsVO {
   bandName: string;
   profile: string;
   avgScore: number;
-  songInfoList: SongInfo[];
+  canComment: boolean;
   commentVOList: CommentVO[];
 }
 

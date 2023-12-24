@@ -270,4 +270,4 @@ const url = "/src/assets/logo.png";
   justify-content: center;
 }
 </style>
-../../utils/common
+

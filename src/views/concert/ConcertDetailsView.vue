@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { listCurrConcertInfoVO, joinConcert, leaveConcert } from "../../service/concert/index";
+import { listCurrConcertInfoVO, joinConcert, leaveConcert, getCurrConcertJoinInfo } from "../../service/concert/index";
 import { LIKE_TYPE_MAP, formatDateTime } from "../../utils/index";
 import { ref } from "vue";
-import { ConcertInfo, JoinConcertReq } from "../../model/concert/index";
+import { ConcertInfo, ConcertJoinInfo, JoinConcertReq } from "../../model/concert/index";
 import { error, success } from '../../utils/common';
 import { LikeReq } from "../../model/fan";
 import { like, unlike } from "../../service/fan";
 import { SongInfo } from "../../model/song";
 
 const concertInfo = ref({} as ConcertInfo);
+const concertJoinInfo = ref({} as ConcertJoinInfo)
 
 const route = useRoute();
 const router = useRouter();
 
 let currConcertId: number = 0;
 
-const loadData = async () => {
+const loadConcertData = async () => {
   const concertId = route.query?.id;
   if (typeof concertId === "string") {
     const id = parseInt(concertId, 10);
@@ -38,8 +39,26 @@ const loadData = async () => {
     error("非法信息！");
   }
 }
+
+const loadConcertJoinStatusData = async () => {
+  const res = await getCurrConcertJoinInfo(currConcertId);
+  res.joinedNum = res.joinedNum ?? 0;
+  concertJoinInfo.value = res;
+}
 onMounted(async () => {
-  await loadData();
+  const concertId = route.query?.id;
+  if (typeof concertId === "string") {
+    const id = parseInt(concertId, 10);
+    if (!isNaN(id)) {
+      currConcertId = id;
+    } else {
+      error("非法信息！");
+    }
+  } else {
+    error("非法信息！");
+  }
+  await loadConcertData();
+  await loadConcertJoinStatusData();
 });
 
 const doJoin = async () => {
@@ -48,7 +67,7 @@ const doJoin = async () => {
   const res = await joinConcert(req);
   if (res) {
     success("参加成功！")
-    loadData();
+    await loadConcertJoinStatusData();
   }
 }
 
@@ -58,7 +77,7 @@ const doNotJoin = async () => {
   const res = await leaveConcert(req);
   if (res) {
     success("取消参加成功！")
-    loadData();
+    await loadConcertJoinStatusData();
   }
 }
 
@@ -69,7 +88,7 @@ const doLike = async (row: any) => {
   const res = await like(req);
   if (res) {
     success("喜欢成功！")
-    await loadData();
+    await loadConcertData();
   }
 }
 
@@ -80,7 +99,7 @@ const doNotLike = async (row: any) => {
   const res = await unlike(req);
   if (res) {
     success("撤销喜欢成功！")
-    await loadData();
+    await loadConcertData();
   }
 }
 
@@ -96,11 +115,11 @@ const goBack = () => {
     </template>
     <template #extra>
       <div class="flex items-center">
-        <template v-if="concertInfo.canJoin">
-          <el-button type="warning" size="large" class="ml-2" v-if="concertInfo.isJoined"
+        <template v-if="concertJoinInfo.canJoin">
+          <el-button type="warning" size="large" class="ml-2" v-if="concertJoinInfo.isJoined"
             @click="doNotJoin">取消参加</el-button>
-          <el-button type="success" size="large" class="ml-2" v-else-if="!concertInfo.isJoined && concertInfo.canJoin"
-            @click="doJoin">参加</el-button>
+          <el-button type="success" size="large" class="ml-2"
+            v-else-if="!concertJoinInfo.isJoined && concertJoinInfo.canJoin" @click="doJoin">参加</el-button>
           <el-tooltip v-else class="box-item" effect="dark" content="不允许加入（已过开始时间或者人数已满）" placement="left-start">
             <el-button type="success" size="large" class="ml-2" disabled>参加</el-button>
           </el-tooltip>
@@ -140,7 +159,7 @@ const goBack = () => {
       <el-input disabled v-model="concertInfo.maxNum" />
     </el-form-item>
     <el-form-item label="已加入人数">
-      <el-input disabled v-model="concertInfo.joinedNum" />
+      <el-input disabled v-model="concertJoinInfo.joinedNum" />
     </el-form-item>
   </el-form>
 
@@ -192,4 +211,4 @@ const goBack = () => {
   margin-top: 10px;
 }
 </style>
-../../utils/common
+

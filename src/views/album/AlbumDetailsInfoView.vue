@@ -9,7 +9,6 @@ import { getLikeAlbumStatus, like, scoreAlbum, unlike } from '../../service/fan/
 import { addComment } from '../../service/comment/index'
 import { error, success } from '../../utils/common';
 import { formatDate, formatCommentCreateTimes, LIKE_TYPE_MAP } from '../../utils';
-import { ElMessage } from 'element-plus'
 import { LikeAlbumStatus, LikeReq, ScoreAlbumReq } from '../../model/fan';
 import { getAlbumSongsByPage } from '../../service/song';
 import { Song } from '../../model/song';
@@ -34,6 +33,28 @@ const loadAlbumData = async () => {
     formatCommentCreateTimes(item);
   });
   albumInfo.value = res;
+}
+
+/**
+ * 歌曲信息
+ */
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadAlbumSongByPage();
+}
+const albumSongInfo = ref<Song[]>([])
+const pageSize = 15;
+const loadAlbumSongByPage = async () => {
+  const res = await getAlbumSongsByPage(currAlbumId, currPage, pageSize);
+  total.value = res.total
+  albumSongInfo.value = res.records.map((info: Song) => {
+    return {
+      ...info,
+      albumName: info.albumName ?? " - "
+    };
+  });
 }
 
 /**
@@ -102,8 +123,7 @@ const addNewComment = async () => {
     newCommentContent.value = "";
   }
 }
-const score = ref(5);
-const dialogFormVisible = ref(false)
+
 
 const doLike = async () => {
   const req = {} as LikeReq;
@@ -126,6 +146,12 @@ const doNotLike = async () => {
     await loadLikeStatus();
   }
 }
+
+/**
+ * 打分
+ */
+const score = ref(5);
+const dialogFormVisible = ref(false)
 const doScore = async () => {
   dialogFormVisible.value = false;
   const req = {} as ScoreAlbumReq;
@@ -141,27 +167,7 @@ const doCancel = () => {
   score.value = 5;
 }
 
-/**
- * 歌曲信息
- */
-const total = ref(0);
-let currPage = 1
-const onCurrChange = async (curr: number) => {
-  currPage = curr
-  await loadAlbumSongByPage();
-}
-const albumSongInfo = ref<Song[]>([])
-const pageSize = 15;
-const loadAlbumSongByPage = async () => {
-  const res = await getAlbumSongsByPage(currAlbumId, currPage, pageSize);
-  total.value = res.total
-  albumSongInfo.value = res.records.map((info: Song) => {
-    return {
-      ...info,
-      albumName: info.albumName ?? " - "
-    };
-  });
-}
+
 </script>
 
 <template>
@@ -252,7 +258,7 @@ const loadAlbumSongByPage = async () => {
   </el-divider>
 
   <div class="container">
-    <el-row style="margin-top: 16px;">
+    <el-row style="margin-top: 16px;" v-if="albumInfo.canComment">
       <el-col :span="24">
         <el-card shadow="hover">
           <el-input v-model="newCommentContent" maxlength="250" show-word-limit :autosize="{ minRows: 2, maxRows: 6 }"
@@ -274,7 +280,7 @@ const loadAlbumSongByPage = async () => {
         </div>
       </div>
       <div class="content">{{ item.content }}</div>
-      <div class="control">
+      <div class="control" v-if="albumInfo.canComment">
         <span class="comment-reply" @click="showCommentInput(item, item)">
           <el-icon>
             <Comment />
@@ -291,10 +297,10 @@ const loadAlbumSongByPage = async () => {
           </div>
           <div class="reply-bottom">
             <span>{{ reply.createTime }}</span>
-            <span class="reply-text" @click="() => ElMessage('尚未开发')">
+            <!-- <span class="reply-text" @click="() => ElMessage('尚未开发')">
               <i class="iconfont icon-comment"></i>
               <span>回复</span>
-            </span>
+            </span> -->
           </div>
         </div>
         <transition name="fade">
@@ -322,11 +328,7 @@ const loadAlbumSongByPage = async () => {
   margin-top: 16px;
 }
 
-.el-pagination {
-  justify-content: center;
-  margin-top: 16px;
-}
-</style>.container {
+.container {
   padding: 0 10px;
   box-sizing: border-box;
 
@@ -520,3 +522,4 @@ const loadAlbumSongByPage = async () => {
     }
   }
 }
+</style>

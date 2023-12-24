@@ -116,4 +116,4 @@ const onCurrChange = async (curr: number) => {
   margin-top: 16px;
 }
 </style>
-../../utils/common
+
