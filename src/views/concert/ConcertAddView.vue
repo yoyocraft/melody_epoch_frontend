@@ -5,7 +5,7 @@ import { addConcert } from "../../service/concert/index"
 import { listSongItems } from "../../service/song/index"
 import { SongItem } from "../../model/song/index"
 import { TransferOption } from "../../model/common/index"
-import { error, success } from '../../service/common';
+import { error, success } from '../../utils/common';
 import { useRouter } from 'vue-router';
 
 const concertAddReq = ref({} as ConcertAddReq)
@@ -108,3 +108,4 @@ const disabledDate = (time: Date) => {
 </template>
 
 <style scoped></style>
+../../utils/common

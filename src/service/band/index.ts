@@ -1,12 +1,12 @@
 import http from "../../plugins/http";
 import { BandAddReq, EditBandReq } from "../../model/band";
 
-export const listBandBriefInfo = async () => {
-  const res = await http.get("/band/list");
-  if (res.data) {
-    return res.data;
-  }
-};
+// export const listBandBriefInfo = async () => {
+//   const res = await http.get("/band/list");
+//   if (res.data) {
+//     return res.data;
+//   }
+// };
 
 export const listBandBriefInfoByPage = async (curr: number) => {
   const res = await http.get("/band/list/page", {

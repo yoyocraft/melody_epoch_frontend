@@ -15,12 +15,12 @@ export const addConcert = async (params: ConcertAddReq) => {
   }
 };
 
-export const listConcertBriefInfo = async () => {
-  const res = await http.get("/concert/list");
-  if (res.data) {
-    return res.data;
-  }
-};
+// export const listConcertBriefInfo = async () => {
+//   const res = await http.get("/concert/list");
+//   if (res.data) {
+//     return res.data;
+//   }
+// };
 
 export const listConcertBriefInfoByPage = async (curr: number) => {
   const res = await http.get("/concert/list/page", {
@@ -62,24 +62,42 @@ export const leaveConcert = async (params: JoinConcertReq) => {
   }
 };
 
-export const getCurrConcertInfo = async () => {
-  const res = await http.get("/concert/curr", {});
-  if (res.data) {
-    return res.data;
-  }
-};
+// export const getCurrConcertInfo = async () => {
+//   const res = await http.get("/concert/curr", {});
+//   if (res.data) {
+//     return res.data;
+//   }
+// };
 
 export const getCurrConcertInfoByPage = async (curr: number, size: number) => {
   const res = await http.get("/concert/curr/page", {
     params: {
       curr,
-      size
+      size,
     },
   });
   if (res.data) {
     return res.data;
   }
 };
+
+export const getBandConcertInfoByPage = async (
+  bandId: number,
+  curr: number,
+  size: number,
+) => {
+  const res = await http.get("/concert/band/page", {
+    params: {
+      bandId,
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 export const getCurrConcertDetails = async (concertId: number) => {
   const res = await http.get("/concert/all", {
     params: {

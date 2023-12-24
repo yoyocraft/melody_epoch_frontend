@@ -8,7 +8,7 @@ import {
 import { useRouter } from "vue-router";
 import { USER_ROLE_TYPE } from "../../model/enums/index";
 import { EmailRegisterParams, AccRegisterParams } from "../../model/user/index";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 
 const regType = ref("acc");
 const emailPre = ref("");
@@ -270,3 +270,4 @@ const url = "/src/assets/logo.png";
   justify-content: center;
 }
 </style>
+../../utils/common

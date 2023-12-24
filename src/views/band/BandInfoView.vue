@@ -6,7 +6,7 @@ import { LIKE_TYPE_MAP, formatDate } from "../../utils/index";
 import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
 import { like, unlike } from "../../service/fan";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 
 const router = useRouter();
 const doGetBandDetail = (_: any, row: any) => {
@@ -116,3 +116,4 @@ const onCurrChange = async (curr: number) => {
   margin-top: 16px;
 }
 </style>
+../../utils/common

@@ -6,7 +6,7 @@ import { listMyLikedAlbum } from "../../service/fan/index";
 import { LIKE_TYPE_MAP } from "../../utils/index"
 import { like, unlike } from "../../service/fan/index";
 import { useRouter } from "vue-router";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 
 const router = useRouter();
 const doGetAlbumDetail = (_: any, row: any) => {
@@ -79,3 +79,4 @@ const goBack = () => {
 </template>
 
 <style scoped></style>
+../../utils/common

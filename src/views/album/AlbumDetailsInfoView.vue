@@ -7,10 +7,12 @@ import { AddCommentReq, CommentVO } from '../../model/comment/index'
 import { getAlbumDetailsInfo } from '../../service/album/index'
 import { getLikeAlbumStatus, like, scoreAlbum, unlike } from '../../service/fan/index'
 import { addComment } from '../../service/comment/index'
-import { error, success } from '../../service/common';
+import { error, success } from '../../utils/common';
 import { formatDate, formatCommentCreateTimes, LIKE_TYPE_MAP } from '../../utils';
 import { ElMessage } from 'element-plus'
 import { LikeAlbumStatus, LikeReq, ScoreAlbumReq } from '../../model/fan';
+import { getAlbumSongsByPage } from '../../service/song';
+import { Song } from '../../model/song';
 
 
 const router = useRouter();
@@ -22,45 +24,41 @@ const addCommentReq = ref({} as AddCommentReq)
 let currAlbumId: number = 0;
 const newCommentContent = ref("");
 
-const loadData = async () => {
-  const albumId = route.query?.id;
-  if (typeof albumId === "string") {
-    const id = parseInt(albumId, 10);
-    if (!isNaN(id)) {
-      currAlbumId = id;
-      const res = await getAlbumDetailsInfo(id);
-      res.releaseTime = formatDate(res.releaseTime);
-      res.commentVOList?.forEach((item: CommentVO) => {
-        formatCommentCreateTimes(item);
-      });
-      albumInfo.value = res;
-    } else {
-      error("非法信息！");
-    }
-  } else {
-    error("非法信息！");
-  }
+/**
+ * 专辑数据
+ */
+const loadAlbumData = async () => {
+  const res = await getAlbumDetailsInfo(currAlbumId);
+  res.releaseTime = formatDate(res.releaseTime);
+  res.commentVOList?.forEach((item: CommentVO) => {
+    formatCommentCreateTimes(item);
+  });
+  albumInfo.value = res;
 }
 
+/**
+ * 喜欢状态
+ */
 const likeStatus = ref({} as LikeAlbumStatus)
 const loadLikeStatus = async () => {
-  const albumId = route.query?.id;
-  if (typeof albumId === "string") {
-    const id = parseInt(albumId, 10);
-    if (!isNaN(id)) {
-      currAlbumId = id;
-      const res = await getLikeAlbumStatus(id);
-      likeStatus.value = res;
-    } else {
-      error("非法信息！");
-    }
-  } else {
-    error("非法信息！");
-  }
+  const res = await getLikeAlbumStatus(currAlbumId);
+  likeStatus.value = res;
 }
 
 onMounted(async () => {
-  await loadData();
+  const albumId = route.query?.id;
+  if (typeof albumId === "string") {
+    const id = parseInt(albumId, 10);
+    if (!isNaN(id)) {
+      currAlbumId = id;
+    } else {
+      error("非法信息！");
+    }
+  } else {
+    error("非法信息！");
+  }
+  await loadAlbumData();
+  await loadAlbumSongByPage();
   await loadLikeStatus();
 })
 
@@ -83,7 +81,7 @@ const commitComment = async () => {
   const res = await addComment(addCommentReq.value);
   if (res) {
     success("评论成功！")
-    await loadData();
+    await loadAlbumData();
     // 清空数据
     addCommentReq.value = {} as AddCommentReq;
     commentUserId.value = 0;
@@ -97,7 +95,7 @@ const addNewComment = async () => {
   const res = await addComment(addCommentReq.value);
   if (res) {
     success("评论成功！")
-    await loadData();
+    await loadAlbumData();
     // 清空数据
     addCommentReq.value = {} as AddCommentReq;
     commentUserId.value = 0;
@@ -141,6 +139,28 @@ const doScore = async () => {
 const doCancel = () => {
   dialogFormVisible.value = false;
   score.value = 5;
+}
+
+/**
+ * 歌曲信息
+ */
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadAlbumSongByPage();
+}
+const albumSongInfo = ref<Song[]>([])
+const pageSize = 15;
+const loadAlbumSongByPage = async () => {
+  const res = await getAlbumSongsByPage(currAlbumId, currPage, pageSize);
+  total.value = res.total
+  albumSongInfo.value = res.records.map((info: Song) => {
+    return {
+      ...info,
+      albumName: info.albumName ?? " - "
+    };
+  });
 }
 </script>
 
@@ -197,8 +217,8 @@ const doCancel = () => {
       <el-input disabled v-model="albumInfo.bandName" />
     </el-form-item>
     <el-form-item label="专辑简介">
-      <el-input v-model="albumInfo.profile" disabled maxlength="250" show-word-limit :autosize="{ minRows: 2, maxRows: 6 }"
-        type="textarea" />
+      <el-input v-model="albumInfo.profile" disabled maxlength="250" show-word-limit
+        :autosize="{ minRows: 2, maxRows: 6 }" type="textarea" />
     </el-form-item>
     <el-form-item label="专辑评分">
       <el-input disabled v-model="albumInfo.avgScore" />
@@ -211,7 +231,7 @@ const doCancel = () => {
   </el-divider>
 
   <div class="table-center">
-    <el-table :data="albumInfo.songInfoList" style="width: 100%" max-height="250">
+    <el-table :data="albumSongInfo" style="width: 100%" max-height="250">
       <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
       <el-table-column prop="name" label="歌曲名" width="120" />
       <el-table-column prop="author" label="作者" width="120" />
@@ -220,6 +240,8 @@ const doCancel = () => {
         <el-empty :image-size="60" />
       </template>
     </el-table>
+    <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="pageSize"
+      @current-change="onCurrChange" />
   </div>
 
   <el-divider style="margin-top: 36px">
@@ -294,7 +316,17 @@ const doCancel = () => {
 <style scoped lang="scss">
 @import "../../style.scss";
 
-.container {
+
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>.container {
   padding: 0 10px;
   box-sizing: border-box;
 
@@ -488,4 +520,3 @@ const doCancel = () => {
     }
   }
 }
-</style>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { userLogout } from "../service/user/index"
-import { success } from "../service/common";
+import { success } from "../utils/common";
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
@@ -48,3 +48,4 @@ const logout = async () => {
   flex-grow: 1;
 }
 </style>
+../utils/common

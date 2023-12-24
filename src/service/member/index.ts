@@ -1,12 +1,12 @@
 import http from "../../plugins/http";
 import { EditPartReq, JoinBandReq } from "../../model/member";
 
-export const listMemberInfo = async () => {
-  const res = await http.get("/member/list");
-  if (res.data) {
-    return res.data;
-  }
-};
+// export const listMemberInfo = async () => {
+//   const res = await http.get("/member/list");
+//   if (res.data) {
+//     return res.data;
+//   }
+// };
 
 export const listMemberInfoByPage = async (curr: number, size: number) => {
   const res = await http.get("/member/list/page", {
@@ -33,6 +33,23 @@ export const listMemberInCurrBandByPage = async (
 ) => {
   const res = await http.get("/member/curr/page", {
     params: {
+      curr,
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const listMemberInBandByPage = async (
+  bandId: number,
+  curr: number,
+  size: number,
+) => {
+  const res = await http.get("/member/band/page", {
+    params: {
+      bandId,
       curr,
       size,
     },

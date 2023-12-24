@@ -6,7 +6,7 @@ import { LIKE_TYPE_MAP, formatDate } from "../../utils/index";
 import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
 import { unlike } from "../../service/fan";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 
 const router = useRouter();
 const doGetBandDetail = (_: any, row: any) => {
@@ -75,3 +75,4 @@ const goBack = () => {
     </template>
   </el-table>
 </template>
+../../utils/common

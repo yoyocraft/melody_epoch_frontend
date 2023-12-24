@@ -5,7 +5,7 @@ import { releaseAlbumInfo, editAlbumInfo, currBandAllAlbumsByPage } from "../../
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
 import { formatDate } from "../../utils";
-import { success } from "../../service/common";
+import { success } from "../../utils/common";
 
 const router = useRouter();
 const doGetAlbumDetail = (_: any, row: any) => {
@@ -140,3 +140,4 @@ const onAlbumEditCancel = () => {
   margin-top: 16px;
 }
 </style>
+../../utils/common

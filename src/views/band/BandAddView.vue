@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { BandAddReq } from "../../model/band/index"
 import { addBand } from "../../service/band/index"
-import { success } from '../../service/common';
+import { success } from '../../utils/common';
 import { useRouter } from 'vue-router';
 
 const bandAddParams = ref({} as BandAddReq)
@@ -44,3 +44,4 @@ const onReset = () => {
 </template>
 
 <style scoped></style>
+../../utils/common

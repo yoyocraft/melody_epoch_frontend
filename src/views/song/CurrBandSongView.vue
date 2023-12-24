@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { Song } from "../../model/song/index";
-import { currBandSongsByPage } from "../../service/song/index";
+import { ReleaseSongReq, Song } from "../../model/song/index";
+import { currBandSongsByPage, releaseSong } from "../../service/song/index";
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
+import { success } from '../../utils/common';
 
 const router = useRouter();
 
@@ -22,7 +23,13 @@ const goBack = () => {
 }
 const doReleaseSong = async (_: any, row: any) => {
   console.log(row.songId);
-  // TODO 发布歌曲
+  const req = {} as ReleaseSongReq;
+  req.songId = row.songId;
+  const res = await releaseSong(req)
+  if (res) {
+    success("发布成功！")
+    await loadDataByPage();
+  }
 }
 
 const total = ref(0);
@@ -79,3 +86,4 @@ const loadDataByPage = async () => {
   margin-top: 16px;
 }
 </style>
+../../utils/common

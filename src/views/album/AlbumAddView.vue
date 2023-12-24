@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { AddAlbumReq } from "../../model/album/index"
 import { addAlbum } from "../../service/album/index"
-import { success } from '../../service/common';
+import { success } from '../../utils/common';
 import { useRouter } from 'vue-router';
 
 const albumAddReq = ref({} as AddAlbumReq)
@@ -52,3 +52,4 @@ const goBack = () => {
 </template>
 
 <style scoped></style>
+../../utils/common

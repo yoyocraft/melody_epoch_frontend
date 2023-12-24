@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
 import { LIKE_TYPE_MAP } from "../../utils";
 import { unlike } from "../../service/fan";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 
 const router = useRouter();
 
@@ -72,3 +72,4 @@ const goBack = () => {
 </template>
 
 <style scoped></style>
+../../utils/common

@@ -5,7 +5,7 @@ import { listCurrConcertInfoVO, joinConcert, leaveConcert } from "../../service/
 import { LIKE_TYPE_MAP, formatDateTime } from "../../utils/index";
 import { ref } from "vue";
 import { ConcertInfo, JoinConcertReq } from "../../model/concert/index";
-import { error, success } from "../../service/common";
+import { error, success } from '../../utils/common';
 import { LikeReq } from "../../model/fan";
 import { like, unlike } from "../../service/fan";
 import { SongInfo } from "../../model/song";
@@ -192,3 +192,4 @@ const goBack = () => {
   margin-top: 10px;
 }
 </style>
+../../utils/common

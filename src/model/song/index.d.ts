@@ -32,3 +32,7 @@ export interface SongToAlbumVO {
   noneAlbumSongs: SongItem[];
   albumSongs: SongItem[];
 }
+
+export interface ReleaseSongReq {
+  songId: number;
+}

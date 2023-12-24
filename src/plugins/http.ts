@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { error } from "../service/common";
+import { error } from "../utils/common";
 
 // const isDev = process.env.NODE_ENV === "development";
 

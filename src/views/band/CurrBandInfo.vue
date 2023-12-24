@@ -9,7 +9,7 @@ import { MemberInfo } from "../../model/member/index";
 import { AlbumInfo } from "../../model/album/index";
 import { ConcertInfo } from "../../model/concert/index";
 import { Song } from "../../model/song";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 import { currBandSongsByPage } from "../../service/song";
 import { currBandAllAlbumsByPage } from "../../service/album";
 import { getCurrConcertInfoByPage } from "../../service/concert";
@@ -326,3 +326,4 @@ const onBandEditCancel = async () => {
   margin-top: 16px;
 }
 </style>
+../../utils/common

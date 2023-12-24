@@ -6,7 +6,7 @@ import { ArrowRightBold } from '@element-plus/icons-vue';
 import { useRouter } from 'vue-router';
 import { bindEmail, editUserInfo, getCaptcha, getCurrUser } from "../../service/user/index";
 import { BindEmailReq } from "../../model/user/index";
-import { error, success } from '../../service/common';
+import { error, success } from '../../utils/common';
 import { EditMemberReq } from '../../model/member';
 import { EditFanReq } from '../../model/fan';
 
@@ -434,3 +434,4 @@ const doEditFanInfo = () => {
   align-items: center;
 }
 </style>
+../../utils/common

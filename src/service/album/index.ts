@@ -15,8 +15,19 @@ export const addAlbum = async (params: AddAlbumReq) => {
   }
 };
 
-export const listAlbumBriefInfo = async () => {
-  const res = await http.get("/album/list");
+// export const listAlbumBriefInfo = async () => {
+//   const res = await http.get("/album/list");
+//   if (res.data) {
+//     return res.data;
+//   }
+// };
+
+export const listAlbumBriefInfoByPage = async (curr: number) => {
+  const res = await http.get("/album/list/page", {
+    params: {
+      curr,
+    },
+  });
   if (res.data) {
     return res.data;
   }
@@ -33,7 +44,24 @@ export const currBandAllAlbumsByPage = async (curr: number, size: number) => {
   const res = await http.get("/album/curr/page", {
     params: {
       curr,
-      size
+      size,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const getBandAlbumsByPage = async (
+  bandId: number,
+  curr: number,
+  size: number,
+) => {
+  const res = await http.get("/album/band/page", {
+    params: {
+      bandId,
+      curr,
+      size,
     },
   });
   if (res.data) {

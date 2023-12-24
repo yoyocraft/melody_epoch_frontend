@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
 import { LIKE_TYPE_MAP } from "../../utils";
 import { like, unlike } from "../../service/fan";
-import { success } from "../../service/common";
+import { success } from '../../utils/common';
 import SongTable from "../../components/SongTable.vue";
 
 const router = useRouter();
@@ -82,3 +82,4 @@ const onCurrChange = async (curr: number) => {
   margin-top: 16px;
 }
 </style>
+../../utils/common

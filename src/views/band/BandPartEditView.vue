@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue'
 import { EditPartReq, MemberInfo } from "../../model/member/index"
 import { listMemberInCurrBand, editPart } from "../../service/member/index"
-import { success } from '../../service/common';
+import { success } from '../../utils/common';
 
 
 const router = useRouter();
@@ -89,3 +89,4 @@ const doEditPart = async (_: any, row: any) => {
     </el-table-column>
   </el-table>
 </template>
+../../utils/common

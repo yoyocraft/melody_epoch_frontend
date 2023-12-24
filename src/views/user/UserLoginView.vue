@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { getCaptcha, accLogin, emailLogin } from "../../service/user/index";
-import { success } from "../../service/common/index";
+import { success } from "../../utils/common/index";
 import { AccLoginParams, EmailLoginParams } from "../../model/user/index";
 import { EMAIL_LOGIN_TYPE } from "../../model/enums/index";
 
@@ -194,3 +194,4 @@ const url = "/src/assets/logo.png";
   justify-content: center;
 }
 </style>
+../../utils/common/index

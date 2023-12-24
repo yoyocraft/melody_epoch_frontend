@@ -7,7 +7,7 @@ import { listSongItems } from '../../service/song';
 import { formatDateTime } from '../../utils';
 import { TransferOption } from '../../model/common';
 import { SongInfo } from '../../model/song';
-import { error, success } from '../../service/common';
+import { error, success } from '../../utils/common';
 import { Promotion } from '@element-plus/icons-vue';
 
 const router = useRouter();
@@ -208,3 +208,4 @@ const onCurrChange = async (curr: number) => {
   margin-top: 16px;
 }
 </style>
+../../utils/common

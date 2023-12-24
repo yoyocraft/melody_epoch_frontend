@@ -10,8 +10,6 @@ const router = useRouter();
 
 const loadData = async () => {
   const res = await getTopAlbums();
-  console.log(res);
-
   if (res) {
     topAlbums.value = res;
   }

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { SongAddReq } from "../../model/song/index";
 import { addSong } from "../../service/song/index";
-import { success } from '../../service/common';
+import { success } from '../../utils/common';
 import { useRouter } from 'vue-router';
 
 const songAddParams = ref({} as SongAddReq)
@@ -49,3 +49,4 @@ const goBack = () => {
 </template>
 
 <style scoped></style>
+../../utils/common

@@ -6,7 +6,7 @@ import { Album, SongToAlbumReq } from "../../model/album/index"
 import { currBandAllAlbums, addSongsToAlbum } from "../../service/album/index"
 import { listSongToAlbum } from "../../service/song/index"
 import { TransferOption } from '../../model/common';
-import { success } from '../../service/common';
+import { success } from '../../utils/common';
 
 const router = useRouter();
 import { InfoFilled } from '@element-plus/icons-vue'
@@ -110,3 +110,4 @@ const doOnSelect = async () => {
 </template>
 
 
+../../utils/common
