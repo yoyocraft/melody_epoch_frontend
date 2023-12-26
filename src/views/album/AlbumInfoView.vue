@@ -73,8 +73,6 @@ const onAlbumCurrChange = async (curr: number) => {
 const bandAlbumInfo = ref<AlbumInfo[]>([])
 const loadAlbumByPage = async () => {
   const res = await listAlbumBriefInfoByPage(albumCurrPage);
-  console.log("#@@ ", res);
-
   albumTotal.value = res.total
   bandAlbumInfo.value = res.records.map((info: AlbumInfo) => {
     return {

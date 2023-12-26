@@ -23,6 +23,8 @@ import UserInfoViewVue from "../views/user/UserInfoView.vue";
 import CurrBandAlbumsViewVue from "../views/album/CurrBandAlbumsView.vue";
 import CurrBandSongViewVue from "../views/song/CurrBandSongView.vue";
 import CurrConcertViewVue from "../views/concert/CurrConcertView.vue";
+import MyJoinedConcertViewVue from "../views/fan/MyJoinedConcertView.vue";
+import MyLikedAlbumViewVue from "../views/fan/MyLikedAlbumView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: IndexViewVue },
@@ -144,12 +146,17 @@ const routes = [
   {
     path: "/like/album",
     name: "我喜欢的专辑",
-    component: MyLikedBandViewVue,
+    component: MyLikedAlbumViewVue,
   },
   {
     path: "/like/song",
     name: "我喜欢的音乐",
     component: MyLikedSongViewVue,
+  },
+  {
+    path: "/joined/concert",
+    name: "我参加的演唱会",
+    component: MyJoinedConcertViewVue,
   },
 ];
 

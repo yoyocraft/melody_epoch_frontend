@@ -1,11 +1,14 @@
+/**
+ * 001 -> member; => 101 -> baned member;
+ * 010 -> fan; => 110 -> baned fan;
+ * 000 -> admin;
+ */
 export const USER_ROLE_TYPE = {
-  GUEST: 0,
-  ADMIN: 1,
-  MEMBER: 2,
-  FAN: 3
-}
+  MEMBER: 1,
+  FAN: 2,
+};
 
 export const EMAIL_LOGIN_TYPE = {
   CODE_LOGIN: 0,
-  PASSWORD_LOGIN: 1
-}
+  PASSWORD_LOGIN: 1,
+};

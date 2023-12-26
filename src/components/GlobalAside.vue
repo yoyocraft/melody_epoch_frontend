@@ -174,7 +174,7 @@ watch(
             </el-icon>
             <span>喜欢的音乐</span>
           </el-menu-item>
-          <el-menu-item index="/concert/join">
+          <el-menu-item index="/joined/concert">
             <el-icon>
               <Star />
             </el-icon>
