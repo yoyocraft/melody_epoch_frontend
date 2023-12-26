@@ -95,7 +95,7 @@ const url = "/src/assets/logo.png";
       <el-form class="login-form">
         <el-image style="width: 100px; height: 100px" :src="url" />
         <h1>Melody-Epoch</h1>
-        <el-tabs v-model="loginType" type="card" class="demo-tabs">
+        <el-tabs v-model="loginType" type="card" class="demo-tabs" stretch>
           <el-tab-pane label="账号登录" name="acc">
             <el-form-item>
               <el-input prefix-icon="user" v-model="accLoginParams.account" placeholder="请输入账号"></el-input>
@@ -145,7 +145,7 @@ const url = "/src/assets/logo.png";
               </el-input>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="敬请期待" name="code" disabled />
+          <!-- <el-tab-pane label="敬请期待" name="code" disabled /> -->
           <el-form-item class="button-container">
             <el-button type="primary" @click="login" size="large" style="width: 400px">立即登录</el-button>
           </el-form-item>

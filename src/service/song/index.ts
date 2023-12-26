@@ -1,6 +1,7 @@
 import http from "../../plugins/http";
 import { ReleaseSongReq, SongAddReq } from "../../model/song/index";
 
+// 异步http.post请求，添加歌曲
 export const addSong = async (params: SongAddReq) => {
   const res = await http.post("/song/add", {
     ...params,
@@ -10,6 +11,7 @@ export const addSong = async (params: SongAddReq) => {
   }
 };
 
+// 异步http.get请求，获取歌曲列表
 export const listSongItems = async () => {
   const res = await http.get("/song/items");
   if (res.data) {
@@ -24,6 +26,7 @@ export const listSongItems = async () => {
 //   }
 // };
 
+// 异步http.get请求，根据当前分页信息获取歌曲列表
 export const listSongInfoByPage = async (curr: number) => {
   const res = await http.get("/song/list/page", {
     params: {
@@ -42,6 +45,7 @@ export const listSongInfoByPage = async (curr: number) => {
 //   }
 // };
 
+// 异步http.get请求，根据当前分页信息获取当前乐队的歌曲列表
 export const currBandSongsByPage = async (curr: number, size: number) => {
   const res = await http.get("/song/curr/page", {
     params: {
@@ -54,6 +58,7 @@ export const currBandSongsByPage = async (curr: number, size: number) => {
   }
 };
 
+// 异步http.get请求，根据分页信息及乐队ID，获取乐队歌曲列表（指定乐队）
 export const getBandSongsByPage = async (
   bandId: number,
   curr: number,
@@ -71,6 +76,7 @@ export const getBandSongsByPage = async (
   }
 };
 
+// 异步http.get请求，根据分页信息获取专辑的歌曲列表
 export const getAlbumSongsByPage = async (
   albumId: number,
   curr: number,
@@ -88,6 +94,7 @@ export const getAlbumSongsByPage = async (
   }
 };
 
+// 异步http.get请求，根据专辑ID获取专辑的歌曲信息
 export const listSongToAlbum = async (albumId: number) => {
   const res = await http.get("/song/album/to", {
     params: {
@@ -99,6 +106,7 @@ export const listSongToAlbum = async (albumId: number) => {
   }
 };
 
+// 异步http.post请求，发布歌曲
 export const releaseSong = async (params: ReleaseSongReq) => {
   const res = await http.post("/song/release", {
     ...params,

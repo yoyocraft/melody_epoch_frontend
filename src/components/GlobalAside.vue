@@ -33,7 +33,7 @@ watch(
 </script>
 
 <template>
-  <el-aside width="200px">
+  <el-aside width="200px" class="aside">
     <el-scrollbar>
       <el-switch v-model="isCollapse" class="ml-2" inline-prompt active-text="展开" inactive-text="缩略"
         style="--el-switch-on-color: #107bac; --el-switch-off-color: #107bac" :active-action-icon="View"
@@ -226,4 +226,9 @@ watch(
   </el-aside>
 </template>
 
-<style scoped></style>
+<style scoped>
+.aside {
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
+}
+</style>

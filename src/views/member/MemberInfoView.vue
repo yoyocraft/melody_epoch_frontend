@@ -10,7 +10,7 @@ const router = useRouter();
 const tableData = ref<MemberInfo[]>([]);
 
 const loadDataByPage = async () => {
-  const res = await listMemberInfoByPage(currPage);
+  const res = await listMemberInfoByPage(currPage, pageSize);
   total.value = res.total
   tableData.value = res.records.map((info: MemberInfo) => {
     return {
@@ -34,6 +34,7 @@ const goBack = () => {
 }
 const total = ref(0);
 let currPage = 1
+const pageSize = 15;
 const onCurrChange = async (curr: number) => {
   currPage = curr
   await loadDataByPage();
@@ -46,7 +47,7 @@ const onCurrChange = async (curr: number) => {
       <span class="text-large font-600 mr-3"> 乐队成员信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
+  <el-table :data="tableData" style="width: 100%; margin-top: 36px;" class="table-container">
     <el-table-column fixed prop="memberId" label="成员序号" width="150" />
     <el-table-column prop="name" label="成员姓名" width="150" />
     <el-table-column prop="gender" label="性别" width="150" />
@@ -68,5 +69,11 @@ const onCurrChange = async (curr: number) => {
 .el-pagination {
   justify-content: center;
   margin-top: 16px;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -14,7 +14,7 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()]
-    })
+    }),
   ],
   resolve: {
     alias: {
