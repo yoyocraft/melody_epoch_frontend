@@ -8,6 +8,7 @@ import { EditPartReq, JoinBandReq } from "../../model/member";
 //   }
 // };
 
+// 异步http.get请求,根据分页信息获取乐队成员信息列表
 export const listMemberInfoByPage = async (curr: number, size: number) => {
   const res = await http.get("/member/list/page", {
     params: {
@@ -20,6 +21,7 @@ export const listMemberInfoByPage = async (curr: number, size: number) => {
   }
 };
 
+// 异步http.get请求，获取当前乐队的成员的列表
 export const listMemberInCurrBand = async () => {
   const res = await http.get("/member/curr");
   if (res.data) {
@@ -27,6 +29,7 @@ export const listMemberInCurrBand = async () => {
   }
 };
 
+// 异步http.get请求，根据当前分页信息，获取当前乐队成员列表
 export const listMemberInCurrBandByPage = async (
   curr: number,
   size: number,
@@ -42,6 +45,7 @@ export const listMemberInCurrBandByPage = async (
   }
 };
 
+//异步http.get请求，根据分页信息及乐队ID获取乐队成员列表
 export const listMemberInBandByPage = async (
   bandId: number,
   curr: number,
@@ -59,6 +63,7 @@ export const listMemberInBandByPage = async (
   }
 };
 
+// 异步http.put请求，编辑成员信息
 export const editPart = async (params: EditPartReq) => {
   const res = await http.put("/member/part", {
     ...params,
@@ -68,6 +73,7 @@ export const editPart = async (params: EditPartReq) => {
   }
 };
 
+//异步http.post请求，加入乐队请求
 export const joinBand = async (params: JoinBandReq) => {
   const res = await http.post("/member/join", {
     ...params,
@@ -77,6 +83,7 @@ export const joinBand = async (params: JoinBandReq) => {
   }
 };
 
+// 异步http.post请求，离开乐队请求
 export const leaveBand = async (params: JoinBandReq) => {
   const res = await http.post("/member/leave", {
     ...params,

@@ -32,7 +32,7 @@ const logout = async () => {
 <template>
   <el-menu default-active="0" class="el-menu-demo" mode="horizontal" :ellipsis="false" @select="handleSelect">
     <el-menu-item index="0">
-      <h1>Melody-Epoch</h1>
+      <h1 class="header">Melody-Epoch</h1>
     </el-menu-item>
     <div class="flex-grow"></div>
     <el-sub-menu index="1">
@@ -46,6 +46,12 @@ const logout = async () => {
 <style>
 .flex-grow {
   flex-grow: 1;
+}
+
+.header {
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
+  color: #BB5571;
 }
 </style>
 ../utils/common

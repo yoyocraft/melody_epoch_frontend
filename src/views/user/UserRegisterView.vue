@@ -109,57 +109,30 @@ const url = "/src/assets/logo.png";
     <el-form class="register-form">
       <el-image style="width: 100px; height: 100px" :src="url" />
       <h1>Melody-Epoch</h1>
-      <el-tabs v-model="regType" type="card" class="demo-tabs">
+      <el-tabs v-model="regType" type="card" class="demo-tabs" stretch>
         <el-tab-pane label="账号注册" name="acc">
           <el-form-item>
-            <el-input
-              prefix-icon="user"
-              v-model="accRegPrams.account"
-              placeholder="请输入账号"
-            ></el-input>
+            <el-input prefix-icon="user" v-model="accRegPrams.account" placeholder="请输入账号"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input
-              prefix-icon="lock"
-              v-model="accRegPrams.password"
-              placeholder="请输入密码"
-              type="password"
-              show-password
-            ></el-input>
+            <el-input prefix-icon="lock" v-model="accRegPrams.password" placeholder="请输入密码" type="password"
+              show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input
-              prefix-icon="lock"
-              v-model="accRegPrams.checkedPassword"
-              placeholder="请再次输入密码"
-              type="password"
-              show-password
-            ></el-input>
+            <el-input prefix-icon="lock" v-model="accRegPrams.checkedPassword" placeholder="请再次输入密码" type="password"
+              show-password></el-input>
           </el-form-item>
           <el-form-item>
             <strong style="margin-right: 16px">选择角色</strong>
-            <el-select
-              v-model="accRegPrams.type"
-              class="m-2"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in userRoles"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="accRegPrams.type" class="m-2" placeholder="Select">
+              <el-option v-for="item in userRoles" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-tab-pane>
 
         <el-tab-pane label="邮箱注册" name="email">
           <el-form-item>
-            <el-input
-              prefix-icon="user"
-              v-model="emailPre"
-              placeholder="请输入邮箱"
-            >
+            <el-input prefix-icon="user" v-model="emailPre" placeholder="请输入邮箱">
               <template #append>
                 <el-select v-model="emailSuf" style="width: 115px">
                   <el-option label="@163.com" value="@163.com" />
@@ -170,68 +143,33 @@ const url = "/src/assets/logo.png";
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-input
-              prefix-icon="lock"
-              v-model="emailRegParams.password"
-              placeholder="请输入密码"
-              type="password"
-              show-password
-            ></el-input>
+            <el-input prefix-icon="lock" v-model="emailRegParams.password" placeholder="请输入密码" type="password"
+              show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input
-              v-model="emailRegParams.checkedPassword"
-              placeholder="请再次输入密码"
-              type="password"
-              show-password
-            ></el-input>
+            <el-input v-model="emailRegParams.checkedPassword" placeholder="请再次输入密码" type="password"
+              show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input
-              prefix-icon="lock"
-              v-model="emailRegParams.code"
-              placeholder="请输入验证码"
-              class="input-with-select"
-            >
+            <el-input prefix-icon="lock" v-model="emailRegParams.code" placeholder="请输入验证码" class="input-with-select">
               <template #append>
-                <el-button
-                  @click="getCaptchaFromBackend"
-                  :disabled="disabled"
-                  >{{ btnText }}</el-button
-                >
+                <el-button @click="getCaptchaFromBackend" :disabled="disabled">{{ btnText }}</el-button>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item>
             <strong style="margin-right: 16px">选择角色</strong>
-            <el-select
-              v-model="emailRegParams.type"
-              class="m-2"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in userRoles"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="emailRegParams.type" class="m-2" placeholder="Select">
+              <el-option v-for="item in userRoles" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-tab-pane>
 
-        <el-tab-pane label="敬请期待" name="code" disabled />
+        <!-- <el-tab-pane label="敬请期待" name="code" disabled /> -->
         <el-form-item class="button-container">
-          <el-button
-            type="primary"
-            @click="register"
-            size="large"
-            style="width: 400px"
-            >立即注册</el-button
-          >
+          <el-button type="primary" @click="register" size="large" style="width: 400px">立即注册</el-button>
         </el-form-item>
-        <el-button @click="doLogin" text bg type="success"
-          >已经有账号了？去登录</el-button
-        >
+        <el-button @click="doLogin" text bg type="success">已经有账号了？去登录</el-button>
       </el-tabs>
     </el-form>
   </div>
@@ -244,15 +182,18 @@ const url = "/src/assets/logo.png";
   align-items: center;
   height: 100vh;
 }
+
 .demo-tabs {
   justify-content: center;
 }
-.demo-tabs > .el-tabs__content {
+
+.demo-tabs>.el-tabs__content {
   padding: 32px;
   color: #0a2759;
   font-size: 32px;
   font-weight: 600;
 }
+
 .register-form {
   display: flex;
   flex-direction: column;

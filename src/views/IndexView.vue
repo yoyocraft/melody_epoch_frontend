@@ -37,11 +37,13 @@ const goToDetails = (albumId: number) => {
       <el-carousel-item v-for="(album, index) in topAlbums" :key="album.albumId">
         <div class="carousel-content">
           <el-row :gutter="20" justify="space-between">
-            <el-col :span="6">
+            <el-col :span="8">
               <el-tag class="top-tag">Top - {{ index + 1 }}</el-tag>
             </el-col>
-            <el-col :span="6">
-              <el-button @click="goToDetails(album.albumId)" :icon="TopRight" type="info">查看详情</el-button>
+            <el-col :span="6" class="container">
+              <el-button class="btn" @click="goToDetails(album.albumId)" :icon="TopRight" type="info">
+                <div>details</div>
+              </el-button>
             </el-col>
           </el-row>
           <el-divider style="margin-top: 8px;" />
@@ -61,43 +63,93 @@ const goToDetails = (albumId: number) => {
 
 <style scoped>
 .page-title {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
-  color: #333;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  color: #BB5571;
   margin-bottom: 20px;
 }
 
 .carousel-content {
   padding: 20px;
-  background-color: #88b9c7;
+  background: linear-gradient(#BB5571, #F0C6B5);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .top-tag {
-  margin-right: 8px;
-  font-size: 16px;
+  position: absolute;
+  color: rgba(255, 255, 255, 0.714);
+  font-size: 30px;
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(0, 0, 0, 0);
+  border: 0;
 }
+
 
 .album-info {
   text-align: center;
 }
 
 .album-info h3 {
-  color: #333;
-  font-size: 20px;
+  color: rgba(255, 255, 255, 0.714);
+  font-size: 25px;
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
   margin: 10px 0;
 }
 
 .band-name {
-  color: #d40d0d;
+  color: rgba(255, 255, 255, 0.714);
+  font-size: 20px;
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
 }
 
 .avg-score {
-  color: #e55406;
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.714);
+  font-size: 15px;
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
   margin-top: 8px;
 }
+
+.container {
+  display: flex;
+}
+
+.btn {
+  background: rgb(0, 0, 0, 0);
+  border: 0;
+  color: rgba(255, 255, 255, 0.714);
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  /* 新增的样式 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  /* 为按钮添加阴影效果 */
+  font-weight: bold;
+  /* 使按钮中的文字加粗 */
+  transition: all 0.3s ease;
+  /* 添加过渡效果，使按钮的样式变化更加平滑 */
+  width: 100%;
+  height: auto;
+}
+
+.btn:hover {
+  background: #0099cc;
+  /* 当鼠标悬停在按钮上时改变背景色 */
+}
 </style>
-
-

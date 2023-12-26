@@ -121,4 +121,3 @@ const loadAlbumByPage = async () => {
   margin-top: 16px;
 }
 </style>
-../../utils/common

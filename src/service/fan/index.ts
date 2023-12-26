@@ -1,6 +1,7 @@
 import http from "../../plugins/http";
 import { ScoreAlbumReq, LikeReq } from "../../model/fan/index";
 
+// 异步http.post请求，点赞（喜欢）
 export const like = async (params: LikeReq) => {
   const res = await http.post("/fan/like", {
     ...params,
@@ -10,6 +11,7 @@ export const like = async (params: LikeReq) => {
   }
 };
 
+// 异步http.post请求，取消点赞
 export const unlike = async (params: LikeReq) => {
   const res = await http.post("/fan/unlike", {
     ...params,
@@ -19,6 +21,7 @@ export const unlike = async (params: LikeReq) => {
   }
 };
 
+// 异步http.get请求，根据专辑ID获取喜欢的专辑的点赞状态
 export const getLikeAlbumStatus = async (albumId: number) => {
   const res = await http.get("/fan/like/album/status", {
     params: {
@@ -30,6 +33,7 @@ export const getLikeAlbumStatus = async (albumId: number) => {
   }
 };
 
+// 异步http.post请求，为专辑打分
 export const scoreAlbum = async (params: ScoreAlbumReq) => {
   const res = await http.post("/fan/score", {
     ...params,
@@ -39,6 +43,7 @@ export const scoreAlbum = async (params: ScoreAlbumReq) => {
   }
 };
 
+// 异步http.get请求，获取用户喜欢的乐队列表
 export const listMyLikedBand = async () => {
   const res = await http.get("/fan/like/band");
   if (res.data) {
@@ -46,12 +51,15 @@ export const listMyLikedBand = async () => {
   }
 };
 
+// 异步http.get请求，获取用户喜欢的专辑列表
 export const listMyLikedAlbum = async () => {
   const res = await http.get("/fan/like/album");
   if (res.data) {
     return res.data;
   }
 };
+
+// 异步http.get请求，获取用户喜欢的歌曲列表
 export const listMyLikedSong = async () => {
   const res = await http.get("/fan/like/song");
   if (res.data) {

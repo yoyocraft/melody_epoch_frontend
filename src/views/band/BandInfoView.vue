@@ -86,7 +86,7 @@ const onCurrChange = async (curr: number) => {
     </template>
   </el-page-header>
 
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
+  <el-table :data="tableData" style="width: 100%; margin-top: 36px;" class="table-container">
     <el-table-column fixed prop="bandId" label="乐队序号" width="150" />
     <el-table-column prop="name" label="乐队名称" width="150" />
     <el-table-column prop="foundTime" label="创建时间" width="150" />
@@ -115,5 +115,11 @@ const onCurrChange = async (curr: number) => {
   justify-content: center;
   margin-top: 16px;
 }
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
-../../utils/common
+
