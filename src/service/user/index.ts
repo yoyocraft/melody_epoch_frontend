@@ -6,7 +6,9 @@ import {
   EditUserReq,
   EmailLoginParams,
   EmailRegisterParams,
+  QueryReq,
 } from "../../model/user";
+import { h } from "vue";
 
 /**
  * 获取邮箱验证码
@@ -120,6 +122,15 @@ export const editUserInfo = async (params: EditUserReq) => {
  */
 export const bindEmail = async (params: BindEmailReq) => {
   const res = await http.post("/user/bind/email", {
+    ...params,
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
+export const queryInfo = async (params: QueryReq) => {
+  const res = await http.post("/user/query", {
     ...params,
   });
   if (res.data) {

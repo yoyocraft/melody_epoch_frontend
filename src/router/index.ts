@@ -13,7 +13,6 @@ import SongAddViewVue from "../views/song/SongAddView.vue";
 import AlbumAddViewVue from "../views/album/AlbumAddView.vue";
 import ConcertAddViewVue from "../views/concert/ConcertAddView.vue";
 import BandPartEditViewVue from "../views/band/BandPartEditView.vue";
-import SongEditViewVue from "../views/song/SongEditView.vue";
 import AlbumSongViewVue from "../views/album/AlbumSongView.vue";
 import AlbumDetailsInfoViewVue from "../views/album/AlbumDetailsInfoView.vue";
 import MyLikedBandViewVue from "../views/fan/MyLikedBandView.vue";
@@ -112,11 +111,6 @@ const routes = [
     path: "/song/curr",
     name: "当前乐队歌曲信息",
     component: CurrBandSongViewVue,
-  },
-  {
-    path: "/song/edit",
-    name: "修改歌曲",
-    component: SongEditViewVue,
   },
   {
     path: "/concert",
