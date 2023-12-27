@@ -65,15 +65,15 @@ const goToDetails = (albumId: number) => {
 .page-title {
   font-size: 30px;
   font-weight: bold;
-  background: linear-gradient(to right, #00c6ff, #0072ff);
+  /* background: linear-gradient(to right, #00c6ff, #0072ff); */
   -webkit-background-clip: text;
-  color: #BB5571;
+  color: #87c5c2;
   margin-bottom: 20px;
 }
 
 .carousel-content {
   padding: 20px;
-  background: linear-gradient(#BB5571, #F0C6B5);
+  background: linear-gradient(#87c5c2, #d4a9b7);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

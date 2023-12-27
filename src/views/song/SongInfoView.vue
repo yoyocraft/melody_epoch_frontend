@@ -81,5 +81,12 @@ const onCurrChange = async (curr: number) => {
   justify-content: center;
   margin-top: 16px;
 }
+
+.table-container {
+  max-width: auto;
+  /* 设置最大宽度为800px，根据需要进行调整 */
+  margin: 0 auto;
+  /* 水平居中 */
+}
 </style>
 

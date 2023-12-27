@@ -316,17 +316,24 @@ const loadAlbumSongByPage = async () => {
 <style scoped lang="scss">
 @import "../../style.scss";
 
-
-.el-pagination {
-  justify-content: center;
-  margin-top: 16px;
+.table-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 .el-pagination {
   justify-content: center;
   margin-top: 16px;
 }
-</style>.container {
+
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.container {
   padding: 0 10px;
   box-sizing: border-box;
 
@@ -520,3 +527,4 @@ const loadAlbumSongByPage = async () => {
     }
   }
 }
+</style>
