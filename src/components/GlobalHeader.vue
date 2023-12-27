@@ -48,6 +48,6 @@ const logout = async () => {
 .header {
   font-family: "Comic Sans MS";
   /* font-family: "Kristen ITC"; */
-  color: #BB5571;
+  color: #87c5c2;
 }
 </style>

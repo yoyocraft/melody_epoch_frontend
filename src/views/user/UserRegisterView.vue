@@ -106,7 +106,7 @@ const url = "/src/assets/logo.png";
 
 <template>
   <div class="custom-container">
-    <el-form class="register-form">
+    <el-form class="register-form" @keyup.enter.native="register">
       <el-image style="width: 100px; height: 100px" :src="url" />
       <h1>Melody-Epoch</h1>
       <el-tabs v-model="regType" type="card" class="demo-tabs" stretch>

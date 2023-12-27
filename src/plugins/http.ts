@@ -6,7 +6,6 @@ import { error } from "../utils/common";
 const http: AxiosInstance = axios.create({
   // baseURL: isDev ? "http://localhost:8999/api" : "http://xxx",
   baseURL: "http://localhost:8999/api",
-  // baseURL: "https://strong-secretly-locust.ngrok-free.app/api",
   timeout: 10000,
 });
 

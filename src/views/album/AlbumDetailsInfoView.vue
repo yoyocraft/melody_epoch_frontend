@@ -322,6 +322,12 @@ const doCancel = () => {
 <style scoped lang="scss">
 @import "../../style.scss";
 
+.table-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 
 .el-pagination {
   justify-content: center;

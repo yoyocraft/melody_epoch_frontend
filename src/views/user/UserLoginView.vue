@@ -88,11 +88,28 @@ const doRegister = () => {
 
 const url = "/src/assets/logo.png";
 </script>
-
+<!-- <script>
+export default {
+  data() {
+    return {
+      username: '',
+      password: ''
+    };
+  },
+  methods: {
+    login() {
+      // 在这里实现登录逻辑，例如发送一个请求到服务器验证用户名和密码
+      console.log('登录按钮被点击或按下回车键');
+      console.log('用户名：', this.username);
+      console.log('密码：', this.password);
+    }
+  }
+};
+</script> -->
 <template>
   <div class="custom-container">
     <div>
-      <el-form class="login-form">
+      <el-form class="login-form" @keyup.enter.native="login">
         <el-image style="width: 100px; height: 100px" :src="url" />
         <h1>Melody-Epoch</h1>
         <el-tabs v-model="loginType" type="card" class="demo-tabs" stretch>
@@ -155,7 +172,6 @@ const url = "/src/assets/logo.png";
     </div>
   </div>
 </template>
-
 <style scoped>
 .custom-container {
   display: flex;
