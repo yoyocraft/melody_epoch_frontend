@@ -2,9 +2,9 @@
 import { onMounted, ref } from "vue";
 import { AlbumInfo } from "../../model/album/index";
 import { LikeReq } from "../../model/fan/index";
-import { listMyLikedAlbum } from "../../service/fan/index";
-import { LIKE_TYPE_MAP } from "../../utils/index"
-import { like, unlike } from "../../service/fan/index";
+import { listMyLikedAlbumByPage } from "../../service/fan/index";
+import { LIKE_TYPE_MAP, formatDate } from "../../utils/index"
+import { unlike } from "../../service/fan/index";
 import { useRouter } from "vue-router";
 import { success } from '../../utils/common';
 
@@ -25,27 +25,35 @@ const doNotLike = async (row: any) => {
   const res = await unlike(req);
   if (res) {
     success("撤销喜欢成功！")
-    await loadData();
+    await loadAlbumByPage();
   }
 }
 
-const tableData = ref<AlbumInfo[]>([]);
+const pageSize = 15;
+const albumTotal = ref(0);
+let albumCurrPage = 1
+const onAlbumCurrChange = async (curr: number) => {
+  albumCurrPage = curr
+  await loadAlbumByPage();
+}
+const bandAlbumInfo = ref<AlbumInfo[]>([])
+const loadAlbumByPage = async () => {
+  const res = await listMyLikedAlbumByPage(albumCurrPage, pageSize);
 
-const loadData = async () => {
-  const res = await listMyLikedAlbum();
-  tableData.value = res.map((info: AlbumInfo) => {
+  albumTotal.value = res.total
+  bandAlbumInfo.value = res.records.map((info: AlbumInfo) => {
     return {
       ...info,
+      releaseTime: formatDate(info.releaseTime),
       avgScore: info.avgScore ?? 0.0
     };
   });
 }
-
 /**
  * 挂载时处理一些数据
  */
 onMounted(async () => {
-  await loadData();
+  await loadAlbumByPage();
 });
 
 const goBack = () => {
@@ -60,7 +68,7 @@ const goBack = () => {
       <span class="text-large font-600 mr-3"> 我喜欢的专辑信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
+  <el-table :data="bandAlbumInfo" style="width: 100%; margin-top: 36px;">
     <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
     <el-table-column prop="name" label="专辑名称" width="150" />
     <el-table-column prop="company" label="发行公司" width="150" />
@@ -76,7 +84,15 @@ const goBack = () => {
       <el-empty :image-size="100" />
     </template>
   </el-table>
+  <el-pagination background :current-page="albumCurrPage" layout="prev, pager, next" :total="albumTotal"
+    :page-size="pageSize" @current-change="onAlbumCurrChange" />
 </template>
 
-<style scoped></style>
-../../utils/common
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>
+
+

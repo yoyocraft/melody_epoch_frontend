@@ -210,4 +210,3 @@ export default {
   justify-content: center;
 }
 </style>
-../../utils/common/index

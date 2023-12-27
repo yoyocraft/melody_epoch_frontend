@@ -3,10 +3,13 @@ import { onMounted, ref } from "vue";
 import { AlbumInfo } from "../../model/album/index";
 import { LikeReq } from "../../model/fan/index";
 import { listAlbumBriefInfoByPage } from "../../service/album/index";
-import { LIKE_TYPE_MAP, formatDate } from "../../utils/index"
+import { LIKE_TYPE_MAP, SEARCH_TYPE, formatDate } from "../../utils/index"
 import { like, unlike } from "../../service/fan/index";
 import { useRouter } from "vue-router";
 import { success } from '../../utils/common';
+import { QueryReq } from "../../model/user";
+import { Search } from "@element-plus/icons-vue";
+import { queryInfo } from "../../service/user";
 
 const router = useRouter();
 const doGetAlbumDetail = (_: any, row: any) => {
@@ -40,18 +43,6 @@ const doNotLike = async (row: any) => {
   }
 }
 
-// const tableData = ref<AlbumInfo[]>([]);
-
-// const loadData = async () => {
-//   const res = await listAlbumBriefInfo();
-//   tableData.value = res.map((info: AlbumInfo) => {
-//     return {
-//       ...info,
-//       avgScore: info.avgScore ?? 0.0
-//     };
-//   });
-// }
-
 /**
  * 挂载时处理一些数据
  */
@@ -67,21 +58,52 @@ const pageSize = 15;
 const albumTotal = ref(0);
 let albumCurrPage = 1
 const onAlbumCurrChange = async (curr: number) => {
-  albumCurrPage = curr
+  albumCurrPage = curr;
+  queryReq.value.current = curr;
   await loadAlbumByPage();
 }
 const bandAlbumInfo = ref<AlbumInfo[]>([])
 const loadAlbumByPage = async () => {
-  const res = await listAlbumBriefInfoByPage(albumCurrPage);
-  console.log("#@@ ", res);
+  let res;
+  if (isOnSearch) {
+    res = await queryInfo(queryReq.value);
+    albumTotal.value = res.albumInfoVOPage.total
+    bandAlbumInfo.value = res.albumInfoVOPage.records.map((info: AlbumInfo) => {
+      return { ...info, releaseTime: info.releaseTime ? formatDate(info.releaseTime) : " - " };
+    });
+  } else {
+    res = await listAlbumBriefInfoByPage(albumCurrPage);
+    albumTotal.value = res.total
+    bandAlbumInfo.value = res.records.map((info: AlbumInfo) => {
+      return {
+        ...info,
+        releaseTime: info.releaseTime ? formatDate(info.releaseTime) : " - "
+      };
+    });
+  }
 
-  albumTotal.value = res.total
-  bandAlbumInfo.value = res.records.map((info: AlbumInfo) => {
-    return {
-      ...info,
-      releaseTime: info.releaseTime ? formatDate(info.releaseTime) : " - "
-    };
-  });
+}
+
+
+const showSearch = ref(false);
+const searchText = ref("")
+let isOnSearch = false;
+const onShowSearch = () => {
+  searchText.value = "";
+  showSearch.value = true;
+}
+const queryReq = ref({} as QueryReq);
+const onSearchConfirm = async () => {
+  queryReq.value.searchText = searchText.value;
+  queryReq.value.searchType = SEARCH_TYPE.ALBUM;
+  queryReq.value.current = albumCurrPage;
+  isOnSearch = true;
+  await loadAlbumByPage();
+  showSearch.value = false;
+}
+const onResetData = async () => {
+  isOnSearch = false;
+  await loadAlbumByPage();
 }
 
 </script>
@@ -90,6 +112,12 @@ const loadAlbumByPage = async () => {
   <el-page-header @back="goBack">
     <template #content>
       <span class="text-large font-600 mr-3"> 专辑信息 </span>
+    </template>
+    <template #extra>
+      <div class="flex items-center">
+        <el-button type="success" style="margin-left: 16px;" class="ml-2" @click="onShowSearch">搜索</el-button>
+        <el-button type="warning" class="ml-2" @click="onResetData">重置</el-button>
+      </div>
     </template>
   </el-page-header>
   <el-table :data="bandAlbumInfo" style="width: 100%; margin-top: 36px;">
@@ -113,6 +141,14 @@ const loadAlbumByPage = async () => {
   </el-table>
   <el-pagination background :current-page="albumCurrPage" layout="prev, pager, next" :total="albumTotal"
     :page-size="pageSize" @current-change="onAlbumCurrChange" />
+
+  <el-dialog v-model="showSearch" :show-close="false" title="搜索" center width="60%">
+    <el-input v-model="searchText" placeholder="搜索关键词" class="input-with-select">
+      <template #append>
+        <el-button :icon="Search" class="search-button" @click="onSearchConfirm">搜索</el-button>
+      </template>
+    </el-input>
+  </el-dialog>
 </template>
 
 <style scoped>

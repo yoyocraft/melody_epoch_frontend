@@ -9,6 +9,7 @@ import { BindEmailReq } from "../../model/user/index";
 import { error, success } from '../../utils/common';
 import { EditMemberReq } from '../../model/member';
 import { EditFanReq } from '../../model/fan';
+import { USER_ROLE_TYPE } from '../../model/enums';
 
 const router = useRouter();
 const bindEmailOpt = ref(false)
@@ -87,13 +88,13 @@ const bindText = ref("绑定邮箱！")
 
 const loadData = async () => {
   const res = await getCurrUser();
-  if (res.type == 2) {
+  if (res.type == USER_ROLE_TYPE.MEMBER) {
     res.memberInfoVO.joinTime = res.memberInfoVO.joinTime ? formatDate(res.memberInfoVO.joinTime) : " - ";
     res.memberInfoVO.part = res.memberInfoVO.part ?? " - ";
     res.memberInfoVO.bandName = res.memberInfoVO.bandName ?? " - ";
   }
   userInfo.value = res;
-  bindText.value = userInfo.value.email ?  "换绑邮箱" : "绑定邮箱";
+  bindText.value = userInfo.value.email ? "换绑邮箱" : "绑定邮箱";
 }
 
 onMounted(async () => {
@@ -191,7 +192,7 @@ const doEditFanInfo = () => {
       </el-input>
     </el-form-item>
 
-    <template v-if="userInfo.type == 2">
+    <template v-if="userInfo.type == USER_ROLE_TYPE.MEMBER">
       <!-- 乐队成员 -->
       <el-form-item label="姓名">
         <el-input disabled v-model="userInfo.memberInfoVO.name">
@@ -260,7 +261,7 @@ const doEditFanInfo = () => {
         <el-input disabled v-model="userInfo.memberInfoVO.joinTime" />
       </el-form-item>
     </template>
-    <template v-else-if="userInfo.type == 3">
+    <template v-else-if="userInfo.type == USER_ROLE_TYPE.FAN">
       <!-- 乐迷 -->
       <el-form-item label="姓名">
         <el-input disabled v-model="userInfo.fanInfoVO.name">
@@ -434,4 +435,4 @@ const doEditFanInfo = () => {
   align-items: center;
 }
 </style>
-../../utils/common
+

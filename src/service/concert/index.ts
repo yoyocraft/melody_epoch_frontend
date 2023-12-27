@@ -67,6 +67,17 @@ export const leaveConcert = async (params: JoinConcertReq) => {
   }
 };
 
+export const getCurrConcertJoinInfo = async (concertId: number) => {
+  const res = await http.get("/concert/join/status", {
+    params: {
+      concertId,
+    },
+  });
+  if (res.data) {
+    return res.data;
+  }
+};
+
 // export const getCurrConcertInfo = async () => {
 //   const res = await http.get("/concert/curr", {});
 //   if (res.data) {

@@ -39,6 +39,12 @@ export const LIKE_TYPE_MAP = {
   LIKE_ALBUM: 1,
   LIKE_SONG: 2,
 };
+export const SEARCH_TYPE = {
+  BAND: 0,
+  ALBUM: 1,
+  SONG: 2,
+  COCNERT: 3,
+};
 
 export function formatCommentCreateTimes(commentVO: CommentVO): void {
   commentVO.createTime = formatDateTime(commentVO.createTime);

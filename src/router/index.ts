@@ -13,7 +13,6 @@ import SongAddViewVue from "../views/song/SongAddView.vue";
 import AlbumAddViewVue from "../views/album/AlbumAddView.vue";
 import ConcertAddViewVue from "../views/concert/ConcertAddView.vue";
 import BandPartEditViewVue from "../views/band/BandPartEditView.vue";
-import SongEditViewVue from "../views/song/SongEditView.vue";
 import AlbumSongViewVue from "../views/album/AlbumSongView.vue";
 import AlbumDetailsInfoViewVue from "../views/album/AlbumDetailsInfoView.vue";
 import MyLikedBandViewVue from "../views/fan/MyLikedBandView.vue";
@@ -23,6 +22,8 @@ import UserInfoViewVue from "../views/user/UserInfoView.vue";
 import CurrBandAlbumsViewVue from "../views/album/CurrBandAlbumsView.vue";
 import CurrBandSongViewVue from "../views/song/CurrBandSongView.vue";
 import CurrConcertViewVue from "../views/concert/CurrConcertView.vue";
+import MyJoinedConcertViewVue from "../views/fan/MyJoinedConcertView.vue";
+import MyLikedAlbumViewVue from "../views/fan/MyLikedAlbumView.vue";
 
 const routes = [
   { path: "/", name: "主页", component: IndexViewVue },
@@ -112,11 +113,6 @@ const routes = [
     component: CurrBandSongViewVue,
   },
   {
-    path: "/song/edit",
-    name: "修改歌曲",
-    component: SongEditViewVue,
-  },
-  {
     path: "/concert",
     name: "演唱会",
     component: ConcertInfoViewVue,
@@ -144,12 +140,17 @@ const routes = [
   {
     path: "/like/album",
     name: "我喜欢的专辑",
-    component: MyLikedBandViewVue,
+    component: MyLikedAlbumViewVue,
   },
   {
     path: "/like/song",
     name: "我喜欢的音乐",
     component: MyLikedSongViewVue,
+  },
+  {
+    path: "/joined/concert",
+    name: "我参加的演唱会",
+    component: MyJoinedConcertViewVue,
   },
 ];
 

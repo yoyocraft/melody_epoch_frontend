@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { SongInfo } from "../../model/song/index";
-import { listMyLikedSong } from "../../service/fan/index";
+import { listMyLikedSongByPage } from "../../service/fan/index";
 import { useRouter } from "vue-router";
 import { LikeReq } from "../../model/fan";
 import { LIKE_TYPE_MAP } from "../../utils";
@@ -12,23 +12,31 @@ const router = useRouter();
 
 const tableData = ref<SongInfo[]>([]);
 
-const loadData = async () => {
-  const res = await listMyLikedSong();
-  tableData.value = res.map((info: SongInfo) => {
+/**
+ * 挂载时处理一些数据
+ */
+onMounted(async () => {
+  await loadDataByPage();
+});
+
+const pageSize = 15;
+const total = ref(0);
+let currPage = 1
+const onCurrChange = async (curr: number) => {
+  currPage = curr
+  await loadDataByPage();
+}
+
+const loadDataByPage = async () => {
+  const res = await listMyLikedSongByPage(currPage, pageSize);
+  total.value = res.total
+  tableData.value = res.records.map((info: SongInfo) => {
     return {
       ...info,
       albumName: info.albumName ?? " - "
     };
   });
 }
-
-/**
- * 挂载时处理一些数据
- */
-onMounted(async () => {
-  await loadData();
-});
-
 
 
 const doNotLike = async (row: any) => {
@@ -38,7 +46,7 @@ const doNotLike = async (row: any) => {
   const res = await unlike(req);
   if (res) {
     success("撤销喜欢成功！")
-    await loadData();
+    await loadDataByPage();
   }
 }
 
@@ -69,7 +77,15 @@ const goBack = () => {
       <el-empty :image-size="100" />
     </template>
   </el-table>
+  <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="pageSize"
+    @current-change="onCurrChange" />
 </template>
 
-<style scoped></style>
-../../utils/common
+<style scoped>
+.el-pagination {
+  justify-content: center;
+  margin-top: 16px;
+}
+</style>
+
+

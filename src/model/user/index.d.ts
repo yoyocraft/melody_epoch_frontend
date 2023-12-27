@@ -55,3 +55,9 @@ export interface EditUserReq {
   editMemberReq: EditMemberReq;
   editFanReq: EditFanReq;
 }
+
+export interface QueryReq {
+  searchText: string;
+  searchType: number;
+  current: number;
+}

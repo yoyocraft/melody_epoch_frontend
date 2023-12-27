@@ -2,9 +2,6 @@
 import { useRouter } from "vue-router";
 import { userLogout } from "../service/user/index"
 import { success } from "../utils/common";
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 
 const doUserInfo = () => {
   router.push({
@@ -30,7 +27,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <el-menu default-active="0" class="el-menu-demo" mode="horizontal" :ellipsis="false" @select="handleSelect">
+  <el-menu default-active="0" class="el-menu-demo" mode="horizontal" :ellipsis="false">
     <el-menu-item index="0">
       <h1 class="header">Melody-Epoch</h1>
     </el-menu-item>
@@ -54,4 +51,3 @@ const logout = async () => {
   color: #87c5c2;
 }
 </style>
-../utils/common
