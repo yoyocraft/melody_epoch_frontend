@@ -1,13 +1,6 @@
 import http from "../../plugins/http";
 import { EditPartReq, JoinBandReq } from "../../model/member";
 
-// export const listMemberInfo = async () => {
-//   const res = await http.get("/member/list");
-//   if (res.data) {
-//     return res.data;
-//   }
-// };
-
 // 异步http.get请求,根据分页信息获取乐队成员信息列表
 export const listMemberInfoByPage = async (curr: number, size: number) => {
   const res = await http.get("/member/list/page", {

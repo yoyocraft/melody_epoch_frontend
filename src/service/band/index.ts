@@ -1,12 +1,6 @@
 import http from "../../plugins/http";
 import { BandAddReq, EditBandReq } from "../../model/band";
 
-// export const listBandBriefInfo = async () => {
-//   const res = await http.get("/band/list");
-//   if (res.data) {
-//     return res.data;
-//   }
-// };
 
 // 异步http.get请求，根据页码获取乐队简要信息（列表）
 export const listBandBriefInfoByPage = async (curr: number) => {

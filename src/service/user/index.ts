@@ -8,7 +8,6 @@ import {
   EmailRegisterParams,
   QueryReq,
 } from "../../model/user";
-import { h } from "vue";
 
 /**
  * 获取邮箱验证码

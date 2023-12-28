@@ -294,12 +294,12 @@ const loadConcertByPage = async () => {
   </el-divider>
 
   <div class="table-center">
-    <el-table :data="bandAlbumInfo" style="width: 100%" max-height="250">
+    <el-table :data="bandAlbumInfo" style="width: 100%">
       <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
-      <el-table-column prop="name" label="专辑名" width="120" />
-      <el-table-column prop="company" label="发行公司" width="120" />
-      <el-table-column prop="releaseTime" label="发行时间" width="120" />
-      <el-table-column prop="profile" label="简介" width="120" />
+      <el-table-column prop="name" label="专辑名" width="150" />
+      <el-table-column prop="company" label="发行公司" width="150" />
+      <el-table-column prop="releaseTime" label="发行时间" width="150" />
+      <el-table-column prop="profile" label="简介" width="200" />
       <el-table-column prop="avgScore" label="均分" width="120" />
       <template #empty>
         <el-empty :image-size="60" />
