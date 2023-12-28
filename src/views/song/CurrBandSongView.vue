@@ -58,7 +58,7 @@ const loadDataByPage = async () => {
       <span class="text-large font-600 mr-3"> 歌曲信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;" class="table-container">
+  <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
     <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
     <el-table-column prop="name" label="歌曲名称" width="150" />
     <el-table-column prop="bandName" label="乐队名称" width="150" />
@@ -85,12 +85,4 @@ const loadDataByPage = async () => {
   justify-content: center;
   margin-top: 16px;
 }
-
-.table-container {
-  max-width: 800px;
-  /* 设置最大宽度为800px，根据需要进行调整 */
-  margin: 0 auto;
-  /* 水平居中 */
-}
 </style>
-
