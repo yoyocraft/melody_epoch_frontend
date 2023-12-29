@@ -98,7 +98,6 @@ const goBack = () => {
 const loadBandData = async () => {
   const res = await listBandInfoVO(currBandId);
   res.foundTime = formatDate(res.foundTime);
-  console.log("bandinfo : ", res);
 
   bandInfo.value = res;
 }

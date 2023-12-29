@@ -25,7 +25,6 @@ const goBack = () => {
   router.back();
 }
 const doReleaseSong = async (_: any, row: any) => {
-  console.log(row.songId);
   const req = {} as ReleaseSongReq;
   req.songId = row.songId;
   const res = await releaseSong(req)

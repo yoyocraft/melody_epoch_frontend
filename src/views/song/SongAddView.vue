@@ -19,7 +19,6 @@ const onSubmit = async () => {
   })
 }
 const onReset = () => {
-  console.log("onReset");
   songAddParams.value = {} as SongAddReq;
 }
 

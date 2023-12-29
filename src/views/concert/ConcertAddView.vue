@@ -42,7 +42,6 @@ const onSubmit = async () => {
   }
 }
 const onReset = () => {
-  console.log("onReset");
   concertAddReq.value = {} as ConcertAddReq;
 }
 

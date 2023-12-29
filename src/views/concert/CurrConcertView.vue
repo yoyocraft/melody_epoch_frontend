@@ -23,8 +23,6 @@ const goBack = () => {
 const pageSize = 15;
 const loadDataByPage = async () => {
   const res = await getCurrConcertInfoByPage(currPage, pageSize);
-  console.log(res);
-
   total.value = res.total;
   res.records.forEach((item: ConcertBriefInfo) => {
     item.startTime = formatDateTime(item.startTime);

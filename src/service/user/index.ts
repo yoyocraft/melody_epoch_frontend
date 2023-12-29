@@ -53,7 +53,6 @@ export const emailLogin = async (emailLoginParams: EmailLoginParams) => {
  * 账号注册
  */
 export const accRegister = async (accRegParams: AccRegisterParams) => {
-  console.log(accRegParams);
   const res = await http.post("/user/acc_reg", {
     ...accRegParams,
   });
