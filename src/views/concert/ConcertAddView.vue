@@ -21,6 +21,7 @@ const onSubmit = async () => {
   concertAddReq.value.songIdList = tmpIds;
   const startTime = timeInterval.value?.[0];
   const endTime = timeInterval.value?.[1];
+
   // 检查 startTime 和 endTime 是否为有效的 Date 对象
   if (startTime instanceof Date && !isNaN(startTime.getTime()) &&
     endTime instanceof Date && !isNaN(endTime.getTime())) {
@@ -33,7 +34,7 @@ const onSubmit = async () => {
       success("创建成功")
     }
     router.push({
-      path: "/concert",
+      path: "/concert/curr",
       replace: true
     })
   } else {
