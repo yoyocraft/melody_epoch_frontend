@@ -271,3 +271,166 @@
 
 > 该层定义了一些列路由的路径，用于完成不同功能页面之间的相互跳转使得页面简介，功能明确
 
+### service
+
+> 在该层主要包含了一系列的功能模块的实现，其中的各模块与model层相对应
+>
+> - album:
+>
+>   > 1. 定义了一个名为`addAlbum`的异步函数，用于向服务器发送POST请求以添加专辑信息。
+>   > 2. 定义了一个名为`listAlbumBriefInfoByPage`的异步函数，用于向服务器发送GET请求以获取指定页数的专辑简要信息。
+>   > 3. 定义了一个名为`currBandAllAlbums`的异步函数，用于向服务器发送GET请求以获取当前乐队的所有专辑信息。
+>   > 4. 定义了一个名为`currBandAllAlbumsByPage`的异步函数，用于向服务器发送GET请求以获取当前乐队的指定页数的所有专辑信息。
+>   > 5. 定义了一个名为`getBandAlbumsByPage`的异步函数，用于向服务器发送GET请求以获取指定乐队的指定页数的所有专辑信息。
+>   > 6. 定义了一个名为`addSongsToAlbum`的异步函数，用于向服务器发送PUT请求以将歌曲添加到专辑中。
+>   > 7. 定义了一个名为`getAlbumDetailsInfo`的异步函数，用于向服务器发送GET请求以获取指定专辑ID的专辑详细信息。
+>   > 8. 定义了一个名为`releaseAlbumInfo`的异步函数，用于向服务器发送POST请求以发布专辑信息。
+>   > 9. 定义了一个名为`editAlbumInfo`的异步函数，用于向服务器发送PUT请求以编辑专辑信息。
+>   > 10. 定义了一个名为`getTopAlbums`的异步函数，用于向服务器发送GET请求以获取热门专辑信息。
+>
+> - band：
+>
+>   > 这个模块提供了一些异步函数，用于与后端服务器进行交互，以获取和操作乐队信息。以下是每个函数的功能：
+>   >
+>   > 1. `listBandBriefInfoByPage(curr: number)`：根据页码获取乐队简要信息（列表）。
+>   > 2. `listBandInfoVO(bandId: number)`：根据乐队ID获取乐队信息。
+>   > 3. `listCurrBandInfoVO()`：获取当前乐队信息。
+>   > 4. `addBand(params: BandAddReq)`：添加一个新的乐队。
+>   > 5. `releaseBandInfo()`：发布乐队信息。
+>   > 6. `unReleaseBandInfo()`：取消发布乐队信息。
+>   > 7. `currBandReleaseStatus()`：获取当前乐队的状态。
+>   > 8. `editBandInfo(params: EditBandReq)`：编辑乐队信息。
+>   >
+>   > 这些函数都使用了`async/await`语法来处理异步操作，并返回服务器响应的数据。
+>
+> - comment:
+>
+>   > 函数名为 `addComment`，它接受一个参数 `params`，类型为 `AddCommentReq`，表示要添加的评论信息。
+>   >
+>   > 在函数内部，使用 `await http.post("/comment/add", { ...params })` 发送异步请求到服务器的 `/comment/add` 路径，并将 `params` 对象作为请求体发送。
+>   >
+>   > 如果服务器返回了响应数据（`res.data`），则将该数据作为函数的返回值。
+>   >
+>   > 请注意，这段代码中的导入语句 `import http from "../../plugins/http";` 和模型类 `import { AddCommentReq } from "../../model/comment";` 是示例性的，需要根据实际情况进行修改。
+>
+> - concert:
+>
+>   > 这是用于处理演唱会信息的模块，主要包含以下功能：
+>   >
+>   > 1. 添加演唱会信息（`addConcert`）：通过异步的 HTTP POST 请求向服务器发送演唱会信息。
+>   > 2. 获取演唱会简介列表（`listConcertBriefInfoByPage`）：根据当前页码获取演唱会的简介（列表）。
+>   > 3. 根据演唱会ID获取所有演唱会信息（`listCurrConcertInfoVO`）：通过异步的 HTTP GET 请求从服务器获取指定演唱会的所有信息。
+>   > 4. 加入演唱会请求（`joinConcert`）：通过异步的 HTTP POST 请求向服务器发送加入演唱会的请求。
+>   > 5. 取消加入演唱会请求（`leaveConcert`）：通过异步的 HTTP POST 请求向服务器发送取消加入演唱会的请求。
+>   > 6. 获取当前演唱会的加入信息（`getCurrConcertJoinInfo`）：通过异步的 HTTP GET 请求从服务器获取当前演唱会的加入信息。
+>   > 7. 获取当前演唱会的信息（`getCurrConcertDetails`）：通过异步的 HTTP GET 请求从服务器获取当前演唱会的详细信息。
+>   > 8. 修改演唱会信息（`editConcertInfo`）：通过异步的 HTTP PUT 请求向服务器发送修改演唱会信息的请求。
+>   > 9. 发布演唱会信息（`releaseConcert`）：通过异步的 HTTP POST 请求向服务器发送发布演唱会信息的请求。
+>   > 10. 取消发布演唱会信息（`unReleaseConcert`）：通过异步的 HTTP POST 请求向服务器发送取消发布演唱会信息的请求。
+>
+> - fan:
+>
+>   > 这是用于处理用户对音乐、专辑和乐队的喜欢（点赞）操作的模块。共有以下功能：
+>   >
+>   > 1. 点赞（喜欢）：通过异步的HTTP POST请求，向服务器发送点赞请求，将指定的专辑或歌曲标记为喜欢。
+>   > 2. 取消点赞：通过异步的HTTP POST请求，向服务器发送取消点赞请求，将指定的专辑或歌曲从喜欢列表中移除。
+>   > 3. 获取喜欢的专辑状态：通过异步的HTTP GET请求，根据专辑ID查询该专辑在用户喜欢的专辑列表中的点赞状态。
+>   > 4. 为专辑打分：通过异步的HTTP POST请求，向服务器发送为专辑打分的请求，记录用户对该专辑的评价分数。
+>   > 5. 获取用户喜欢的乐队列表：通过异步的HTTP GET请求，获取用户喜欢的乐队列表。
+>   > 6. 获取用户喜欢的专辑列表：通过异步的HTTP GET请求，获取用户喜欢的专辑列表。
+>   > 7. 获取用户喜欢的歌曲列表：通过异步的HTTP GET请求，获取用户喜欢的歌曲列表。
+>   > 8. 获取用户参加的演唱会列表：通过异步的HTTP GET请求，获取用户参加的演唱会列表。
+>
+> - member:
+>
+>   > 这是用于处理乐队成员信息的模块，主要功能包括：
+>   >
+>   > 1. 根据分页信息获取乐队成员信息列表（`listMemberInfoByPage`）
+>   > 2. 获取当前乐队的成员的列表（`listMemberInCurrBand`）
+>   > 3. 根据当前分页信息，获取当前乐队成员列表（`listMemberInCurrBandByPage`）
+>   > 4. 根据分页信息及乐队ID获取乐队成员列表（`listMemberInBandByPage`）
+>   > 5. 编辑成员信息（`editPart`）
+>   > 6. 加入乐队请求（`joinBand`）
+>   > 7. 离开乐队请求（`leaveBand`）
+>
+> - song:
+>
+>   > 这是用于处理音乐相关的API请求的模块。包含以下功能：
+>   >
+>   > 1. 添加歌曲（`addSong`）：通过异步http.post请求，将歌曲信息发送到服务器进行添加。
+>   > 2. 获取歌曲列表（`listSongItems`）：通过异步http.get请求，从服务器获取所有歌曲的信息。
+>   > 3. 根据当前分页信息获取歌曲列表（`listSongInfoByPage`）：通过异步http.get请求，根据指定的分页信息，从服务器获取歌曲列表。
+>   > 4. 根据当前分页信息获取当前乐队的歌曲列表（`currBandSongsByPage`）：通过异步http.get请求，根据指定的分页信息和乐队ID，从服务器获取当前乐队的歌曲列表。
+>   > 5. 根据分页信息及乐队ID，获取乐队歌曲列表（指定乐队）（`getBandSongsByPage`）：通过异步http.get请求，根据指定的分页信息、乐队ID和分页大小，从服务器获取指定乐队的歌曲列表。
+>   > 6. 根据分页信息获取专辑的歌曲列表（`getAlbumSongsByPage`）：通过异步http.get请求，根据指定的分页信息和专辑ID，从服务器获取专辑的歌曲列表。
+>   > 7. 根据专辑ID获取专辑的歌曲信息（`listSongToAlbum`）：通过异步http.get请求，根据指定的专辑ID，从服务器获取该专辑的所有歌曲信息。
+>   > 8. 发布歌曲（`releaseSong`）：通过异步http.post请求，将歌曲发布信息发送到服务器进行发布。
+>
+> - user:
+>
+>   > 这是用于处理用户登录、注册、邮箱验证、角色获取、用户信息编辑、邮箱绑定和查询等功能的模块。包含的功能如下：
+>   >
+>   > 1. `getCaptcha`函数用于获取邮箱验证码。
+>   > 2. `accLogin`函数用于账号登录。
+>   > 3. `emailLogin`函数用于邮箱登录。
+>   > 4. `accRegister`函数用于账号注册。
+>   > 5. `emailRegister`函数用于邮箱注册。
+>   > 6. `getAuthType`函数用于获取当前角色类型。
+>   > 7. `userLogout`函数用于用户登出。
+>   > 8. `getCurrUser`函数用于获取当前登录角色信息。
+>   > 9. `editUserInfo`函数用于修改当前登录角色信息。
+>   > 10. `bindEmail`函数用于绑定邮箱信息。
+>   > 11. `queryInfo`函数用于查询用户信息。
+
+### view
+
+> 该层包含了与service层对应的界面的实现
+>
+> - album
+>
+>   > - AlbumAddView.vue
+>   > - AlbumDetailsInfoView.vue
+>   > - AlbumInfoView.vue
+>   > - AlbumSongView.vue 
+>   > - CurrBandAlbumsView.vue
+>
+> - band
+>
+>   > - BandAddView.vue
+>   > - BandDetailsView.vue
+>   > - BandInfoView.vue
+>   > - BandPartEditView.vue
+>   > - CurrBandInfo.vue
+>
+> - concert
+>
+>   > - ConcertAddView.vue
+>   > - ConcertDetailsView.vue
+>   > - ConcertInfoView.vue
+>   > - CurrConcertView.vue
+>
+> - fan
+>
+>   > - MyJoinedConcertView.vue
+>   > - MyLikedAlbumView.vue
+>   > - MyLikedBandView.vue
+>   > - MyLikedSongView.vue
+>
+> - member
+>
+>   > - MemberEditView.vue
+>   > - MemberlnfoView.vue
+>
+> - song
+>
+>   > - CurrBandSongView.vue
+>   > - SongAddView.vue
+>   > - SongInfoView.vue
+>
+> - user
+>
+>   > - UserInfoView.vue
+>   > - UserLoginView.vue
+>   > - UserRegisterView.vue
+>
+> - IndexView.vue:
