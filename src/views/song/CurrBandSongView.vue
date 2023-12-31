@@ -127,16 +127,15 @@ const loadCurrSongFansByPage = async () => {
 
 
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .el-pagination {
   justify-content: center;
   margin-top: 16px;
 }
-
-.table-container {
-  max-width: 800px;
-  /* 设置最大宽度为800px，根据需要进行调整 */
-  margin: 0 auto;
-  /* 水平居中 */
-}
 </style>
-

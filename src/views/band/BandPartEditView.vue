@@ -72,7 +72,7 @@ const doEditPart = async (_: any, row: any) => {
     </template>
   </el-page-header>
 
-  <el-table :data="memberData" style="width: 100%; margin-top: 36px;">
+  <el-table :data="memberData" style="width: 100%; margin-top: 36px;" class="container">
     <el-table-column prop="memberId" label="成员序号" width="150" />
     <el-table-column prop="name" label="成员姓名" width="200" />
     <el-table-column prop="part" label="当前分工" width="200" />
@@ -89,4 +89,12 @@ const doEditPart = async (_: any, row: any) => {
     </el-table-column>
   </el-table>
 </template>
-
+<style>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+</style>

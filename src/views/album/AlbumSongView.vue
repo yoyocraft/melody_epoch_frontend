@@ -109,5 +109,13 @@ const doOnSelect = async () => {
   </el-form>
 </template>
 
-
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+</style>
 ../../utils/common

@@ -120,7 +120,7 @@ const onResetData = async () => {
       </div>
     </template>
   </el-page-header>
-  <el-table :data="bandAlbumInfo" style="width: 100%; margin-top: 36px;">
+  <el-table :data="bandAlbumInfo" style="width: 100%; margin-top: 36px;" class="container">
     <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
     <el-table-column prop="name" label="专辑名称" width="150" />
     <el-table-column prop="company" label="发行公司" width="150" />
@@ -155,5 +155,12 @@ const onResetData = async () => {
 .el-pagination {
   justify-content: center;
   margin-top: 16px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 </style>
