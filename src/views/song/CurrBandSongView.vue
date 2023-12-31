@@ -5,6 +5,9 @@ import { currBandSongsByPage, releaseSong } from "../../service/song/index";
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
 import { success } from '../../utils/common';
+import { FanInfo } from "../../model/fan";
+import { GENDER_MAP } from "../../utils";
+import { getSongFansByBandIdAndPage } from "../../service/fan";
 
 const router = useRouter();
 
@@ -22,7 +25,6 @@ const goBack = () => {
   router.back();
 }
 const doReleaseSong = async (_: any, row: any) => {
-  console.log(row.songId);
   const req = {} as ReleaseSongReq;
   req.songId = row.songId;
   const res = await releaseSong(req)
@@ -50,6 +52,32 @@ const loadDataByPage = async () => {
     };
   });
 }
+
+/**
+ * 歌迷信息
+ */
+const showFanOpt = ref(false);
+const fanInfoList = ref<FanInfo[]>([]);
+const sexFormatter = (_: any, __: any, cellValue: any, ___: any) => {
+  return GENDER_MAP[cellValue];
+}
+const doShowFans = async (row: any) => {
+  currSongId = row.songId;
+  showFanOpt.value = true;
+  await loadCurrSongFansByPage();
+}
+let fanCurrPage = 1;
+const fanTotal = ref(0);
+let currSongId: number = 0;
+const onFanCurrChange = async (curr: number) => {
+  fanCurrPage = curr
+  await loadCurrSongFansByPage();
+}
+const loadCurrSongFansByPage = async () => {
+  const res = await getSongFansByBandIdAndPage(currSongId, fanCurrPage, pageSize);
+  fanTotal.value = res.total;
+  fanInfoList.value = res.records;
+}
 </script>
 
 <template>
@@ -58,17 +86,17 @@ const loadDataByPage = async () => {
       <span class="text-large font-600 mr-3"> 歌曲信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;" class="container">
+  <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
     <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
     <el-table-column prop="name" label="歌曲名称" width="150" />
-    <el-table-column prop="bandName" label="乐队名称" width="150" />
     <el-table-column prop="author" label="作者" width="150" />
     <el-table-column prop="albumName" label="所属专辑名称" width="150" />
-    <el-table-column fixed="right" label="操作" width="150">
+    <el-table-column fixed="right" label="操作" width="200">
       <template #default="scope">
         <el-button disabled v-if="scope.row.isRelease === 1" :icon="Promotion" link type="success">已发布</el-button>
         <el-button :icon="Promotion" v-else link type="success"
           @click="doReleaseSong(scope.$index, scope.row)">发布</el-button>
+        <el-button link type="primary" @click="doShowFans(scope.row)">歌迷信息</el-button>
       </template>
     </el-table-column>
     <template #empty>
@@ -77,6 +105,24 @@ const loadDataByPage = async () => {
   </el-table>
   <el-pagination background :current-page="currPage" layout="prev, pager, next" :total="total" :page-size="pageSize"
     @current-change="onCurrChange" />
+
+
+  <el-drawer v-model="showFanOpt" title="歌迷信息" direction="rtl" size="70%">
+    <!-- 乐迷信息 -->
+    <el-table :data="fanInfoList" style="width: 100%" max-height="250">
+      <el-table-column fixed prop="fanId" label="乐迷序号" width="150" />
+      <el-table-column prop="name" label="姓名" width="120" />
+      <el-table-column prop="gender" label="性别" width="120" :formatter="sexFormatter" />
+      <el-table-column prop="age" label="年龄" width="120" />
+      <el-table-column prop="career" label="职业" width="120" />
+      <el-table-column prop="education" label="学历" width="120" />
+      <template #empty>
+        <el-empty :image-size="60" />
+      </template>
+    </el-table>
+    <el-pagination background :current-page="fanCurrPage" layout="prev, pager, next" :total="fanTotal"
+      :page-size="pageSize" @current-change="onFanCurrChange" />
+  </el-drawer>
 </template>
 
 

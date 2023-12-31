@@ -4,8 +4,10 @@ import { AlbumInfo, EditAlbumReq, ReleaseAlbumReq } from "../../model/album/inde
 import { releaseAlbumInfo, editAlbumInfo, currBandAllAlbumsByPage } from "../../service/album/index";
 import { useRouter } from "vue-router";
 import { Promotion } from "@element-plus/icons-vue";
-import { formatDate } from "../../utils";
+import { GENDER_MAP, formatDate } from "../../utils";
 import { success } from "../../utils/common";
+import { FanInfo } from "../../model/fan";
+import { getAlbumFansByBandIdAndPage } from "../../service/fan";
 
 const router = useRouter();
 const doGetAlbumDetail = (_: any, row: any) => {
@@ -84,6 +86,33 @@ const onAlbumEditCancel = () => {
   editAlbumOpt.value = false;
   editAlbumReq.value = {} as EditAlbumReq;
 }
+
+
+/**
+ * 歌迷信息
+ */
+const showFanOpt = ref(false);
+const fanInfoList = ref<FanInfo[]>([]);
+const sexFormatter = (_: any, __: any, cellValue: any, ___: any) => {
+  return GENDER_MAP[cellValue];
+}
+const doShowFans = async (row: any) => {
+  currAlbumId = row.albumId;
+  showFanOpt.value = true;
+  await loadCurrAlbumFansByPage();
+}
+let fanCurrPage = 1;
+const fanTotal = ref(0);
+let currAlbumId: number = 0;
+const onFanCurrChange = async (curr: number) => {
+  fanCurrPage = curr
+  await loadCurrAlbumFansByPage();
+}
+const loadCurrAlbumFansByPage = async () => {
+  const res = await getAlbumFansByBandIdAndPage(currAlbumId, fanCurrPage, pageSize);
+  fanTotal.value = res.total;
+  fanInfoList.value = res.records;
+}
 </script>
 
 <template>
@@ -100,13 +129,14 @@ const onAlbumEditCancel = () => {
     <el-table-column prop="bandName" label="乐队名称" width="150" />
     <el-table-column prop="avgScore" label="专辑均分" width="120" />
     <el-table-column prop="profile" label="专辑简介" width="150" />
-    <el-table-column fixed="right" label="操作" width="200">
+    <el-table-column fixed="right" label="操作" width="300">
       <template #default="scope">
         <el-button disabled :icon="Promotion" v-if="scope.row.isRelease === 1" link type="info">已发布</el-button>
         <el-button :icon="Promotion" v-else link type="success"
           @click="doReleaseAlbum(scope.$index, scope.row)">发布</el-button>
         <el-button link type="primary" @click="doGetAlbumDetail(scope.$index, scope.row)">详情</el-button>
         <el-button link type="primary" @click="onAlbumEdit(scope.row)">修改</el-button>
+        <el-button link type="primary" @click="doShowFans(scope.row)">歌迷信息</el-button>
       </template>
     </el-table-column>
     <template #empty>
@@ -129,6 +159,23 @@ const onAlbumEditCancel = () => {
         <el-button @click="onAlbumEditCancel">取消</el-button>
       </el-form-item>
     </el-form>
+  </el-drawer>
+
+  <el-drawer v-model="showFanOpt" title="歌迷信息" direction="rtl" size="70%">
+    <!-- 乐迷信息 -->
+    <el-table :data="fanInfoList" style="width: 100%" max-height="250">
+      <el-table-column fixed prop="fanId" label="乐迷序号" width="150" />
+      <el-table-column prop="name" label="姓名" width="120" />
+      <el-table-column prop="gender" label="性别" width="120" :formatter="sexFormatter" />
+      <el-table-column prop="age" label="年龄" width="120" />
+      <el-table-column prop="career" label="职业" width="120" />
+      <el-table-column prop="education" label="学历" width="120" />
+      <template #empty>
+        <el-empty :image-size="60" />
+      </template>
+    </el-table>
+    <el-pagination background :current-page="fanCurrPage" layout="prev, pager, next" :total="fanTotal"
+      :page-size="pageSize" @current-change="onFanCurrChange" />
   </el-drawer>
 </template>
 

@@ -14,12 +14,11 @@ const onSubmit = async () => {
     success("创建成功")
   }
   router.push({
-    path: "/band",
+    path: "/band/curr",
     replace: true
   })
 }
 const onReset = () => {
-  console.log("onReset");
   bandAddParams.value = {} as BandAddReq;
 }
 </script>

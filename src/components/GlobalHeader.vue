@@ -12,8 +12,6 @@ const router = useRouter();
 
 const logout = async () => {
   const res = await userLogout();
-  console.log(res);
-
   if (res) {
     router.push({
       path: "/login",
@@ -21,7 +19,6 @@ const logout = async () => {
     })
   }
   success("登出成功");
-  console.log("logout");
 };
 
 </script>

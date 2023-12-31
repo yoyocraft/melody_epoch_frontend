@@ -16,13 +16,6 @@ export const addConcert = async (params: ConcertAddReq) => {
   }
 };
 
-// export const listConcertBriefInfo = async () => {
-//   const res = await http.get("/concert/list");
-//   if (res.data) {
-//     return res.data;
-//   }
-// };
-
 // 异步http.get请求，根据当前页码获取演唱会的简介（列表）
 export const listConcertBriefInfoByPage = async (curr: number) => {
   const res = await http.get("/concert/list/page", {
@@ -77,13 +70,6 @@ export const getCurrConcertJoinInfo = async (concertId: number) => {
     return res.data;
   }
 };
-
-// export const getCurrConcertInfo = async () => {
-//   const res = await http.get("/concert/curr", {});
-//   if (res.data) {
-//     return res.data;
-//   }
-// };
 
 // 异步http.grt请求，获取当前演唱会的信息（分页列表）
 export const getCurrConcertInfoByPage = async (curr: number, size: number) => {

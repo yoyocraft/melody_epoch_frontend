@@ -19,13 +19,6 @@ export const listSongItems = async () => {
   }
 };
 
-// export const listSongInfo = async () => {
-//   const res = await http.get("/song/list");
-//   if (res.data) {
-//     return res.data;
-//   }
-// };
-
 // 异步http.get请求，根据当前分页信息获取歌曲列表
 export const listSongInfoByPage = async (curr: number) => {
   const res = await http.get("/song/list/page", {
@@ -37,13 +30,6 @@ export const listSongInfoByPage = async (curr: number) => {
     return res.data;
   }
 };
-
-// export const currBandSongs = async () => {
-//   const res = await http.get("/song/curr");
-//   if (res.data) {
-//     return res.data;
-//   }
-// };
 
 // 异步http.get请求，根据当前分页信息获取当前乐队的歌曲列表
 export const currBandSongsByPage = async (curr: number, size: number) => {

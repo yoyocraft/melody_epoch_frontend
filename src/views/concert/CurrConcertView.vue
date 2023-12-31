@@ -4,11 +4,13 @@ import { useRouter } from 'vue-router';
 import { ConcertBriefInfo, EditConcertReq, ReleaseConcertReq } from '../../model/concert';
 import { getCurrConcertDetails, editConcertInfo, releaseConcert, unReleaseConcert, getCurrConcertInfoByPage } from '../../service/concert';
 import { listSongItems } from '../../service/song';
-import { formatDateTime } from '../../utils';
+import { GENDER_MAP, formatDateTime } from '../../utils';
 import { TransferOption } from '../../model/common';
 import { SongInfo } from '../../model/song';
 import { error, success } from '../../utils/common';
 import { Promotion } from '@element-plus/icons-vue';
+import { getConcertFansByBandIdAndPage } from '../../service/fan';
+import { FanInfo } from '../../model/fan';
 
 const router = useRouter();
 
@@ -21,8 +23,6 @@ const goBack = () => {
 const pageSize = 15;
 const loadDataByPage = async () => {
   const res = await getCurrConcertInfoByPage(currPage, pageSize);
-  console.log(res);
-
   total.value = res.total;
   res.records.forEach((item: ConcertBriefInfo) => {
     item.startTime = formatDateTime(item.startTime);
@@ -140,6 +140,33 @@ const onCurrChange = async (curr: number) => {
   currPage = curr
   await loadDataByPage();
 }
+
+
+/**
+ * 歌迷信息
+ */
+const showFanOpt = ref(false);
+const fanInfoList = ref<FanInfo[]>([]);
+const sexFormatter = (_: any, __: any, cellValue: any, ___: any) => {
+  return GENDER_MAP[cellValue];
+}
+const doShowFans = async (row: any) => {
+  currConcertId = row.concertId;
+  showFanOpt.value = true;
+  await loadCurrConcertFansByPage();
+}
+let fanCurrPage = 1;
+const fanTotal = ref(0);
+let currConcertId: number = 0;
+const onFanCurrChange = async (curr: number) => {
+  fanCurrPage = curr
+  await loadCurrConcertFansByPage();
+}
+const loadCurrConcertFansByPage = async () => {
+  const res = await getConcertFansByBandIdAndPage(currConcertId, fanCurrPage, pageSize);
+  fanTotal.value = res.total;
+  fanInfoList.value = res.records;
+}
 </script>
 
 <template>
@@ -155,14 +182,15 @@ const onCurrChange = async (curr: number) => {
     <el-table-column prop="endTime" label="结束时间" width="200" />
     <el-table-column prop="place" label="地点" width="150" />
     <el-table-column prop="maxNum" label="上限人数" width="150" />
-    <el-table-column fixed="right" label="操作" width="200">
+    <el-table-column fixed="right" label="操作" width="300">
       <template #default="scope">
-        <el-button link type="primary" @click="doGetConcertDetail(scope.$index, scope.row)">详情</el-button>
-        <el-button link type="primary" :disabled="!scope.row.canEdit" @click="onConcertEdit(scope.row)">修改</el-button>
         <el-button :icon="Promotion" :disabled="!scope.row.canEdit" v-if="scope.row.isRelease === 1"
           @click="doUnReleaseAlbum(scope.row)" link type="info">撤销发布</el-button>
         <el-button :icon="Promotion" :disabled="!scope.row.canEdit" v-else link type="success"
           @click="doReleaseAlbum(scope.row)">发布</el-button>
+        <el-button link type="primary" @click="doGetConcertDetail(scope.$index, scope.row)">详情</el-button>
+        <el-button link type="primary" :disabled="!scope.row.canEdit" @click="onConcertEdit(scope.row)">修改</el-button>
+        <el-button link type="primary" @click="doShowFans(scope.row)">参加歌迷们</el-button>
       </template>
     </el-table-column>
     <template #empty>
@@ -199,6 +227,23 @@ const onCurrChange = async (curr: number) => {
         <el-button type="info" @click="onCancel">取消</el-button>
       </el-form-item>
     </el-form>
+  </el-drawer>
+
+  <el-drawer v-model="showFanOpt" title="歌迷信息" direction="rtl" size="70%">
+    <!-- 乐迷信息 -->
+    <el-table :data="fanInfoList" style="width: 100%" max-height="250">
+      <el-table-column fixed prop="fanId" label="乐迷序号" width="150" />
+      <el-table-column prop="name" label="姓名" width="120" />
+      <el-table-column prop="gender" label="性别" width="120" :formatter="sexFormatter" />
+      <el-table-column prop="age" label="年龄" width="120" />
+      <el-table-column prop="career" label="职业" width="120" />
+      <el-table-column prop="education" label="学历" width="120" />
+      <template #empty>
+        <el-empty :image-size="60" />
+      </template>
+    </el-table>
+    <el-pagination background :current-page="fanCurrPage" layout="prev, pager, next" :total="fanTotal"
+      :page-size="pageSize" @current-change="onFanCurrChange" />
   </el-drawer>
 </template>
 

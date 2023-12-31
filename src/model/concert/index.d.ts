@@ -31,6 +31,8 @@ export interface ConcertBriefInfo {
   maxNum: number;
   isRelease: number;
   canEdit: boolean;
+  canJoin: boolean;
+  canLeave: boolean;
 }
 export interface ConcertInfo {
   concertId: number;
@@ -64,5 +66,5 @@ export interface ConcertJoinInfo {
   concertId: number;
   joinedNum: number;
   canJoin: boolean;
-  isJoined: boolean;
+  canLeave: boolean;
 }
