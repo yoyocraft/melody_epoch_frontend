@@ -36,7 +36,7 @@ import GlobalHeader from "../components/GlobalHeader.vue";
 }
 
 .el-footer {
-  background-color: #e6ecf5;
+  /* background-color: #e6ecf5; */
   text-align: center;
   line-height: 60px;
 }

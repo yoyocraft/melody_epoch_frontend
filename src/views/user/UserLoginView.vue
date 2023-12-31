@@ -111,7 +111,7 @@ export default {
     <div>
       <el-form class="login-form" @keyup.enter.native="login">
         <el-image style="width: 100px; height: 100px" :src="url" />
-        <h1>Melody-Epoch</h1>
+        <h1 class="title">Melody-Epoch</h1>
         <el-tabs v-model="loginType" type="card" class="demo-tabs" stretch>
           <el-tab-pane label="账号登录" name="acc">
             <el-form-item>
@@ -173,6 +173,12 @@ export default {
   </div>
 </template>
 <style scoped>
+.title {
+  font-family: "Comic Sans MS";
+  /* font-family: "Kristen ITC"; */
+  color: #87c5c2;
+}
+
 .custom-container {
   display: flex;
   justify-content: center;

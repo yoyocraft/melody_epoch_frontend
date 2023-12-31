@@ -84,8 +84,8 @@ const disabledDate = (time: Date) => {
     <el-form-item label="演唱会名称">
       <el-input v-model="concertAddReq.name" />
     </el-form-item>
-    <el-form-item label="时间">
-      <div class="block">
+    <el-form-item label="时间" class="block">
+      <div>
         <el-date-picker v-model="timeInterval" type="datetimerange" range-separator="To" start-placeholder="开始时间"
           end-placeholder="结束时间" :disabled-date="disabledDate" />
       </div>
@@ -107,5 +107,10 @@ const disabledDate = (time: Date) => {
   </el-form>
 </template>
 
-<style scoped></style>
+<style scoped>
+.block {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
 
