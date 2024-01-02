@@ -14,12 +14,11 @@ const onSubmit = async () => {
     success("创建成功")
   }
   router.push({
-    path: "/song",
+    path: "/song/curr",
     replace: true
   })
 }
 const onReset = () => {
-  console.log("onReset");
   songAddParams.value = {} as SongAddReq;
 }
 

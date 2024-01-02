@@ -14,7 +14,7 @@ const onSubmit = async () => {
     success("创建成功")
   }
   router.push({
-    path: "/album",
+    path: "/album/curr",
     replace: true
   })
 }

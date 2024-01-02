@@ -20,8 +20,8 @@ const doGetBandDetail = (_: any, row: any) => {
 
 const doNotLike = async (row: any) => {
   const req = {} as LikeReq;
-  req.likeId = row.albumId;
-  req.type = LIKE_TYPE_MAP.LIKE_ALBUM;
+  req.likeId = row.bandId;
+  req.type = LIKE_TYPE_MAP.LIKE_BAND;
   const res = await unlike(req);
   if (res) {
     success("撤销喜欢成功！")

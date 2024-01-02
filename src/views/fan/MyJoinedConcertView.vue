@@ -85,7 +85,7 @@ const onCurrChange = async (curr: number) => {
         <el-popconfirm width="220" confirm-button-text="确认" cancel-button-text="再想想" :icon="InfoFilled"
           icon-color="#626AEF" title="确认取消参加？" @confirm="doLeaveConcert(scope.row)">
           <template #reference>
-            <el-button link type="warning">取消参加</el-button>
+            <el-button link type="warning" :disabled="!scope.row.canLeave">取消参加</el-button>
           </template>
         </el-popconfirm>
 

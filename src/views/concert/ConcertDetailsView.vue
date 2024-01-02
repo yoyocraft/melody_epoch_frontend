@@ -116,13 +116,13 @@ const goBack = () => {
     <template #extra>
       <div class="flex items-center">
         <template v-if="concertJoinInfo.canJoin">
-          <el-button type="warning" size="large" class="ml-2" v-if="concertJoinInfo.isJoined"
+          <el-button type="warning" size="large" class="ml-2" v-if="concertJoinInfo.canLeave"
             @click="doNotJoin">取消参加</el-button>
-          <el-button type="success" size="large" class="ml-2"
-            v-else-if="!concertJoinInfo.isJoined && concertJoinInfo.canJoin" @click="doJoin">参加</el-button>
-          <el-tooltip v-else class="box-item" effect="dark" content="不允许加入（已过开始时间或者人数已满）" placement="left-start">
+          <el-button type="success" size="large" class="ml-2" v-else-if="concertJoinInfo.canJoin"
+            @click="doJoin">参加</el-button>
+          <!-- <el-tooltip v-else class="box-item" effect="dark" content="不允许加入（已过开始时间或者人数已满）" placement="left-start">
             <el-button type="success" size="large" class="ml-2" disabled>参加</el-button>
-          </el-tooltip>
+          </el-tooltip> -->
         </template>
       </div>
     </template>

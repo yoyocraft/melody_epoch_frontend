@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { listCurrBandInfoVO, releaseBandInfo, unReleaseBandInfo, currBandReleaseStatus, editBandInfo } from "../../service/band/index";
-import { formatDate } from "../../utils/index";
+import { GENDER_MAP, formatDate } from "../../utils/index";
 import { ref } from "vue";
 import { BandInfo, EditBandReq } from "../../model/band/index";
 import { MemberInfo } from "../../model/member/index";
@@ -14,6 +14,8 @@ import { currBandSongsByPage } from "../../service/song";
 import { currBandAllAlbumsByPage } from "../../service/album";
 import { getCurrConcertInfoByPage } from "../../service/concert";
 import { listMemberInCurrBandByPage } from "../../service/member";
+import { FanInfo } from "../../model/fan";
+import { getBandFansByBandIdAndPage } from "../../service/fan";
 
 const pageSize = 5;
 const bandInfo = ref({} as BandInfo);
@@ -165,12 +167,34 @@ const onBandEditSubmit = async () => {
     await loadBandInfo();
   }
 }
-
 const onBandEditCancel = async () => {
   editBandOpt.value = false;
   editBandReq.value = {} as EditBandReq;
 }
 
+/**
+ * 歌迷信息
+ */
+const showFanOpt = ref(false);
+const fanInfoList = ref<FanInfo[]>([]);
+const sexFormatter = (_: any, __: any, cellValue: any, ___: any) => {
+  return GENDER_MAP[cellValue];
+}
+const doShowFans = async () => {
+  showFanOpt.value = true;
+  await loadCurrBandFansByPage();
+}
+let fanCurrPage = 1;
+const fanTotal = ref(0);
+const onFanCurrChange = async (curr: number) => {
+  fanCurrPage = curr
+  await loadCurrBandFansByPage();
+}
+const loadCurrBandFansByPage = async () => {
+  const res = await getBandFansByBandIdAndPage(currBandId, fanCurrPage, pageSize);
+  fanTotal.value = res.total;
+  fanInfoList.value = res.records;
+}
 
 </script>
 
@@ -181,6 +205,7 @@ const onBandEditCancel = async () => {
     </template>
     <template #extra>
       <div class="flex items-center">
+        <el-button size="large" type="primary" @click="doShowFans" class="ml-2">歌迷信息</el-button>
         <el-button size="large" type="primary" @click="editBandOpt = true" class="ml-2">修改乐队信息</el-button>
         <el-button v-if="releaseStatus" size="large" type="danger" @click="doUnRelease" class="ml-2">撤销发布</el-button>
         <el-button v-else type="primary" size="large" @click="doRelease" class="ml-2">发布</el-button>
@@ -270,10 +295,10 @@ const onBandEditCancel = async () => {
   <div>
     <el-table :data="bandAlbumInfo" style="width: 100%" max-height="250" class="container">
       <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
-      <el-table-column prop="name" label="专辑名" width="120" />
-      <el-table-column prop="company" label="发行公司" width="120" />
-      <el-table-column prop="releaseTime" label="发行时间" width="120" />
-      <el-table-column prop="profile" label="简介" width="120" />
+      <el-table-column prop="name" label="专辑名" width="150" />
+      <el-table-column prop="company" label="发行公司" width="150" />
+      <el-table-column prop="releaseTime" label="发行时间" width="150" />
+      <el-table-column prop="profile" label="简介" width="200" />
       <el-table-column prop="avgScore" label="均分" width="120" />
       <template #empty>
         <el-empty :image-size="60" />
@@ -305,7 +330,7 @@ const onBandEditCancel = async () => {
       :page-size="pageSize" @current-change="onConcertCurrChange" />
   </div>
 
-  <el-drawer v-model="editBandOpt" title="修改乐队信息" direction="rtl" size="80%">
+  <el-drawer v-model="editBandOpt" title="修改乐队信息" direction="rtl" size="70%">
     <!-- 修改昵称等信息 -->
     <el-form label-width="120px">
       <el-form-item label="简介">
@@ -317,6 +342,23 @@ const onBandEditCancel = async () => {
         <el-button @click="onBandEditCancel">取消</el-button>
       </el-form-item>
     </el-form>
+  </el-drawer>
+
+  <el-drawer v-model="showFanOpt" title="歌迷信息" direction="rtl" size="70%">
+    <!-- 乐迷信息 -->
+    <el-table :data="fanInfoList" style="width: 100%" max-height="250">
+      <el-table-column fixed prop="fanId" label="乐迷序号" width="150" />
+      <el-table-column prop="name" label="姓名" width="120" />
+      <el-table-column prop="gender" label="性别" width="120" :formatter="sexFormatter" />
+      <el-table-column prop="age" label="年龄" width="120" />
+      <el-table-column prop="career" label="职业" width="120" />
+      <el-table-column prop="education" label="学历" width="120" />
+      <template #empty>
+        <el-empty :image-size="60" />
+      </template>
+    </el-table>
+    <el-pagination background :current-page="fanCurrPage" layout="prev, pager, next" :total="fanTotal"
+      :page-size="pageSize" @current-change="onFanCurrChange" />
   </el-drawer>
 </template>
 

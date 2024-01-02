@@ -147,11 +147,11 @@ const url = "/src/assets/logo.png";
               show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="emailRegParams.checkedPassword" placeholder="请再次输入密码" type="password"
+            <el-input prefix-icon="lock" v-model="emailRegParams.checkedPassword" placeholder="请再次输入密码" type="password"
               show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input prefix-icon="lock" v-model="emailRegParams.code" placeholder="请输入验证码" class="input-with-select">
+            <el-input v-model="emailRegParams.code" placeholder="请输入验证码" class="input-with-select">
               <template #append>
                 <el-button @click="getCaptchaFromBackend" :disabled="disabled">{{ btnText }}</el-button>
               </template>

@@ -20,7 +20,6 @@ onMounted(async () => {
 })
 
 const goToDetails = (albumId: number) => {
-  console.log(albumId);
   router.push({
     path: "/album/info",
     query: {

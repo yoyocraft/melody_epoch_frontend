@@ -160,6 +160,7 @@ const doScore = async () => {
   const res = await scoreAlbum(req);
   if (res) {
     success("打分成功")
+    await loadLikeStatus();
   }
 }
 const doCancel = () => {

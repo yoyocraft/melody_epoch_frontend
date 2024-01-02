@@ -19,7 +19,6 @@ const tableData = ref<SongInfo[]>([]);
 const loadDataByPage = async () => {
   let res;
   if (isOnSearch) {
-    console.log(queryReq.value);
 
     res = await queryInfo(queryReq.value);
     total.value = res.songInfoVOPage.total

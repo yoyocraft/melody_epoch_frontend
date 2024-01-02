@@ -24,10 +24,6 @@ export interface BandInfo {
   isLiked: boolean;
   canJoin: boolean;
   isJoined: boolean;
-  members: MemberInfo[];
-  songs: SongInfo[];
-  albums: AlbumInfo[];
-  concerts: ConcertInfo[];
 }
 
 export interface BandAddReq {
