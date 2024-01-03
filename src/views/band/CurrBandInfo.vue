@@ -201,10 +201,10 @@ const loadCurrBandFansByPage = async () => {
 <template>
   <el-page-header @back="goBack">
     <template #content>
-      <span class="text-large font-600 mr-3"> 我的乐队信息 </span>
+      <span class="my-band-title"> 我的乐队信息 </span>
     </template>
     <template #extra>
-      <div class="flex items-center">
+      <div class="button-group">
         <el-button size="large" type="primary" @click="doShowFans" class="ml-2">歌迷信息</el-button>
         <el-button size="large" type="primary" @click="editBandOpt = true" class="ml-2">修改乐队信息</el-button>
         <el-button v-if="releaseStatus" size="large" type="danger" @click="doUnRelease" class="ml-2">撤销发布</el-button>
@@ -213,15 +213,15 @@ const loadCurrBandFansByPage = async () => {
     </template>
   </el-page-header>
 
-
-  <el-divider style="margin-top: 36px; margin-bottom: 36px;">
-    <el-icon>
-      <mic />
-    </el-icon>
-    <span style="font-size: 25px"> 乐队信息 </span>
-  </el-divider>
-
-  <el-form :model="bandInfo" label-width="120px" style="margin-top: 16px; text-align: center">
+  <div class="text-center mb-32">
+    <el-divider>
+      <el-icon>
+        <mic />
+      </el-icon>
+      <span class="ml-16 font-20"> 乐队信息 </span>
+    </el-divider>
+  </div>
+  <el-form :model="bandInfo" label-width="120px" style="margin-top: 16px; text-align: center;" class="mb-32">
     <el-form-item label="乐队序号">
       <el-input disabled v-model="bandInfo.bandId" />
     </el-form-item>
@@ -250,8 +250,8 @@ const loadCurrBandFansByPage = async () => {
     <span style="font-size: 20px"> 成员信息 </span>
   </el-divider>
 
-  <div>
-    <el-table :data="bandMemberInfo" style="width: 100%" max-height="250" class="container">
+  <div class="table-container">
+    <el-table :data="bandMemberInfo" max-height="250">
       <el-table-column fixed prop="memberId" label="成员序号" width="150" />
       <el-table-column prop="name" label="姓名" width="120" />
       <el-table-column prop="age" label="年龄" width="120" />
@@ -259,11 +259,13 @@ const loadCurrBandFansByPage = async () => {
       <el-table-column prop="joinTime" label="加入时间" width="120" />
       <el-table-column prop="leaveTime" label="退出时间" width="120" />
       <template #empty>
-        <el-empty :image-size="60" />
+        <el-empty :image-size="60"></el-empty> />
       </template>
     </el-table>
-    <el-pagination background :current-page="memberCurrPage" layout="prev, pager, next" :total="memberTotal"
-      :page-size="pageSize" @current-change="onMemberCurrChange" />
+    <div class="table-pagination">
+      <el-pagination background :current-page="memberCurrPage" layout="prev, pager, next" :total="memberTotal"
+        :page-size="pageSize" @current-change="onMemberCurrChange" />
+    </div>
   </div>
 
   <el-divider style="margin-top: 36px">
@@ -272,7 +274,7 @@ const loadCurrBandFansByPage = async () => {
   </el-divider>
 
   <div>
-    <el-table :data="bandSongInfo" style="width: 100%" max-height="250" class="container">
+    <el-table :data="bandSongInfo" style="width: 100%" max-height="250">
       <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
       <el-table-column prop="name" label="歌曲名" width="120" />
       <el-table-column prop="author" label="作者" width="120" />
@@ -293,7 +295,7 @@ const loadCurrBandFansByPage = async () => {
   </el-divider>
 
   <div>
-    <el-table :data="bandAlbumInfo" style="width: 100%" max-height="250" class="container">
+    <el-table :data="bandAlbumInfo" style="width: 100%" max-height="250">
       <el-table-column fixed prop="albumId" label="专辑序号" width="150" />
       <el-table-column prop="name" label="专辑名" width="150" />
       <el-table-column prop="company" label="发行公司" width="150" />
@@ -316,7 +318,7 @@ const loadCurrBandFansByPage = async () => {
   </el-divider>
 
   <div>
-    <el-table :data="bandConcertInfo" style="width: 100%" max-height="250" class="container">
+    <el-table :data="bandConcertInfo" style="width: 100%" max-height="250">
       <el-table-column fixed prop="concertId" label="演唱会序号" width="150" />
       <el-table-column prop="name" label="演唱会名称" width="120" />
       <el-table-column prop="startTime" label="开始时间" width="200" />
@@ -363,16 +365,33 @@ const loadCurrBandFansByPage = async () => {
 </template>
 
 <style scoped>
-/* style="display: flex; justify-content: center; align-items: center;" */
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* 自定义样式 */
+.my-band-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 16px;
 }
 
-.el-pagination {
-  justify-content: center;
-  margin-top: 16px;
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-group>.el-button {
+  margin-right: 16px;
+}
+
+.table-container {
+  margin-top: 32px;
+}
+
+.table-pagination {
+  margin-top: 24px;
+}
+
+.drawer-form {
+  padding: 24px;
 }
 </style>
 

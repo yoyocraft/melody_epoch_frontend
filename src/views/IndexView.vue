@@ -10,6 +10,7 @@ const router = useRouter();
 
 const loadData = async () => {
   const res = await getTopAlbums();
+  console.log(res)
   if (res) {
     topAlbums.value = res;
   }
@@ -39,7 +40,7 @@ const goToDetails = (albumId: number) => {
             <el-col :span="8">
               <el-tag class="top-tag">Top - {{ index + 1 }}</el-tag>
             </el-col>
-            <el-col :span="6" class="container">
+            <el-col :span="6">
               <el-button class="btn" @click="goToDetails(album.albumId)" :icon="TopRight" type="info">
                 <div>details</div>
               </el-button>
@@ -51,6 +52,7 @@ const goToDetails = (albumId: number) => {
             <p class="band-name">{{ album.bandName }}</p>
             <p class="avg-score">Average Score: {{ album.avgScore }}</p>
           </div>
+          <!-- {{ album }} - {{ index }} -->
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -65,7 +67,7 @@ const goToDetails = (albumId: number) => {
   font-size: 30px;
   font-weight: bold;
   /* background: linear-gradient(to right, #00c6ff, #0072ff); */
-  -webkit-background-clip: text;
+  /* -webkit-background-clip: text; */
   color: #87c5c2;
   margin-bottom: 20px;
 }
@@ -116,10 +118,6 @@ const goToDetails = (albumId: number) => {
   font-family: "Comic Sans MS";
   /* font-family: "Kristen ITC"; */
   margin-top: 8px;
-}
-
-.container {
-  display: flex;
 }
 
 .btn {
