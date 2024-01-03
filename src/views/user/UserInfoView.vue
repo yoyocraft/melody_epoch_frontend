@@ -368,7 +368,8 @@ const doEditFanInfo = () => {
     </el-form>
   </el-drawer>
 
-  <el-drawer v-model="editMemberInfoOpt" title="修改乐队成员信息" direction="rtl" size="80%" :with-header="false">
+  <el-drawer v-model="editMemberInfoOpt" title="修改乐队成员信息" direction="rtl" size="80%" :with-header="false"
+    style="background-color: #f5f7fa; border-radius: 6px;">
     <!-- 修改昵称等信息 -->
     <el-form label-width="120px">
       <el-form-item label="姓名">
@@ -393,7 +394,8 @@ const doEditFanInfo = () => {
   </el-drawer>
 
 
-  <el-drawer v-model="editFanInfoOpt" title="修改个人信息" direction="rtl" size="80%" :with-header="false">
+  <el-drawer v-model="editFanInfoOpt" title="修改个人信息" direction="rtl" size="80%" :with-header="false"
+    style="background-color: #f5f7fa; border-radius: 6px;">
     <!-- 修改昵称等信息 -->
     <el-form label-width="120px">
       <el-form-item label="姓名">
@@ -424,15 +426,45 @@ const doEditFanInfo = () => {
   </el-drawer>
 </template>
 
-
-
 <style scoped>
 .info-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  align-items: center;
+  padding: 24px;
+}
+
+.info-form .el-form-item {
+  margin-bottom: 24px;
+}
+
+.info-form .el-input__inner,
+.info-form .el-select__input {
+  height: 40px;
+  line-height: 40px;
+  border-radius: 6px;
+  background-color: #f5f7fa;
+  border: 1px solid #dcdfe6;
+}
+
+.info-form .el-input-group__prepend {
+  background-color: transparent;
+}
+
+.info-form .el-button {
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 6px;
+}
+
+.info-form .el-button:hover {
+  color: white;
+  background-color: #409eff;
+}
+
+.text-large {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.m-2 {
+  margin-right: 8px;
 }
 </style>
-

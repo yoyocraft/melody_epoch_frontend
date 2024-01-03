@@ -138,5 +138,12 @@ const onResetData = async () => {
   margin: 0 auto;
   /* 水平居中 */
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 </style>
 

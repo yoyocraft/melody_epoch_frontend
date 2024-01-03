@@ -86,7 +86,7 @@ const loadCurrSongFansByPage = async () => {
       <span class="text-large font-600 mr-3"> 歌曲信息 </span>
     </template>
   </el-page-header>
-  <el-table :data="tableData" style="width: 100%; margin-top: 36px;">
+  <el-table :data="tableData" style="width: 100%; margin-top: 36px;" class="container">
     <el-table-column fixed prop="songId" label="歌曲序号" width="150" />
     <el-table-column prop="name" label="歌曲名称" width="150" />
     <el-table-column prop="author" label="作者" width="150" />
