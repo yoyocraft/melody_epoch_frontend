@@ -89,7 +89,8 @@ const doEditPart = async (_: any, row: any) => {
     </el-table-column>
   </el-table>
 </template>
-<style>
+
+<style scoped>
 .container {
   display: flex;
   justify-content: center;
