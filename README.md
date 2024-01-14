@@ -57,4 +57,4 @@
 
 > 该项目需要结合后端项目**melody_epoch_backend**一起使用
 >
-> **melody_epoch_backend**:git@github.com:dingxinliang88/melody_epoch_backend.git
+> **melody_epoch_backend**: https://github.com/dingxinliang88/melody_epoch_backend
